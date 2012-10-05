@@ -100,8 +100,9 @@ class BaseComponent extends Sprite {
 	 * Put component in valid state based on changes.
 	 */
 	public function validate(): Void {
+		if (_states == null) _states = new Hash<DisplayObject>();
 		if (_dirtySkin && skin != null) {
-			_states = skin.draw(this);
+			skin.draw(this, _states);
 			_dirtySkin = false;
 			_dirtyState = true;
 		}
