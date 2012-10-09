@@ -9,6 +9,8 @@ import nme.display.Graphics;
 import nme.display.Shape;
 import nme.display.Sprite;
 import nme.geom.Matrix;
+import nme.text.TextField;
+import nme.text.TextFieldAutoSize;
 
 /**
  * ...
@@ -29,6 +31,7 @@ class ButtonSkin implements ISkin{
 		var c_gr:Graphics;
 		var c_shape:Shape;
 		var c_matrix:Matrix;
+		var c_label:TextField;
 		//var c_state:DisplayObject;
 		
 		if (c_client.roundness > 0) c_rounded = true
@@ -74,6 +77,12 @@ class ButtonSkin implements ISkin{
 		if (c_rounded) c_gr.drawRoundRect(0, 0, c_client.Width, c_client.Height, c_client.roundness, c_client.roundness)
 			else c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
 		c_gr.endFill();
+		
+		c_label = c_client.labelField;
+		c_label.x = 0;	//TODO Stojan - probably bug when TextFormatAlign isn't LEFT
+		c_label.width = c_client.Width;
+		c_label.textColor = c_client.color;
+		c_label.y = Math.round( (c_client.Height - c_label.height) / 2);
 		
 	}
 	

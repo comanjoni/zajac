@@ -1,6 +1,10 @@
 package be.zajac.ui;
 import be.zajac.skins.ButtonSkin;
+import be.zajac.util.TextFieldUtil;
 import nme.events.MouseEvent;
+import nme.text.TextField;
+import nme.text.TextFieldAutoSize;
+import nme.text.TextFormatAlign;
 
 /**
  * ...
@@ -18,10 +22,34 @@ class Button extends StyledComponent{
 	@style(0) 			public var roundness(dynamic, dynamic): Int;
 	@style( -1)			public var borderColor(dynamic, dynamic): Int;
 	
+	
+	private var _tLabel:TextField;
+	private function get_tLabel():TextField {
+		return _tLabel;
+	}
+	public var labelField(get_tLabel, null):TextField;
+	
 	private var _isOver:Bool;
+	
+	private var _label:String;
+	private function get_label():String {
+		return _label;
+	}
+	private function set_label(value:String):String {
+		if (value == null) _label = ""
+			else _label = value;
+		_tLabel.text = _label;
+		return _label;
+	}
+	public var label(get_label, set_label):String;
 	
 	public function new() {
 		super();
+		
+		_tLabel = new TextField();
+		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.CENTER, multiline:false, autoSize:TextFieldAutoSize.CENTER, selectable:false, mouseEnabled:false, size:14 } );
+		addChild(_tLabel);
+		
 		skin = new ButtonSkin();
 		state = UP;
 		
@@ -32,6 +60,11 @@ class Button extends StyledComponent{
 		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
 		buttonMode = true;
 		#end
+	}
+	
+	override public function validate():Void {
+		super.validate();
+		addChild(_tLabel);
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void {
