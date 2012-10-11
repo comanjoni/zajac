@@ -8,7 +8,6 @@ import haxe.rtti.Meta;
  * Provides functionality related to styles.
  * @author Aleksandar Bogdanovic
  */
-
 class StyleManager {
 
 	private function new() { }
@@ -29,7 +28,13 @@ class StyleManager {
 	 * @param	res	The ID or asset path for the css file
 	 */
 	static public function addResource(res: String): Void {
-		var c_styles: Hash<Hash<StyleProperty>> = StyleParser.parse(Assets.getText(res));
+		var c_css: String;
+		#if js
+			c_css = Assets.getBytes(res).readUTF();
+		#else
+			c_css = Assets.getText(res);
+		#end
+		var c_styles: Hash<Hash<StyleProperty>> = StyleParser.parse(c_css);
 		for (key in c_styles.keys()) {
 			if (_styles.exists(key)) {
 				HashUtil.update(_styles.get(key), c_styles.get(key));

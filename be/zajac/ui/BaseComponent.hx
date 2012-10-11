@@ -100,15 +100,34 @@ class BaseComponent extends Sprite {
 	 * Put component in valid state based on changes.
 	 */
 	public function validate(): Void {
-		if (_states == null) _states = new Hash<DisplayObject>();
 		if (_dirtySkin && skin != null) {
 			skin.draw(this, _states);
+			#if js
+				var c_state: DisplayObject;
+				for (key in _states.keys()) {
+					c_state = _states.get(key);
+					if (!contains(c_state)) {
+						addChild(c_state);
+						c_state.visible = false;
+					}
+				}
+			#end
 			_dirtySkin = false;
 			_dirtyState = true;
 		}
 		if (_dirtyState && _states.exists(state)) {
-			while (numChildren > 0) removeChildAt(0);
-			addChild(_states.get(state));
+			#if js
+				for (key in _states.keys()) {
+					if (key == state) {
+						_states.get(key).visible = true;
+					} else {
+						_states.get(key).visible = false;
+					}
+				}
+			#else
+				while (numChildren > 0) removeChildAt(0);
+				addChild(_states.get(state));
+			#end
 			_dirtyState = false;
 		}
 	}

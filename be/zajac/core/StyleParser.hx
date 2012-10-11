@@ -37,51 +37,24 @@ class StyleParser {
 	
 	// regular expressions
 	
-	static private var DASH_REPLACE: EReg;
+	static private var DASH_REPLACE: EReg					= new EReg(R_DASH_REPLACE, '');
 	
-	static private var SELECTOR_COMP: EReg;
-	static private var SELECTOR_CLASS: EReg;
-	static private var SELECTOR: EReg;
+	static private var SELECTOR_COMP: EReg					= new EReg('^' + R_SELECTOR_COMP + '$', 'im');
+	static private var SELECTOR_CLASS: EReg					= new EReg('^' + R_SELECTOR_CLASS + '$', 'im');
+	static private var SELECTOR: EReg						= new EReg(R_SELECTOR, 'im');
 	
-	static private var PROPERTY: EReg;
+	static private var PROPERTY: EReg						= new EReg(R_PROPERTY, 'im');
 	
-	static private var VALUE_INT: EReg;
-	static private var VALUE_HEX: EReg;
-	static private var VALUE_FLOAT: EReg;
-	static private var VALUE_BOOL: EReg;
-	static private var VALUE_STR: EReg;
+	static private var VALUE_INT: EReg						= new EReg(R_VALUE_INT, 'im');
+	static private var VALUE_HEX: EReg						= new EReg(R_VALUE_HEX, 'im');
+	static private var VALUE_FLOAT: EReg					= new EReg(R_VALUE_FLOAT, 'im');
+	static private var VALUE_BOOL: EReg						= new EReg(R_VALUE_BOOL, 'im');
+	static private var VALUE_STR: EReg						= new EReg(R_VALUE_STR, 'im');
 	
-	static private var DECLARATION: EReg;
-	static private var DECLARATION_BLOCK: EReg;
+	static private var DECLARATION: EReg					= new EReg(R_DECLARATION, 'im');
+	static private var DECLARATION_BLOCK: EReg				= new EReg(R_DECLARATION_BLOCK, 'im');
 	
-	static private var RULE_SET: EReg;
-	
-	// init regular expressions
-	
-	static private var _inited: Bool = false;
-	static private function _init(): Void {
-		if (_inited) return;
-		_inited = true;
-		
-		DASH_REPLACE = new EReg(R_DASH_REPLACE, '');
-		
-		SELECTOR_COMP = new EReg('^' + R_SELECTOR_COMP + '$', 'im');
-		SELECTOR_CLASS = new EReg('^' + R_SELECTOR_CLASS + '$', 'im');
-		SELECTOR = new EReg(R_SELECTOR, 'im');
-		
-		PROPERTY = new EReg(R_PROPERTY, 'im');
-		
-		VALUE_INT = new EReg(R_VALUE_INT, 'im');
-		VALUE_HEX = new EReg(R_VALUE_HEX, 'im');
-		VALUE_FLOAT = new EReg(R_VALUE_FLOAT, 'im');
-		VALUE_BOOL = new EReg(R_VALUE_BOOL, 'im');
-		VALUE_STR = new EReg(R_VALUE_STR, 'im');
-		
-		DECLARATION = new EReg(R_DECLARATION, 'im');
-		DECLARATION_BLOCK = new EReg(R_DECLARATION_BLOCK, 'im');
-		
-		RULE_SET = new EReg(R_RULE_SET, 'im');
-	}
+	static private var RULE_SET: EReg						= new EReg(R_RULE_SET, 'im');
 	
 	// parsing methods
 	
@@ -187,8 +160,6 @@ class StyleParser {
 	}
 	
 	static public function parse(input: String): Hash<Hash<StyleProperty>> {
-		_init();
-		
 		input = _removeCommented(input);
 		
 		var c_style: Hash<Hash<StyleProperty>> = new Hash<Hash<StyleProperty>>();

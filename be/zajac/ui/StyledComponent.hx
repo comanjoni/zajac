@@ -54,6 +54,30 @@ class StyledComponent extends BaseComponent, implements Dynamic {
 		return styleName;
 	}
 	
+	/**
+	 * If developer want to override default getter, this method should be called from getter to get valid value.
+	 * @param	key		Property name.
+	 * @return	Property value.
+	 */
+	private function _getStyleProperty(key: String): Dynamic {
+		if (_style.exists(key)) {
+			return _style.get(key).value;
+		}
+		return null;
+	}
+	
+	/**
+	 * If developer want to override default setter, this method should be called from setter to complete invalidation cycle.
+	 * @param	key		Property name.
+	 * @param	value	Property value.
+	 * @return	Setted value.
+	 */
+	private function _setStyleProperty(key: String, value: Dynamic): Dynamic {
+		_style.set(key, new StyleProperty(value, StyleProperty.PRIORITY_INSTANCE_PROPERTY));
+		invalidSkin();
+		return value;
+	}
+	
 	
 	public function new() {
 		super();
@@ -62,15 +86,10 @@ class StyledComponent extends BaseComponent, implements Dynamic {
 		var c_styledProperties: Iterator<String> = StyleManager.getStyledProperties(this);
 		for (propName in c_styledProperties) {
 			var c_getter = function() {
-				if (_style.exists(propName)) {
-					return _style.get(propName).value;
-				}
-				return null;
+				return _getStyleProperty(propName);
 			}
 			var c_setter = function(v) {
-				_style.set(propName, new StyleProperty(v, StyleProperty.PRIORITY_INSTANCE_PROPERTY));
-				invalidSkin();
-				return v;
+				return _setStyleProperty(propName, v);
 			}
 			Reflect.setField(this, "get_" + propName, c_getter);
 			Reflect.setField(this, "set_" + propName, c_setter);
