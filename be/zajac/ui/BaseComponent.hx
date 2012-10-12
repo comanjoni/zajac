@@ -31,10 +31,97 @@ class BaseComponent extends Sprite {
 	/**
 	 * Hash map of skins for each state.
 	 */
-	public var states(_getStates, never): Hash<DisplayObject>;
 	private var _states: Hash<DisplayObject>;
-	private function _getStates(): Hash<DisplayObject> {
-		return _states;
+	
+	/**
+	 * Current visible state.
+	 */
+	private var _currentState: DisplayObject;
+	
+	
+	/**
+	 * Add current component in validation list for validating on next enter frame.
+	 */
+	public function invalid(): Void {
+		FWCore.invalidComponent(this);
+	}
+	
+	
+	private var _dirtySkin: Bool = true;
+	
+	/**
+	 * Invalidate skin.
+	 */
+	public function invalidSkin(): Void {
+		_dirtySkin = true;
+		invalid();
+	}
+	
+	/**
+	 * Draw new skins for states.
+	 * @return	true if there was update, otherwise false.
+	 */
+	private function _validateSkin(): Bool {
+		if (_dirtySkin && skin != null) {
+			skin.draw(this, _states);
+			#if js
+				var c_state: DisplayObject;
+				for (key in _states.keys()) {
+					c_state = _states.get(key);
+					if (!contains(c_state)) {
+						addChildAt(c_state, 0);
+						c_state.visible = false;
+					}
+				}
+			#end
+			_dirtySkin = false;
+			return true;
+		}
+		return false;
+	}
+	
+	
+	private var _dirtyState: Bool = true;
+	
+	/**
+	 * Invalidate state.
+	 */
+	public function invalidState(): Void {
+		_dirtyState = true;
+		invalid();
+	}
+	
+	/**
+	 * Set DisplayObject for current state.
+	 * @return
+	 */
+	private function _validateState(): Bool {
+		if (_dirtyState && _states.exists(state)) {
+			#if js
+				if (_currentState != null) {
+					_currentState.visible = false;
+				}
+				_currentState = _states.get(state);
+				_currentState.visible = true;
+			#else
+				if (_currentState != null) {
+					removeChild(_currentState);
+				}
+				_currentState = _states.get(state);
+				addChildAt(_currentState, 0);
+			#end
+			_dirtyState = false;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Put component in valid state based on changes.
+	 */
+	public function validate(): Void {
+		_dirtyState = _validateSkin() || _dirtyState;
+		_validateState();
 	}
 	
 	
@@ -55,7 +142,7 @@ class BaseComponent extends Sprite {
 	
 	
 	/**
-	 * Component that draws skins for all states.
+	 * Component that draws states.
 	 */
 	public var skin(_getSkin, _setSkin): ISkin;
 	private function _getSkin(): ISkin {
@@ -67,69 +154,6 @@ class BaseComponent extends Sprite {
 			invalidSkin();
 		}
 		return skin;
-	}
-	
-	
-	private var _dirtySkin: Bool;
-	private var _dirtyState: Bool;
-	
-	/**
-	 * Add current component in validation list for validating on next enter frame.
-	 */
-	public function invalid(): Void {
-		FWCore.invalidComponent(this);
-	}
-	
-	/**
-	 * Invalidate skin.
-	 */
-	public function invalidSkin(): Void {
-		_dirtySkin = true;
-		invalid();
-	}
-	
-	/**
-	 * Invalidate state.
-	 */
-	public function invalidState(): Void {
-		_dirtyState = true;
-		invalid();
-	}
-	
-	/**
-	 * Put component in valid state based on changes.
-	 */
-	public function validate(): Void {
-		if (_dirtySkin && skin != null) {
-			skin.draw(this, _states);
-			#if js
-				var c_state: DisplayObject;
-				for (key in _states.keys()) {
-					c_state = _states.get(key);
-					if (!contains(c_state)) {
-						addChild(c_state);
-						c_state.visible = false;
-					}
-				}
-			#end
-			_dirtySkin = false;
-			_dirtyState = true;
-		}
-		if (_dirtyState && _states.exists(state)) {
-			#if js
-				for (key in _states.keys()) {
-					if (key == state) {
-						_states.get(key).visible = true;
-					} else {
-						_states.get(key).visible = false;
-					}
-				}
-			#else
-				while (numChildren > 0) removeChildAt(0);
-				addChild(_states.get(state));
-			#end
-			_dirtyState = false;
-		}
 	}
 	
 	
@@ -163,6 +187,7 @@ class BaseComponent extends Sprite {
 		}
 		return Height;
 	}
+	
 	
 	/**
 	 * Set Width and Height.

@@ -3,6 +3,7 @@ import be.zajac.util.HashUtil;
 import be.zajac.ui.StyledComponent;
 import nme.Assets;
 import haxe.rtti.Meta;
+import nme.utils.ByteArray;
 
 /**
  * Provides functionality related to styles.
@@ -28,18 +29,23 @@ class StyleManager {
 	 * @param	res	The ID or asset path for the css file
 	 */
 	static public function addResource(res: String): Void {
-		var c_css: String;
+		var c_css: String = null;
 		#if js
-			c_css = Assets.getBytes(res).readUTF();
+			var c_bytes: ByteArray = Assets.getBytes(res);
+			if (c_bytes != null) {
+				c_css = Assets.getBytes(res).readUTF();
+			}
 		#else
 			c_css = Assets.getText(res);
 		#end
-		var c_styles: Hash<Hash<StyleProperty>> = StyleParser.parse(c_css);
-		for (key in c_styles.keys()) {
-			if (_styles.exists(key)) {
-				HashUtil.update(_styles.get(key), c_styles.get(key));
-			} else {
-				_styles.set(key, c_styles.get(key));
+		if (c_css != null) {
+			var c_styles: Hash<Hash<StyleProperty>> = StyleParser.parse(c_css);
+			for (key in c_styles.keys()) {
+				if (_styles.exists(key)) {
+					HashUtil.update(_styles.get(key), c_styles.get(key));
+				} else {
+					_styles.set(key, c_styles.get(key));
+				}
 			}
 		}
 	}
