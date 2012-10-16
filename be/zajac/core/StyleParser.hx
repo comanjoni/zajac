@@ -72,7 +72,7 @@ class StyleParser {
 		} else if (VALUE_BOOL.match(input)) {
 			return input.toLowerCase() == 'true';
 		} else if (VALUE_STR.match(input)) {
-			return input.substring(1, input.length - 1);	// remove ' or " on begin and on end
+			return input.substr(1, input.length - 2);	// remove ' or " on begin and on end
 		}
 		return null;
 	}
@@ -91,11 +91,11 @@ class StyleParser {
 			
 			c_dec = StringTools.trim(DECLARATION.matched(0));
 			if (c_dec.lastIndexOf(';') == c_dec.length - 1) {
-				c_dec = c_dec.substring(0, c_dec.length - 1);
+				c_dec = c_dec.substr(0, c_dec.length - 1);
 			}
 			
 			c_scIndex = c_dec.indexOf(':');
-			c_property = StringTools.trim(c_dec.substring(0, c_scIndex));
+			c_property = StringTools.trim(c_dec.substr(0, c_scIndex));
 			c_property = DASH_REPLACE.customReplace(c_property, _replaceDash);
 			if (PROPERTY.match(c_property)) {
 				c_valueStr = StringTools.trim(c_dec.substr(c_scIndex + 1));

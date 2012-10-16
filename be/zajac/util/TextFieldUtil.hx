@@ -36,7 +36,11 @@ class TextFieldUtil {
 		if (field == null || properties == null) return;
 		
 		//c_format = new TextFormat();
-		c_format = field.getTextFormat();
+		#if (cpp || neko)
+			c_format = field.defaultTextFormat;
+		#else
+			c_format = field.getTextFormat();
+		#end
 		if (Reflect.hasField(properties, "fontName") == false) Reflect.setProperty(properties, "fontName", DEFAULT_FONT);
 		
 		for (key in Reflect.fields(properties)) {
