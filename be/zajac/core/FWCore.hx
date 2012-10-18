@@ -38,11 +38,10 @@ class FWCore {
 	static private var _validator: Sprite;
 	
 	static private function _validateComponents(evt: Event): Void {
-		var c_invalidComponents: Hash<BaseComponent> = _invalidComponents;
-		_invalidComponents = new Hash<BaseComponent>();
-		for (c in c_invalidComponents.iterator()) {
+		for (c in _invalidComponents.iterator()) {
 			c.validate();
 		}
+		_invalidComponents = new Hash<BaseComponent>();
 		_destroyValidator();
 	}
 	

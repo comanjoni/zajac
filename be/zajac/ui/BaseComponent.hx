@@ -1,5 +1,6 @@
 package be.zajac.ui;
 import be.zajac.core.FWCore;
+import be.zajac.skins.ISkin;
 import nme.display.Sprite;
 import nme.display.DisplayObject;
 import nme.events.Event;
@@ -70,7 +71,7 @@ class BaseComponent extends Sprite {
 					c_state = _states.get(key);
 					if (!contains(c_state)) {
 						addChildAt(c_state, 0);
-						c_state.visible = false;
+						c_state.alpha = 0;
 					}
 				}
 			#end
@@ -99,10 +100,10 @@ class BaseComponent extends Sprite {
 		if (_dirtyState && _states.exists(state)) {
 			#if js
 				if (_currentState != null) {
-					_currentState.visible = false;
+					_currentState.alpha = 0;
 				}
 				_currentState = _states.get(state);
-				_currentState.visible = true;
+				_currentState.alpha = 1;
 			#else
 				if (_currentState != null) {
 					removeChild(_currentState);

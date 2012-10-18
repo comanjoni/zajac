@@ -1,7 +1,6 @@
 package be.zajac.skins;
 import be.zajac.ui.BaseComponent;
 import be.zajac.ui.Button;
-import be.zajac.ui.ISkin;
 import nme.display.BlendMode;
 import nme.display.DisplayObject;
 import nme.display.GradientType;

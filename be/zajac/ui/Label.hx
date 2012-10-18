@@ -11,10 +11,28 @@ import nme.text.TextFormatAlign;
 
 class Label extends StyledComponent {
 
-	inline public static var ALIGN_LEFT: String = 'LEFT';
-	inline public static var ALIGN_CENTER: String = 'CENTER';
-	inline public static var ALIGN_RIGHT: String = 'RIGHT';
-	inline public static var ALIGN_JUSTIFY: String = 'JUSTIFY';
+	inline public static var ALIGN_LEFT: String = 'left';
+	inline public static var ALIGN_CENTER: String = 'center';
+	inline public static var ALIGN_RIGHT: String = 'right';
+	inline public static var ALIGN_JUSTIFY: String = 'justify';
+	
+	public static function convertAlign(align: String): Dynamic {
+		switch (align) {
+				case Label.ALIGN_CENTER:
+					return TextFormatAlign.CENTER;
+				case Label.ALIGN_JUSTIFY:
+					return TextFormatAlign.JUSTIFY;
+				case Label.ALIGN_RIGHT:
+					return TextFormatAlign.RIGHT;
+				case Label.ALIGN_LEFT:
+					return TextFormatAlign.LEFT;
+				default:
+					return TextFormatAlign.LEFT;
+		}
+	}
+	
+	@style(false)					public var wordwrap(dynamic, dynamic): Dynamic;
+	@style(false)					public var autosize(dynamic, dynamic): Dynamic;
 	
 	@style(0xffffff)				public var textColor(dynamic, dynamic): Dynamic;
 	@style(12)						public var textSize(dynamic, dynamic): Dynamic;
@@ -27,30 +45,15 @@ class Label extends StyledComponent {
 	@style(0)						public var letterSpacing(dynamic, dynamic): Dynamic;
 	
 	public var text(get_text, set_text): String;
-	public function get_text(): String {
-		return textField.text;
+	private function get_text(): String {
+		return text;
 	}
-	public function set_text(v: String): String {
-		textField.text = v;
-		return v;
-	}
-	
-	public var selectable(get_selectable, set_selectable): Bool;
-	public function get_selectable(): Bool {
-		return textField.selectable;
-	}
-	public function set_selectable(v: Bool): Bool {
-		textField.selectable = v;
-		return v;
-	}
-	
-	public var multiline(get_multiline, set_multiline): Bool;
-	public function get_multiline(): Bool {
-		return textField.multiline;
-	}
-	public function set_multiline(v: Bool): Bool {
-		textField.multiline = v;
-		return v;
+	private function set_text(v: String): String {
+		if (text != v) {
+			text = v;
+			invalidSkin();
+		}
+		return text;
 	}
 	
 	public var textField(default, null): TextField;
@@ -58,17 +61,11 @@ class Label extends StyledComponent {
 	public function new() {
 		super();
 		textField = new TextField();
-		
 		textField.wordWrap = true;
 		textField.background = false;
 		textField.border = false;
 		textField.mouseEnabled = false;
-		#if flash
-			textField.mouseWheelEnabled = false;
-			textField.tabEnabled = false;
-		#end
 		textField.type = TextFieldType.DYNAMIC;
-		
 		addChild(textField);
 		
 		skin = new LabelSkin();
