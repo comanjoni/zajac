@@ -20,11 +20,44 @@ class Slider extends StyledComponent {
 	@style(0xffffff) 	public var buttonBackgroundColor(dynamic, dynamic): Dynamic;
 	@style( -1)			public var buttonBorderColor(dynamic, dynamic): Dynamic;
 	
+	private var _dirtySlider: Bool = true;
+	
+	public function invalidSlider(): Void {
+		if (_dirtySlider) return;
+		_dirtySlider = true;
+		invalid();
+	}
+	
+	private function _validateSlider(): Bool {
+		if (_dirtySlider) {
+			switch (direction) {
+				case DIRECTION_HORIZONTAL:
+					button.Height = Height;
+					button.Width = Math.max(Height, Width * pageSize / (maxValue - minValue));
+					button.x = (Width - button.Width) * (value - minValue) / (maxValue - minValue);
+				case DIRECTION_VERTICAL:
+					button.Width = Width;
+					button.Height = Math.max(Width, Height * pageSize / (maxValue - minValue));
+					button.y = (Height - button.Height) * (value - minValue) / (maxValue - minValue);
+			}
+			
+			_dirtySlider = false;
+			
+			return true;
+		}
+		return false;
+	}
+	
+	override public function validate(): Void {
+		super.validate();
+		_validateSlider();
+	}
+	
 	public var direction(default, set_direction): String;
 	private function set_direction(v: String): String {
 		if (direction != v) {
 			direction = v;
-			invalidSkin();
+			invalidSlider();
 		}
 		return v;
 	}
@@ -33,7 +66,7 @@ class Slider extends StyledComponent {
 	private function set_maxValue(v: Float): Float {
 		if (maxValue != v) {
 			maxValue = v;
-			invalidSkin();
+			invalidSlider();
 		}
 		return v;
 	}
@@ -42,7 +75,7 @@ class Slider extends StyledComponent {
 	private function set_minValue(v: Float): Float {
 		if (minValue != v) {
 			minValue = v;
-			invalidSkin();
+			invalidSlider();
 		}
 		return v;
 	}
@@ -52,12 +85,7 @@ class Slider extends StyledComponent {
 		v = Math.min(maxValue, Math.max(minValue, v));
 		if (value != v) {
 			value = v;
-			switch (direction) {
-				case DIRECTION_HORIZONTAL:
-					button.x = (Width - button.Width) * (value - minValue) / (maxValue - minValue);
-				case DIRECTION_VERTICAL:
-					button.y = (Height - button.Height) * (value - minValue) / (maxValue - minValue);
-			}
+			invalidSlider();
 		}
 		return v;
 	}
@@ -66,7 +94,7 @@ class Slider extends StyledComponent {
 	private function set_pageSize(v: Float): Float {
 		if (pageSize != v) {
 			pageSize = v;
-			invalidSkin();
+			invalidSlider();
 		}
 		return v;
 	}
@@ -97,26 +125,33 @@ class Slider extends StyledComponent {
 		skinClass = SliderSkin;
 	}
 	
+	override private function set_Width(v: Float): Float {
+		if (v != Width) {
+			super.set_Width(v);
+			invalidSlider();
+		}
+		return Width;
+	}
+	
+	override private function set_Height(v: Float): Float {
+		if (v != Height) {
+			super.set_Height(v);
+			invalidSlider();
+		}
+		return Height;
+	}
+	
+	
 	private var _localBeginPoint: Point;
 	
-	private function _updateBtnPos(stageX: Float, stageY: Float): Void {
+	private function _updateValue(stageX: Float, stageY: Float): Void {
 		var c_btnPoint: Point = globalToLocal(new Point(stageX - _localBeginPoint.x, stageY - _localBeginPoint.y));
 		switch (direction) {
 			case DIRECTION_HORIZONTAL:
-				button.x = Math.min(Width - button.Width, Math.max(0, c_btnPoint.x));
+				value = minValue + (maxValue - minValue) * c_btnPoint.x / (Width - button.Width);
 			case DIRECTION_VERTICAL:
-				button.y = Math.min(Height - button.Height, Math.max(0, c_btnPoint.y));
+				value = minValue + (maxValue - minValue) * c_btnPoint.y / (Height - button.Height);
 		}
-	}
-	
-	private function _updateValue(): Void {
-		switch (direction) {
-			case DIRECTION_HORIZONTAL:
-				value = minValue + (maxValue - minValue) * button.x / (Width - button.Width);
-			case DIRECTION_VERTICAL:
-				value = minValue + (maxValue - minValue) * button.y / (Height - button.Height);
-		}
-		dispatchEvent(new Event(Event.CHANGE));
 	}
 	
 	private function _onBtnDown(evt: MouseEvent): Void {
@@ -126,18 +161,18 @@ class Slider extends StyledComponent {
 	}
 	
 	private function _onBtnMove(evt: MouseEvent): Void {
-		_updateBtnPos(evt.stageX, evt.stageY);
+		_updateValue(evt.stageX, evt.stageY);
 		if (liveDragging) {
-			_updateValue();
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 	}
 	
 	private function _onBtnUp(evt: MouseEvent): Void {
 		stage.removeEventListener(MouseEvent.MOUSE_UP, _onBtnUp);
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, _onBtnMove);
-		_updateBtnPos(evt.stageX, evt.stageY);
-		_updateValue();
+		_updateValue(evt.stageX, evt.stageY);
 		_localBeginPoint = null;
+		dispatchEvent(new Event(Event.CHANGE));
 	}
 	
 	private function _onClick(evt: MouseEvent): Void {
@@ -146,15 +181,15 @@ class Slider extends StyledComponent {
 			switch (direction) {
 				case DIRECTION_HORIZONTAL:
 					if (c_localPoint.x > button.x) {
-						value = value + pageSize;
+						value += pageSize;
 					} else {
-						value = value - pageSize;
+						value -= pageSize;
 					}
 				case DIRECTION_VERTICAL:
 					if (c_localPoint.y > button.y) {
-						value = value + pageSize;
+						value += pageSize;
 					} else {
-						value = value - pageSize;
+						value -= pageSize;
 					}
 			}
 			dispatchEvent(new Event(Event.CHANGE));

@@ -32,15 +32,6 @@ class SliderSkin implements ISkin {
 		c_button.roundness = c_client.roundness;
 		c_button.backgroundColor = c_client.buttonBackgroundColor;
 		c_button.borderColor = c_client.buttonBorderColor;
-		switch (c_client.direction) {
-			case Slider.DIRECTION_HORIZONTAL:
-				c_button.Height = c_client.Height;
-				c_button.Width = Math.max(c_client.Height, c_client.Width * c_client.pageSize / (c_client.maxValue - c_client.minValue));
-			case Slider.DIRECTION_VERTICAL:
-				c_button.Width = c_client.Width;
-				c_button.Height = Math.max(c_client.Width, c_client.Height * c_client.pageSize / (c_client.maxValue - c_client.minValue));
-		}
-		
 	}
 	
 }
