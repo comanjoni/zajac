@@ -1,4 +1,5 @@
 package be.zajac.ui;
+import be.zajac.core.FWCore;
 import be.zajac.skins.TextInputSkin;
 import nme.events.Event;
 import nme.events.FocusEvent;
@@ -29,10 +30,7 @@ class TextInput extends StyledComponent {
 	
 	@style(0xffffff)			public var backgroundColor(dynamic, dynamic): Dynamic;
 	
-	public var displayAsPassword(get_displayAsPassword, set_displayAsPassword): Bool;
-	private function get_displayAsPassword(): Bool {
-		return displayAsPassword;
-	}
+	public var displayAsPassword(default, set_displayAsPassword): Bool;
 	private function set_displayAsPassword(v: Bool): Bool {
 		if (displayAsPassword != v) {
 			displayAsPassword = v;
@@ -63,6 +61,11 @@ class TextInput extends StyledComponent {
 	
 	public function new() {
 		super();
+		Width = FWCore.getHeightUnit() * 5;
+		Height = FWCore.getHeightUnit();
+	}
+	
+	override private function initialize(): Void {
 		textField = new TextField();
 		addChild(textField);
 		textField.background = false;
@@ -73,7 +76,6 @@ class TextInput extends StyledComponent {
 		textField.type = TextFieldType.INPUT;
 		textField.autoSize = TextFieldAutoSize.NONE;
 		
-		skin = new TextInputSkin();
 		state = FOCUSOUT;
 		
 		textField.addEventListener(FocusEvent.FOCUS_IN, _onFocusIn);
@@ -86,6 +88,8 @@ class TextInput extends StyledComponent {
 		#if (!flash)
 		textField.addEventListener(Event.CHANGE, _onTextChange);
 		#end
+		
+		skinClass = TextInputSkin;
 	}
 	
 	private function _onFocusIn(evt: FocusEvent): Void {

@@ -89,7 +89,7 @@ class CheckBox extends StyledComponent{
 	}
 	
 	private function run():Void {
-		skin = new CheckBoxSkin();
+		skinClass = CheckBoxSkin;
 		state = UP;
 	}
 	

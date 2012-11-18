@@ -50,7 +50,7 @@ class Button extends StyledComponent{
 		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.CENTER, multiline:false, autoSize:TextFieldAutoSize.CENTER, selectable:false, mouseEnabled:false, size:14 } );
 		addChild(_tLabel);
 		
-		skin = new ButtonSkin();
+		skinClass = ButtonSkin;
 		state = UP;
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);

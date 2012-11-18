@@ -1,72 +1,47 @@
 package be.zajac.core;
-import nme.events.Event;
-import nme.display.Sprite;
-import nme.display.Stage;
-import be.zajac.ui.BaseComponent;
+import nme.system.Capabilities;
 
 /**
- * Framework initializer. Provides root functionality for components that rely on Stage.
+ * Framework initializer.
  * @author Aleksandar Bogdanovic
  */
 
 class FWCore {
 	
 	private function new() {}
-
-	static private var _stage: Stage;
-	static private var _inited: Bool = false;
 	
 	/**
-	 * Public accessable Stage.
-	 * @return		Stage.
+	 * Calculate different height unit based on device.
+	 * Otherwise getHeightUnit will return value from staticHeightUnit.
 	 */
-	static public function getStage(): Stage {
-		return _stage;
-	}
+	static public var componentAutoSize: Bool = true;
 	
 	/**
-	 * Initialize Framework.
-	 * @param	stage	Stage instance.
+	 * If componentAutoSize is false or application is compiled for
+	 * desktop this value will be returned as height unit.
 	 */
-	static public function init(stage: Stage): Void {
-		if (_inited) return;
-		_inited = true;
-		_stage = stage;
-	}
-	
-	static private var _invalidComponents: Hash<BaseComponent> = new Hash<BaseComponent>();
-	static private var _validator: Sprite;
-	
-	static private function _validateComponents(evt: Event): Void {
-		for (c in _invalidComponents.iterator()) {
-			c.validate();
-		}
-		_invalidComponents = new Hash<BaseComponent>();
-		_destroyValidator();
-	}
-	
-	static private function _createValidator(): Void {
-		if (_validator != null) return;
-		_validator = new Sprite();
-		_validator.addEventListener(Event.ENTER_FRAME, _validateComponents);
-		_stage.addChild(_validator);
-	}
-	
-	static private function _destroyValidator(): Void {
-		if (_validator == null) return;
-		_validator.removeEventListener(Event.ENTER_FRAME, _validateComponents);
-		_stage.removeChild(_validator);
-		_validator = null;
-	}
+	static public var staticHeightUnit: Float = 20;
 	
 	/**
-	 * Add component which changes should be validated on next enter frame event.
-	 * @param	component	Invalid ui component.
+	 * Screen DPI will be mutiplied with this value for unit height calculation.
 	 */
-	static public function invalidComponent(component: BaseComponent): Void {
-		if (_invalidComponents.exists(component.componentUID)) return;
-		_invalidComponents.set(component.componentUID, component);
-		_createValidator();
+	static public var heightUnitMultiplier: Float = 0.5;
+	
+	/**
+	 * Get default height unit based on device and dpi.
+	 * If mobile devise is in use and componentAutoSize is true it
+	 * will calculated height, otherwise it will return staticHeightUnit.
+	 */
+	static public function getHeightUnit(): Float {
+		#if (iphone || android)
+			if (componentAutoSize) {
+				return Capabilities.screenDPI * heightUnitMultiplier;
+			} else {
+				return staticHeightUnit;
+			}
+		#else
+			return staticHeightUnit;
+		#end
 	}
 	
 }

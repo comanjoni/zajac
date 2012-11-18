@@ -1,9 +1,10 @@
 package be.zajac.ui;
-import be.zajac.core.FWCore;
+import be.zajac.core.SingletonFactory;
 import be.zajac.skins.ISkin;
 import nme.display.Sprite;
 import nme.display.DisplayObject;
 import nme.events.Event;
+import nme.Lib;
 
 private class BaseComonentUtil {
 	
@@ -14,6 +15,45 @@ private class BaseComonentUtil {
 	 */
 	static public function nextComponentUID(): String {
 		return StringTools.hex(_componentUID++);
+	}
+	
+	
+
+	static private var _invalidComponents: Hash<BaseComponent> = new Hash<BaseComponent>();
+	static private var _validator: Sprite;
+	
+	static private function _validateComponents(evt: Event): Void {
+		var c_components: Hash<BaseComponent> = _invalidComponents;
+		_invalidComponents = new Hash<BaseComponent>();
+		_destroyValidator();
+		
+		for (c in c_components.iterator()) {
+			c.validate();
+		}
+	}
+	
+	static private function _createValidator(): Void {
+		if (_validator != null) return;
+		_validator = new Sprite();
+		_validator.addEventListener(Event.ENTER_FRAME, _validateComponents);
+		Lib.current.stage.addChild(_validator);
+	}
+	
+	static private function _destroyValidator(): Void {
+		if (_validator == null) return;
+		_validator.removeEventListener(Event.ENTER_FRAME, _validateComponents);
+		Lib.current.stage.removeChild(_validator);
+		_validator = null;
+	}
+	
+	/**
+	 * Add component which changes should be validated on next enter frame event.
+	 * @param	component	Invalid ui component.
+	 */
+	static public function invalidComponent(component: BaseComponent): Void {
+		if (_invalidComponents.exists(component.componentUID)) return;
+		_invalidComponents.set(component.componentUID, component);
+		_createValidator();
 	}
 }
 
@@ -28,6 +68,20 @@ class BaseComponent extends Sprite {
 	 */
 	public var componentUID(default, null): String;
 	
+	public var enabled(default, set_enabled): Bool = true;
+	public function set_enabled(v: Bool): Bool {
+		if (v != enabled) {
+			enabled = v;
+			mouseChildren = v;
+			mouseEnabled = v;
+			if (v) {
+				//TODO - Stolex, set color transform
+			} else {
+				//TODO - Stolex, remove color transform
+			}
+		}
+		return v;
+	}
 	
 	/**
 	 * Hash map of skins for each state.
@@ -44,7 +98,7 @@ class BaseComponent extends Sprite {
 	 * Add current component in validation list for validating on next enter frame.
 	 */
 	public function invalid(): Void {
-		FWCore.invalidComponent(this);
+		BaseComonentUtil.invalidComponent(this);
 	}
 	
 	
@@ -54,6 +108,7 @@ class BaseComponent extends Sprite {
 	 * Invalidate skin.
 	 */
 	public function invalidSkin(): Void {
+		if (_dirtySkin) return;
 		_dirtySkin = true;
 		invalid();
 	}
@@ -88,6 +143,7 @@ class BaseComponent extends Sprite {
 	 * Invalidate state.
 	 */
 	public function invalidState(): Void {
+		if (_dirtyState) return;
 		_dirtyState = true;
 		invalid();
 	}
@@ -129,10 +185,7 @@ class BaseComponent extends Sprite {
 	/**
 	 * Current component state.
 	 */
-	public var state(_getState, _setState): String;
-	private function _getState(): String {
-		return state;
-	}
+	public var state(default, _setState): String;
 	private function _setState(v: String): String {
 		if (v != state) {
 			state = v;
@@ -142,30 +195,51 @@ class BaseComponent extends Sprite {
 	}
 	
 	
+	
+	private var _skinClass: Class<ISkin>;
+	private var _skin: ISkin;
+	
+	/**
+	 * Skin class.
+	 */
+	public var skinClass(get_skinClass, set_skinClass): Class<ISkin>;
+	private function get_skinClass(): Class<ISkin> {
+		return _skinClass;
+	}
+	private function set_skinClass(v: Class<ISkin>): Class<ISkin> {
+		if (v != _skinClass) {
+			_skin = null;
+			_skinClass = v;
+			invalidSkin();
+		}
+		return v;
+	}
+	
 	/**
 	 * Component that draws states.
 	 */
-	public var skin(_getSkin, _setSkin): ISkin;
-	private function _getSkin(): ISkin {
-		return skin;
+	public var skin(get_skin, set_skin): ISkin;
+	private function get_skin(): ISkin {
+		if (_skin == null && _skinClass != null) {
+			_skin = SingletonFactory.getInstance(_skinClass);
+		}
+		return _skin;
 	}
-	private function _setSkin(v: ISkin): ISkin {
-		if (v != skin) {
-			skin = v;
+	private function set_skin(v: ISkin): ISkin {
+		if (v != _skin) {
+			_skinClass = null;
+			_skin = v;
 			invalidSkin();
 		}
-		return skin;
+		return _skin;
 	}
 	
 	
 	/**
 	 * Replacement for width that can not be overriden.
 	 */
-	public var Width(getWidth, setWidth): Float = 0;
-	private function getWidth(): Float {
-		return Width;
-	}
-	private function setWidth(v: Float): Float {
+	public var Width(default, set_Width): Float = 0;
+	private function set_Width(v: Float): Float {
 		if (v != Width) {
 			Width = v;
 			invalidSkin();
@@ -177,11 +251,8 @@ class BaseComponent extends Sprite {
 	/**
 	 * Replacement for height that can not be overriden.
 	 */
-	public var Height(getHeight, setHeight): Float = 0;
-	private function getHeight(): Float {
-		return Height;
-	}
-	private function setHeight(v: Float): Float {
+	public var Height(default, set_Height): Float = 0;
+	private function set_Height(v: Float): Float {
 		if (v != Height) {
 			Height = v;
 			invalidSkin();
@@ -207,7 +278,10 @@ class BaseComponent extends Sprite {
 		_states = new Hash<DisplayObject>();
 		_dirtySkin = true;
 		_dirtyState = true;
+		initialize();
 		invalid();
 	}
+	
+	private function initialize(): Void { }
 	
 }

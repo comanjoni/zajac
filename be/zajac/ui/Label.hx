@@ -1,4 +1,5 @@
 package be.zajac.ui;
+import be.zajac.core.FWCore;
 import be.zajac.skins.LabelSkin;
 import nme.text.TextField;
 import nme.text.TextFieldType;
@@ -60,6 +61,12 @@ class Label extends StyledComponent {
 	
 	public function new() {
 		super();
+		Width = FWCore.getHeightUnit() * 5;
+		Height = FWCore.getHeightUnit();
+		text = '';
+	}
+	
+	override private function initialize(): Void {
 		textField = new TextField();
 		textField.wordWrap = true;
 		textField.background = false;
@@ -68,7 +75,7 @@ class Label extends StyledComponent {
 		textField.type = TextFieldType.DYNAMIC;
 		addChild(textField);
 		
-		skin = new LabelSkin();
+		skinClass = LabelSkin;
 	}
 	
 }

@@ -83,16 +83,26 @@ class StyledComponent extends BaseComponent, implements Dynamic {
 		super();
 		_style = StyleManager.getStyle(this);
 		
+		var c_getterName: String;
+		var c_getter: Dynamic;
+		var c_setterName: String;
+		var c_setter: Dynamic;
 		var c_styledProperties: Iterator<String> = StyleManager.getStyledProperties(this);
 		for (propName in c_styledProperties) {
-			var c_getter = function() {
-				return _getStyleProperty(propName);
+			c_getterName = "get_" + propName;
+			if (!Reflect.hasField(this, c_getterName)) {
+				var c_getter = function() {
+					return _getStyleProperty(propName);
+				}
+				Reflect.setField(this, c_getterName, c_getter);
 			}
-			var c_setter = function(v) {
-				return _setStyleProperty(propName, v);
+			c_setterName = "set_" + propName;
+			if (!Reflect.hasField(this, c_setterName)) {
+				c_setter = function(v) {
+					return _setStyleProperty(propName, v);
+				}
+				Reflect.setField(this, c_setterName, c_setter);
 			}
-			Reflect.setField(this, "get_" + propName, c_getter);
-			Reflect.setField(this, "set_" + propName, c_setter);
 		}
 	}
 	
