@@ -15,10 +15,10 @@ class Slider extends StyledComponent {
 	inline public static var DIRECTION_HORIZONTAL:	String = 'horizontal';
 	inline public static var DIRECTION_VERTICAL:	String = 'vertical';
 	
-	@style(0)			public var backgroundColor(dynamic, dynamic): Dynamic;
-	@style(0)			public var roundness(dynamic, dynamic): Dynamic;
-	@style(0xffffff) 	public var buttonBackgroundColor(dynamic, dynamic): Dynamic;
-	@style( -1)			public var buttonBorderColor(dynamic, dynamic): Dynamic;
+	@style public var backgroundColor: Int = 0;
+	@style public var roundness: Int = 0;
+	@style public var buttonBackgroundColor: Int = 0xffffff;
+	@style public var buttonBorderColor: Int = -1;
 	
 	private var _dirtySlider: Bool = true;
 	
@@ -30,6 +30,10 @@ class Slider extends StyledComponent {
 	
 	private function _validateSlider(): Bool {
 		if (_dirtySlider) {
+			button.roundness = roundness;
+			button.backgroundColor = buttonBackgroundColor;
+			button.borderColor = buttonBorderColor;
+			
 			switch (direction) {
 				case DIRECTION_HORIZONTAL:
 					button.Height = Height;
@@ -40,6 +44,8 @@ class Slider extends StyledComponent {
 					button.Height = Math.max(Width, Height * pageSize / (maxValue - minValue));
 					button.y = (Height - button.Height) * (value - minValue) / (maxValue - minValue);
 			}
+			
+			button.validate();
 			
 			_dirtySlider = false;
 			
@@ -130,7 +136,7 @@ class Slider extends StyledComponent {
 			super.set_Width(v);
 			invalidSlider();
 		}
-		return Width;
+		return v;
 	}
 	
 	override private function set_Height(v: Float): Float {
@@ -138,7 +144,7 @@ class Slider extends StyledComponent {
 			super.set_Height(v);
 			invalidSlider();
 		}
-		return Height;
+		return v;
 	}
 	
 	

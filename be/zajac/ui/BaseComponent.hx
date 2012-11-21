@@ -278,8 +278,8 @@ class BaseComponent extends Sprite {
 		_states = new Hash<DisplayObject>();
 		_dirtySkin = true;
 		_dirtyState = true;
-		initialize();
 		invalid();
+		initialize();
 	}
 	
 	private function initialize(): Void { }

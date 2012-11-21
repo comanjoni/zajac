@@ -17,10 +17,10 @@ class Button extends StyledComponent{
 	inline public static var OVER:	String = 'over';
 	inline public static var DOWN:	String = 'down';
 	
-	@style(0) 			public var color(dynamic, dynamic): Dynamic;			//text color
-	@style(0xffffff) 	public var backgroundColor(dynamic, dynamic): Dynamic;	//backgroundColor
-	@style(0) 			public var roundness(dynamic, dynamic): Dynamic;
-	@style( -1)			public var borderColor(dynamic, dynamic): Dynamic;
+	@style public var color: Int = 0;			//text color
+	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
+	@style public var roundness: Int = 0;
+	@style public var borderColor: Int = -1;
 	
 	
 	private var _tLabel:TextField;

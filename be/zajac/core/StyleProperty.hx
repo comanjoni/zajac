@@ -7,10 +7,9 @@ package be.zajac.core;
 
 class StyleProperty {
 
-	static public inline var PRIORITY_DEFAULT				= 1;
-	static public inline var PRIORITY_COMPONENT				= 2;
-	static public inline var PRIORITY_STYLE_NAME			= 3;
-	static public inline var PRIORITY_INSTANCE_PROPERTY		= 4;
+	static public inline var PRIORITY_COMPONENT				= 1;
+	static public inline var PRIORITY_STYLE_NAME			= 2;
+	static public inline var PRIORITY_INSTANCE_PROPERTY		= 3;
 	
 	/**
 	 * Value of property.
@@ -26,7 +25,7 @@ class StyleProperty {
 	 * @param	pvalue	Property value.
 	 * @param	ppriority	Property priority.
 	 */
-	public function new(pvalue: Dynamic, ppriority: Int = PRIORITY_DEFAULT) {
+	public function new(pvalue: Dynamic, ppriority: Int = PRIORITY_COMPONENT) {
 		value = pvalue;
 		priority = ppriority;
 	}

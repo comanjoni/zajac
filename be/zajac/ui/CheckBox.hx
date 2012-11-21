@@ -21,12 +21,12 @@ class CheckBox extends StyledComponent{
 	inline public static var SELECTED_OVER:	String = 'sel_over';
 	inline public static var SELECTED_DOWN:	String = 'sel_down';
 	
-	@style(0) 			public var color(dynamic, dynamic): Dynamic;			//text color
-	@style(0xffffff) 	public var backgroundColor(dynamic, dynamic): Dynamic;	//backgroundColor
-	@style(20) 			public var buttonSize(dynamic, dynamic): Dynamic;		//size of checked icon in pixels
-	@style(0x666666) 	public var iconColor(dynamic, dynamic): Dynamic;		//color of X of ok icon in the middle of the button box
-	@style(0) 			public var roundness(dynamic, dynamic): Dynamic;
-	@style( -1)			public var borderColor(dynamic, dynamic): Dynamic;
+	@style public var color: Int = 0;			//text color
+	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
+	@style public var buttonSize: Float = 20;		//size of checked icon in pixels
+	@style public var iconColor: Int = 0x666666;		//color of X of ok icon in the middle of the button box
+	@style public var roundness: Int = 0;
+	@style public var borderColor: Int = -1;
 	
 	
 	private var _tLabel:TextField;

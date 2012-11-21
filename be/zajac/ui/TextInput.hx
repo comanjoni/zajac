@@ -19,16 +19,16 @@ class TextInput extends StyledComponent {
 	inline public static var FOCUSOUT:		String = 'focusout';
 	inline public static var TOUCH:			String = 'touch';
 	
-	@style(0x000000)			public var textColor(dynamic, dynamic): Dynamic;
-	@style(12)					public var textSize(dynamic, dynamic): Dynamic;
-	@style('Arial')				public var font(dynamic, dynamic): Dynamic;
-	@style(false)				public var bold(dynamic, dynamic): Dynamic;
-	@style(false)				public var italic(dynamic, dynamic): Dynamic;
-	@style(false)				public var underline(dynamic, dynamic): Dynamic;
-	@style(0)					public var leading(dynamic, dynamic): Dynamic;
-	@style(0)					public var letterSpacing(dynamic, dynamic): Dynamic;
+	@style public var textColor: Int = 0;
+	@style public var textSize: Int = 12;
+	@style public var font: String = 'Arial';
+	@style public var bold: Bool = false;
+	@style public var italic: Bool = false;
+	@style public var underline: Bool = false;
+	@style public var leading: Float = 0;
+	@style public var letterSpacing: Float = 0;
 	
-	@style(0xffffff)			public var backgroundColor(dynamic, dynamic): Dynamic;
+	@style public var backgroundColor: Int 0xffffff;
 	
 	public var displayAsPassword(default, set_displayAsPassword): Bool;
 	private function set_displayAsPassword(v: Bool): Bool {

@@ -27,11 +27,6 @@ class SliderSkin implements ISkin {
 			c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
 		}
 		c_gr.endFill();
-		
-		//TODO: move this to be set to button in setter
-		c_button.roundness = c_client.roundness;
-		c_button.backgroundColor = c_client.buttonBackgroundColor;
-		c_button.borderColor = c_client.buttonBorderColor;
 	}
 	
 }
