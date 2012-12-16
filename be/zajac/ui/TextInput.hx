@@ -28,7 +28,7 @@ class TextInput extends StyledComponent {
 	@style public var leading: Float = 0;
 	@style public var letterSpacing: Float = 0;
 	
-	@style public var backgroundColor: Int 0xffffff;
+	@style public var backgroundColor: Int = 0xffffff;
 	
 	public var displayAsPassword(default, set_displayAsPassword): Bool;
 	private function set_displayAsPassword(v: Bool): Bool {

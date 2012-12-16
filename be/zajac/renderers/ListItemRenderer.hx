@@ -1,4 +1,5 @@
 package be.zajac.renderers;
+import be.zajac.core.FWCore;
 import be.zajac.ui.BaseComponent;
 import nme.Assets;
 import nme.display.DisplayObject;

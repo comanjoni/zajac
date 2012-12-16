@@ -243,8 +243,9 @@ class BaseComponent extends Sprite {
 		if (v != Width) {
 			Width = v;
 			invalidSkin();
+			dispatchEvent(new Event(Event.RESIZE));
 		}
-		return Width;
+		return v;
 	}
 	
 	
@@ -256,8 +257,9 @@ class BaseComponent extends Sprite {
 		if (v != Height) {
 			Height = v;
 			invalidSkin();
+			dispatchEvent(new Event(Event.RESIZE));
 		}
-		return Height;
+		return v;
 	}
 	
 	

@@ -72,6 +72,9 @@ class Slider extends StyledComponent {
 	private function set_maxValue(v: Float): Float {
 		if (maxValue != v) {
 			maxValue = v;
+			if (maxValue < value) {
+				value = maxValue;
+			}
 			invalidSlider();
 		}
 		return v;
@@ -81,6 +84,9 @@ class Slider extends StyledComponent {
 	private function set_minValue(v: Float): Float {
 		if (minValue != v) {
 			minValue = v;
+			if (minValue > value) {
+				value = minValue;
+			}
 			invalidSlider();
 		}
 		return v;

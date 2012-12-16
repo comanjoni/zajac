@@ -1,5 +1,6 @@
 package be.zajac.ui;
 import be.zajac.containers.Panel;
+import be.zajac.events.ListEvent;
 import be.zajac.renderers.AbstractListItemRenderer;
 import nme.display.DisplayObject;
 import nme.events.Event;
@@ -20,12 +21,12 @@ class List extends Panel {
 		invalidScroll();
 	}
 	
-	private var _itemComponents: Array<Dynamic>;
+	private var _itemComponents: Array<AbstractListItemRenderer>;
 	
 	private function _validateItems(): Bool {
 		if (_dirtyItems) {
-			var itemComp: Dynamic;
-			var c_y: Float;
+			var itemComp: AbstractListItemRenderer;
+			var c_y: Float = 0;
 			
 			if (_itemComponents != null) {
 				for (itemComp in _itemComponents) {
@@ -36,7 +37,7 @@ class List extends Panel {
 			}
 			
 			if (items != null) {
-				_itemComponents = new Array<Dynamic>();
+				_itemComponents = new Array<AbstractListItemRenderer>();
 				c_y = 0;
 				for (item in items) {
 					itemComp = Type.createInstance(itemRenderer, []);
@@ -52,6 +53,15 @@ class List extends Panel {
 					itemComp.addEventListener(Event.SELECT, _onItemSelect);
 				}
 			}
+			
+			#if !(android || ios)
+				if (c_y > Height) {
+					var c_width: Float = Width - verticalSlider.Width;
+					for (itemComp in _itemComponents) {
+						itemComp.Width = c_width;
+					}
+				}
+			#end
 			
 			_dirtyItems = false;
 			
@@ -106,6 +116,7 @@ class List extends Panel {
 	
 	public function getItemIndex(item: Dynamic): Int {
 		if (items == null) return -1;
+		
 		var i: Int = 0;
 		for (c_item in items) {
 			if (c_item == item) {
@@ -113,6 +124,7 @@ class List extends Panel {
 			}
 			i++;
 		}
+		
 		return -1;
 	}
 	
@@ -120,13 +132,18 @@ class List extends Panel {
 		if (items == null) return null;
 		if (index >= items.length) return null;
 		if (index < 0) return null;
+		
 		return items[index];
 	}
 	
 	public function removeItem(item: Dynamic): Dynamic {
 		if (items == null) return null;
+		
 		if (items.remove(item)) {
 			invalidItems();
+			if (item == selectedItem) {
+				selectedItem = null;
+			}
 			return item;
 		} else {
 			return null;
@@ -137,48 +154,66 @@ class List extends Panel {
 		if (items == null) return null;
 		if (index >= items.length) return null;
 		if (index < 0) return null;
+		
 		var c_removed: Array<Dynamic> = items.splice(index, 1);
 		if (c_removed.length != 0) {
 			invalidItems();
+			if (c_removed[0] == selectedItem) {
+				selectedItem = null;
+			}
 			return c_removed[0];
 		}
+		
 		return null;
 	}
 	
 	public function removeAllItems(): Void {
 		if (items == null) return;
 		if (items.length == 0) return;
+		
 		items = null;
+		
 		invalidItems();
 	}
 	
 	
 	public var selectedItem(default, set_selectedItem): Dynamic;
+	
 	private function set_selectedItem(item: Dynamic): Dynamic {
 		if (!selectable) return null;
+		
 		if (selectedItem != item) {
-			var c_itemComp: BaseComponent;
+			var c_itemComp: AbstractListItemRenderer;
 			var c_index: Int;
+			
 			if (selectedItem != null) {
 				c_index = getItemIndex(selectedItem);
 				if (_itemComponents != null && c_index > 0 && _itemComponents.length > c_index) {
 					_itemComponents[c_index].selected = false;
 				}
 			}
+			
 			selectedItem = item;
+			
 			if (selectedItem != null) {
 				c_index = getItemIndex(selectedItem);
 				if (_itemComponents != null && c_index > 0 && _itemComponents.length > c_index) {
 					_itemComponents[c_index].selected = true;
 				}
+				dispatchEvent(new ListEvent(ListEvent.SELECT, false, false, selectedItem));
 			}
-			dispatchEvent(new Event(Event.SELECT));
+			
 		}
+		
 		return item;
 	}
 	
 	private function _onItemSelect(e: Event): Void {
-		selectedItem = e.target.data;
+		if (selectable) {
+			selectedItem = e.target.data;
+		} else {
+			dispatchEvent(new ListEvent(ListEvent.SELECT, false, false, e.target.data));
+		}
 	}
 	
 	public var selectable: Bool = true;
@@ -190,6 +225,11 @@ class List extends Panel {
 	override private function initialize(): Void {
 		super.initialize();
 		itemRenderer = ListItemRenderer;
+		addEventListener(Event.RESIZE, _onResize);
+	}
+	
+	private function _onResize(e: Event): Void {
+		invalidItems();
 	}
 	
 }
