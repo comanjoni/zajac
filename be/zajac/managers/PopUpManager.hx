@@ -46,46 +46,34 @@ class PopUpManager {
 		}
 	}
 	
-	private static function _setModalBackground(window: DisplayObject): Void {
+	private static function _resetModalBackground(): Void {
 		if (_modalBackground == null) {
 			_modalBackground = new Sprite();
 		}
 		_resizeModalBackground();
-		var c_index: Int = Lib.current.stage.getChildIndex(window);
-		// TODO: debug this. modal dialog is not positioned well on stage
-		if (Lib.current.stage.contains(_modalBackground)) {
-			Lib.current.stage.setChildIndex(_modalBackground, c_index - 1);
-		} else {
-			Lib.current.stage.addChildAt(_modalBackground, c_index);
+		
+		var c_isModal: Bool = false;
+		var c_topIndex: Int = Lib.current.stage.numChildren - 1;
+		
+		for (_popup in _popups) {
+			if (_popup.modal) {
+				c_isModal = true;
+				if (Lib.current.stage.contains(_modalBackground)) {
+					Lib.current.stage.setChildIndex(_modalBackground, c_topIndex);
+				} else {
+					Lib.current.stage.addChild(_modalBackground);
+					c_topIndex++;
+				}
+			}
+			Lib.current.stage.setChildIndex(_popup.window, c_topIndex);
+		}
+		
+		if (!c_isModal) {
+			Lib.current.stage.removeChild(_modalBackground);
 		}
 	}
 	
-	public static function addPopUp(window: DisplayObject, modal: Bool = false): Void {
-		if (window == null) return;
-		
-		// ensure that window reference is unique in _popups list
-		removePopUp(window);
-		
-		_popups.push(new PopUpDef(window, modal));
-		
-		Lib.current.stage.addChild(window);
-		
-		if (modal) {
-			_setModalBackground(window);
-		}
-	}
-	
-	public static function centerPopUp(window: DisplayObject): Void {
-		if (window == null) return;
-		if (!Lib.current.stage.contains(window)) return;
-		
-		window.x = (Lib.current.stage.stageWidth - window.width) / 2;
-		window.y = (Lib.current.stage.stageHeight - window.height) / 2;
-	}
-	
-	public static function removePopUp(window: DisplayObject): Void {
-		if (window == null) return;
-		
+	private static function _removePopup(window: DisplayObject): PopUpDef {
 		// find PupUp and remove it from list
 		var c_popup: PopUpDef = null;
 		for (_popup in _popups) {
@@ -103,21 +91,44 @@ class PopUpManager {
 			Lib.current.stage.removeChild(window);
 		}
 		
-		// set modal background to another modal popup
-		var i: Int = _popups.length - 1;
-		while (i >= 0) {
-			c_popup = _popups[i];
-			if (c_popup.modal) {
-				_setModalBackground(c_popup.window);
-				return;
-			}
-			i--;
-		}
+		return c_popup;
+	}
+	
+	public static function addPopUp(window: DisplayObject, modal: Bool = false): Void {
+		if (window == null) return;
 		
-		// or remove modal background if no modal popup was found
-		if (_modalBackground != null && Lib.current.stage.contains(_modalBackground)) {
-			Lib.current.stage.removeChild(_modalBackground);
-			_modalBackground = null;
+		// ensure that window reference is unique in _popups list
+		var c_popup: PopUpDef = _removePopup(window);
+		
+		if (c_popup == null) {
+			c_popup = new PopUpDef(window, modal);
+		} else {
+			c_popup.modal = modal;
+		}
+		_popups.push(c_popup);
+		
+		Lib.current.stage.addChild(window);
+		
+		if (c_popup.modal) {
+			_resetModalBackground();
+		}
+	}
+	
+	public static function centerPopUp(window: DisplayObject): Void {
+		if (window == null) return;
+		if (!Lib.current.stage.contains(window)) return;
+		
+		window.x = (Lib.current.stage.stageWidth - window.width) / 2;
+		window.y = (Lib.current.stage.stageHeight - window.height) / 2;
+	}
+	
+	public static function removePopUp(window: DisplayObject): Void {
+		if (window == null) return;
+		
+		var c_popup: PopUpDef = _removePopup(window);
+		
+		if (c_popup != null && c_popup.modal) {
+			_resetModalBackground();
 		}
 	}
 	
