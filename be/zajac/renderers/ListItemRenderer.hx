@@ -18,6 +18,11 @@ import nme.text.TextFormat;
 
 class ListItemRenderer extends AbstractListItemRenderer {
 
+	@style public var color: Int = 0x333333;				//renderer text color
+	@style public var backgroundColor: Int = 0xffffff;		//backgroundColor
+	@style public var spacerColor: Int = 0;					//spacer color between renderers
+	@style public var spacerAlpha: Float = 0.1;				//spacer alpha
+	
 	public var textField(default, null): TextField;
 	
 	public function new() {
@@ -50,7 +55,7 @@ class ListItemRenderer extends AbstractListItemRenderer {
 			c_format = c_textField.getTextFormat();
 		#end
 		
-		c_format.color = 0xffffff;
+		c_format.color = c_client.color;
 		c_format.size = 12;
 
 		c_font = Assets.getFont('Arial');
@@ -64,9 +69,14 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		c_textField.height = c_client.Height;
 		c_textField.text = c_client.data;
 		
-		c_gr.beginFill(0xff0000);
-		c_gr.drawRect(0, 0, c_client.Width, c_client.Height - 1);
+		c_gr.beginFill(c_client.backgroundColor);
+		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
 		c_gr.endFill();
+		
+		c_gr.lineStyle(1, c_client.spacerColor, c_client.spacerAlpha);
+		c_gr.moveTo(0, c_client.Height - 1);
+		c_gr.lineTo(c_client.Width, c_client.Height - 1);
+		
 	}
 	
 }
