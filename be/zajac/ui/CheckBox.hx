@@ -1,4 +1,5 @@
 package be.zajac.ui;
+import be.zajac.core.FWCore;
 import be.zajac.skins.CheckBoxSkin;
 import be.zajac.util.TextFieldUtil;
 import nme.events.Event;
@@ -23,10 +24,16 @@ class CheckBox extends StyledComponent{
 	
 	@style public var color: Int = 0;			//text color
 	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
-	@style public var buttonSize: Float = 20;		//size of checked icon in pixels
 	@style public var iconColor: Int = 0x666666;		//color of X of ok icon in the middle of the button box
 	@style public var roundness: Int = 0;
 	@style public var borderColor: Int = -1;
+	
+	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
+	private function get_buttonSize():Float {
+		var c_size:Float = FWCore.getHeightUnit();
+		if (Height > 0 && c_size > Height) c_size = Height;
+		return _getStyleProperty("buttonSize", c_size);
+	}
 	
 	
 	private var _tLabel:TextField;
