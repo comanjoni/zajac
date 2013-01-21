@@ -91,7 +91,10 @@ class RadioButton extends StyledComponent{
 	
 	public function new() {
 		super();
-		
+		state = UP;
+	}
+	
+	override private function initialize(): Void {
 		_tLabel = new TextField();
 		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size:14 } );
 		addChild(_tLabel);
@@ -104,12 +107,7 @@ class RadioButton extends StyledComponent{
 		buttonMode = true;
 		#end
 		
-		run();
-	}
-	
-	private function run():Void {
-		skin = new RadioButtonSkin();
-		state = UP;
+		skinClass = RadioButtonSkin;
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void {
