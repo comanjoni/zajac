@@ -4,6 +4,7 @@ import be.zajac.skins.ISkin;
 import nme.display.Sprite;
 import nme.display.DisplayObject;
 import nme.events.Event;
+import nme.geom.ColorTransform;
 import nme.Lib;
 
 private class BaseComonentUtil {
@@ -68,20 +69,30 @@ class BaseComponent extends Sprite {
 	 */
 	public var componentUID(default, null): String;
 	
+	//used for enabled to remember mouseEnabled and mouseChildren values before disabled component disable them
+	private var _originalMouseEnabled:Bool;
+	private var _originalMouseChildren:Bool;
+	
 	public var enabled(default, set_enabled): Bool = true;
 	public function set_enabled(v: Bool): Bool {
 		if (v != enabled) {
 			enabled = v;
-			mouseChildren = v;
-			mouseEnabled = v;
-			if (v) {
-				//TODO - Stolex, set color transform
-			} else {
-				//TODO - Stolex, remove color transform
+			if (v == true) {
+				mouseEnabled = _originalMouseEnabled;
+				mouseChildren = _originalMouseChildren;
+				transform.colorTransform = new ColorTransform();
+			}else {
+				transform.colorTransform = new ColorTransform(.4, .4, .4, 1, 100, 100, 100);
+				_originalMouseEnabled = mouseEnabled;
+				_originalMouseChildren = mouseChildren;
+				mouseEnabled = false;
+				mouseChildren = false;
 			}
 		}
 		return v;
 	}
+	
+		
 	
 	/**
 	 * Hash map of skins for each state.
