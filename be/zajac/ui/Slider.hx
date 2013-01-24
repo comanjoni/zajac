@@ -1,5 +1,6 @@
 package be.zajac.ui;
 import be.zajac.core.FWCore;
+import be.zajac.skins.ButtonCircleSkin;
 import be.zajac.skins.SliderSkin;
 import nme.events.Event;
 import nme.events.MouseEvent;
@@ -15,10 +16,12 @@ class Slider extends StyledComponent {
 	inline public static var DIRECTION_HORIZONTAL:	String = 'horizontal';
 	inline public static var DIRECTION_VERTICAL:	String = 'vertical';
 	
-	@style public var backgroundColor: Int = 0;
-	@style public var roundness: Int = 0;
-	@style public var buttonBackgroundColor: Int = 0xffffff;
-	@style public var buttonBorderColor: Int = -1;
+	@style public var backgroundColor: Int = 0xffffff;
+	@style public var borderColor: Int = 0x7e8082;
+	@style public var barSize: Int = -1;	//if barSize == -1 bar size is height / 3
+	@style public var roundness: Int = 10;
+	@style public var buttonBackgroundColor: Int = 0xeeeff0;
+	@style public var buttonBorderColor: Int = 0x7e8082;
 	
 	private var _dirtySlider: Bool = true;
 	
@@ -30,18 +33,19 @@ class Slider extends StyledComponent {
 	
 	private function _validateSlider(): Bool {
 		if (_dirtySlider) {
-			button.roundness = roundness;
+			//button.roundness = roundness;
 			button.backgroundColor = buttonBackgroundColor;
 			button.borderColor = buttonBorderColor;
+			button.skinClass = ButtonCircleSkin;
 			
 			switch (direction) {
 				case DIRECTION_HORIZONTAL:
-					button.Height = Height;
-					button.Width = Math.max(Height, Width * pageSize / (maxValue - minValue));
+					button.Width = button.Height = Height;
+					//button.Width = Math.max(Height, Width * pageSize / (maxValue - minValue));
 					button.x = (Width - button.Width) * (value - minValue) / (maxValue - minValue);
 				case DIRECTION_VERTICAL:
-					button.Width = Width;
-					button.Height = Math.max(Width, Height * pageSize / (maxValue - minValue));
+					button.Height = button.Width = Width;
+					//button.Height = Math.max(Width, Height * pageSize / (maxValue - minValue));
 					button.y = (Height - button.Height) * (value - minValue) / (maxValue - minValue);
 			}
 			
