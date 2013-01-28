@@ -1,8 +1,12 @@
 package be.zajac.managers;
+import be.zajac.ui.BaseComponent;
 import flash.display.Graphics;
+import nme.display.DisplayObjectContainer;
+import nme.display.Stage;
 import nme.events.Event;
 import nme.display.DisplayObject;
 import nme.display.Sprite;
+import nme.geom.Point;
 import nme.Lib;
 
 /**
@@ -10,7 +14,7 @@ import nme.Lib;
  * @author Aleksandar Bogdanovic
  */
 
-class PopUpDef {
+class _PopUpDef {
 	
 	public var window: DisplayObject;
 	public var modal: Bool;
@@ -20,62 +24,106 @@ class PopUpDef {
 		this.modal = modal;
 	}
 }
- 
+
+class _DONBackup {
+	private var _obj: DisplayObject;
+	private var _name: String;
+	public function new(obj: DisplayObject) {
+		_obj = obj;
+		_name = obj.name;
+	}
+	public function restore(): Void {
+		_obj.name = _name;
+	}
+}
+
+
 class PopUpManager {
 
 	private function new() { }
 	
 	private static var _initialized: Bool = false;
-	private static var _modalBackground: Sprite;
-	private static var _popups: Array<PopUpDef> = new Array<PopUpDef>();
+	private static var _popups: Array<_PopUpDef> = new Array<_PopUpDef>();
+	private static var _modalBackgrounds: Array<Sprite> = new Array<Sprite>();
 	
 	private static function _initialize(): Void {
 		if (_initialized) return;
-		// TODO; research and debug this event. it is not firing!
-		Lib.current.stage.addEventListener(Event.RESIZE, _resizeModalBackground);
+		// TODO: research and debug this event. it is not firing!
+		Lib.current.stage.addEventListener(Event.RESIZE, _resizeModalBackgrounds);
 		_initialized = true;
 	}
 	
-	private static function _resizeModalBackground(evt: Event = null): Void {
-		if (_modalBackground != null) {
-			var g: Graphics = _modalBackground.graphics;
-			g.clear();
-			g.beginFill(0, 0.2);
-			g.drawRect(0, 0, Lib.current.stage.stageWidth, Lib.current.stage.stageHeight);
-			g.endFill();
+	private static function _backupNames(): Array<_DONBackup> {
+		var c_names: Array<_DONBackup> = new Array<_DONBackup>();
+		for (_popup in _popups) {
+			if (_popup.window.parent != null) {
+				c_names.push(new _DONBackup(_popup.window.parent));
+			}
+		}
+		return c_names;
+	}
+	
+	private static function _restoreNames(names: Array < _DONBackup > ): Void {
+		for (name in names) {
+			name.restore();
 		}
 	}
 	
-	private static function _resetModalBackground(): Void {
-		if (_modalBackground == null) {
-			_modalBackground = new Sprite();
+	private static function _resizeModalBackground(modalBackground: Sprite): Void {
+		var c_dimensions: Point = _dimensions(modalBackground.parent);
+		var g: Graphics = modalBackground.graphics;
+		g.clear();
+		g.beginFill(0, 0.2);
+		g.drawRect(0, 0, c_dimensions.x, c_dimensions.y);
+		g.endFill();
+	}
+	
+	private static function _resizeModalBackgrounds(evt: Event = null): Void {
+		for (_modalBackground in _modalBackgrounds) {
+			_resizeModalBackground(_modalBackground);
 		}
-		_resizeModalBackground();
-		
-		var c_isModal: Bool = false;
-		var c_topIndex: Int = Lib.current.stage.numChildren - 1;
+	}
+	
+	private static function _reorderPopups(parent: DisplayObjectContainer): Void {
+		var c_topModal: DisplayObject = null;
+		var c_modalBackground: Sprite = null;
 		
 		for (_popup in _popups) {
-			if (_popup.modal) {
-				c_isModal = true;
-				if (Lib.current.stage.contains(_modalBackground)) {
-					Lib.current.stage.setChildIndex(_modalBackground, c_topIndex);
-				} else {
-					Lib.current.stage.addChild(_modalBackground);
-					c_topIndex++;
+			if (_popup.window.parent == parent) {
+				parent.removeChild(_popup.window);
+				parent.addChild(_popup.window);
+				if (_popup.modal) {
+					c_topModal = _popup.window;
 				}
 			}
-			Lib.current.stage.setChildIndex(_popup.window, c_topIndex);
 		}
 		
-		if (!c_isModal) {
-			Lib.current.stage.removeChild(_modalBackground);
+		for (_modalBackground in _modalBackgrounds) {
+			if (_modalBackground.parent == parent) {
+				c_modalBackground = _modalBackground;
+			}
+		}
+		if (c_topModal == null) {
+			if (c_modalBackground != null) {
+				parent.removeChild(c_modalBackground);
+				_modalBackgrounds.remove(c_modalBackground);
+			}
+		} else {
+			var c_childIndex: Int = parent.getChildIndex(c_topModal);
+			if (c_modalBackground == null) {
+				c_modalBackground = new Sprite();
+				parent.addChildAt(c_modalBackground, c_childIndex);
+				_modalBackgrounds.push(c_modalBackground);
+			} else {
+				parent.setChildIndex(c_modalBackground, c_childIndex - 1);
+			}
+			_resizeModalBackground(c_modalBackground);
 		}
 	}
 	
-	private static function _removePopup(window: DisplayObject): PopUpDef {
+	private static function _removePopup(window: DisplayObject): _PopUpDef {
 		// find PupUp and remove it from list
-		var c_popup: PopUpDef = null;
+		var c_popup: _PopUpDef = null;
 		for (_popup in _popups) {
 			if (_popup.window == window) {
 				c_popup = _popup;
@@ -87,49 +135,108 @@ class PopUpManager {
 		}
 		
 		// remove window from stage
-		if (Lib.current.stage.contains(window)) {
-			Lib.current.stage.removeChild(window);
+		if (window.parent != null) {
+			window.parent.removeChild(window);
 		}
 		
 		return c_popup;
 	}
 	
-	public static function addPopUp(window: DisplayObject, modal: Bool = false): Void {
+	private static function _onAdded(evt: Event): Void {
+		if (evt.target.parent == evt.currentTarget) {
+			_removeEvents();
+			_reorderPopups(evt.currentTarget);
+			_addEvents();
+		}
+	}
+	
+	private static function _addEvents(): Void {
+		var c_names: Array<_DONBackup> = _backupNames();
+		var c_parent: DisplayObject;
+		
+		for (_popup in _popups) {
+			c_parent = _popup.window.parent;
+			if (c_parent != null && c_parent.name != '__ADD_EVENTS') {
+				c_parent.name == '__ADD_EVENTS';
+				c_parent.addEventListener(Event.ADDED, _onAdded);
+			}
+		}
+		
+		_restoreNames(c_names);
+	}
+	
+	private static function _removeEvents(): Void {
+		for (_popup in _popups) {
+			if (_popup.window.parent != null) {
+				_popup.window.parent.removeEventListener(Event.ADDED, _onAdded);
+			}
+		}
+	}
+	
+	private static function _dimensions(obj: DisplayObject): Point {
+		if (Std.is(obj, Stage)) {
+			var s: Stage = cast(obj);
+			return new Point(s.stageWidth, s.stageHeight);
+		}
+		
+		if (Std.is(obj, BaseComponent)) {
+			var b: BaseComponent = cast(obj);
+			return new Point(b.Width, b.Height);
+		}
+		
+		return new Point(obj.width, obj.height);
+	}
+	
+	public static function addPopUp(parent: DisplayObjectContainer, window: DisplayObject, modal: Bool = false): Void {
 		if (window == null) return;
+		if (parent == null) {
+			parent = Lib.current.stage;
+		}
+		
+		_initialize();
+		_removeEvents();
+		
 		
 		// ensure that window reference is unique in _popups list
-		var c_popup: PopUpDef = _removePopup(window);
+		var c_popup: _PopUpDef = _removePopup(window);
 		
 		if (c_popup == null) {
-			c_popup = new PopUpDef(window, modal);
+			c_popup = new _PopUpDef(window, modal);
 		} else {
 			c_popup.modal = modal;
 		}
 		_popups.push(c_popup);
 		
-		Lib.current.stage.addChild(window);
+		parent.addChild(window);
 		
-		if (c_popup.modal) {
-			_resetModalBackground();
-		}
+		_reorderPopups(parent);
+		
+		_addEvents();
 	}
 	
 	public static function centerPopUp(window: DisplayObject): Void {
 		if (window == null) return;
-		if (!Lib.current.stage.contains(window)) return;
+		if (window.parent == null) return;
 		
-		window.x = (Lib.current.stage.stageWidth - window.width) / 2;
-		window.y = (Lib.current.stage.stageHeight - window.height) / 2;
+		var c_parentDimension: Point = _dimensions(window.parent);
+		var c_windowDimension: Point = _dimensions(window);
+		
+		window.x = (c_parentDimension.x - c_windowDimension.x) / 2;
+		window.y = (c_parentDimension.y - c_windowDimension.y) / 2;
 	}
 	
 	public static function removePopUp(window: DisplayObject): Void {
 		if (window == null) return;
 		
-		var c_popup: PopUpDef = _removePopup(window);
+		_removeEvents();
 		
-		if (c_popup != null && c_popup.modal) {
-			_resetModalBackground();
+		var c_parent: DisplayObjectContainer = window.parent;
+		var c_popup: _PopUpDef = _removePopup(window);
+		if (c_parent != null) {
+			_reorderPopups(c_parent);
 		}
+		
+		_addEvents();
 	}
 	
 }
