@@ -306,6 +306,7 @@ class BaseComponent extends Sprite {
 			c_resize = true;
 		}
 		if (c_resize) {
+			invalidSkin();
 			dispatchEvent(new Event(Event.RESIZE));
 		}
 	}
