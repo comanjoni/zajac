@@ -15,7 +15,8 @@ class AbstractListItemRenderer extends BaseComponent, implements ISkin {
 
 	public function new() {
 		super();
-		setSize(FWCore.getHeightUnit() * 5, FWCore.getHeightUnit());
+		defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultHeight = FWCore.getHeightUnit();
 	}
 	
 	override public function initialize(): Void {

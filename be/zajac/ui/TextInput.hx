@@ -20,7 +20,7 @@ class TextInput extends StyledComponent {
 	inline public static var TOUCH:			String = 'touch';
 	
 	@style public var textColor: Int = 0;
-	@style public var textSize: Int = 12;
+	@style public var textSize(get_textSize, default): Int;
 	@style public var font: String = 'Arial';
 	@style public var bold: Bool = false;
 	@style public var italic: Bool = false;
@@ -29,6 +29,10 @@ class TextInput extends StyledComponent {
 	@style public var letterSpacing: Float = 0;
 	
 	@style public var backgroundColor: Int = 0xffffff;
+	
+	private function get_textSize(): Int {
+		return _getStyleProperty('textSize', FWCore.getFontSize(font));
+	}
 	
 	public var displayAsPassword(default, set_displayAsPassword): Bool;
 	private function set_displayAsPassword(v: Bool): Bool {
@@ -61,8 +65,8 @@ class TextInput extends StyledComponent {
 	
 	public function new() {
 		super();
-		Width = FWCore.getHeightUnit() * 5;
-		Height = FWCore.getHeightUnit();
+		defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultHeight = FWCore.getHeightUnit();
 	}
 	
 	override private function initialize(): Void {

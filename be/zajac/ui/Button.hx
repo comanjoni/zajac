@@ -1,4 +1,5 @@
 package be.zajac.ui;
+import be.zajac.core.FWCore;
 import be.zajac.skins.ButtonSkin;
 import be.zajac.util.TextFieldUtil;
 import nme.events.MouseEvent;
@@ -45,9 +46,11 @@ class Button extends StyledComponent{
 	
 	public function new() {
 		super();
+		defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultHeight = FWCore.getHeightUnit();
 		
 		_tLabel = new TextField();
-		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.CENTER, multiline:false, autoSize:TextFieldAutoSize.CENTER, selectable:false, mouseEnabled:false, size:14 } );
+		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.CENTER, multiline:false, autoSize:TextFieldAutoSize.CENTER, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
 		addChild(_tLabel);
 		
 		skinClass = ButtonSkin;

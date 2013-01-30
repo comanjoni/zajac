@@ -139,7 +139,7 @@ class Panel extends StyledComponent {
 	
 	public function new() {
 		super();
-		setSize(FWCore.getHeightUnit() * 5, FWCore.getHeightUnit() * 5);
+		defaultWidth = defaultHeight = FWCore.getHeightUnit() * 5;
 	}
 	
 	override private function initialize(): Void {

@@ -25,19 +25,6 @@ class _PopUpDef {
 	}
 }
 
-class _DONBackup {
-	private var _obj: DisplayObject;
-	private var _name: String;
-	public function new(obj: DisplayObject) {
-		_obj = obj;
-		_name = obj.name;
-	}
-	public function restore(): Void {
-		_obj.name = _name;
-	}
-}
-
-
 class PopUpManager {
 
 	private function new() { }
@@ -51,22 +38,6 @@ class PopUpManager {
 		// TODO: research and debug this event. it is not firing!
 		Lib.current.stage.addEventListener(Event.RESIZE, _resizeModalBackgrounds);
 		_initialized = true;
-	}
-	
-	private static function _backupNames(): Array<_DONBackup> {
-		var c_names: Array<_DONBackup> = new Array<_DONBackup>();
-		for (_popup in _popups) {
-			if (_popup.window.parent != null) {
-				c_names.push(new _DONBackup(_popup.window.parent));
-			}
-		}
-		return c_names;
-	}
-	
-	private static function _restoreNames(names: Array < _DONBackup > ): Void {
-		for (name in names) {
-			name.restore();
-		}
 	}
 	
 	private static function _resizeModalBackground(modalBackground: Sprite): Void {
@@ -151,18 +122,19 @@ class PopUpManager {
 	}
 	
 	private static function _addEvents(): Void {
-		var c_names: Array<_DONBackup> = _backupNames();
-		var c_parent: DisplayObject;
+		var c_parents: Array<DisplayObjectContainer> = new Array<DisplayObjectContainer>();
+		var c_parent: DisplayObjectContainer;
 		
 		for (_popup in _popups) {
 			c_parent = _popup.window.parent;
-			if (c_parent != null && c_parent.name != '__ADD_EVENTS') {
-				c_parent.name == '__ADD_EVENTS';
-				c_parent.addEventListener(Event.ADDED, _onAdded);
+			for (_parent in c_parents) {
+				if (c_parent == _parent) {
+					c_parent.addEventListener(Event.ADDED, _onAdded);
+					c_parents.push(c_parent);
+					break;
+				}
 			}
 		}
-		
-		_restoreNames(c_names);
 	}
 	
 	private static function _removeEvents(): Void {
@@ -195,7 +167,6 @@ class PopUpManager {
 		
 		_initialize();
 		_removeEvents();
-		
 		
 		// ensure that window reference is unique in _popups list
 		var c_popup: _PopUpDef = _removePopup(window);

@@ -249,10 +249,18 @@ class BaseComponent extends Sprite {
 	/**
 	 * Replacement for width that can not be overriden.
 	 */
-	public var Width(default, set_Width): Float = 0;
+	private var defaultWidth: Float = 0;
+	private var _Width: Null<Float> = null;
+	public var Width(get_Width, set_Width): Float = 0;
+	private function get_Width(): Float {
+		if (_Width == null) {
+			return defaultWidth;
+		}
+		return _Width;
+	}
 	private function set_Width(v: Float): Float {
-		if (v != Width) {
-			Width = v;
+		if (v != _Width) {
+			_Width = v;
 			invalidSkin();
 			dispatchEvent(new Event(Event.RESIZE));
 		}
@@ -263,10 +271,18 @@ class BaseComponent extends Sprite {
 	/**
 	 * Replacement for height that can not be overriden.
 	 */
-	public var Height(default, set_Height): Float = 0;
+	private var defaultHeight: Float = 0;
+	private var _Height: Null<Float> = null;
+	public var Height(get_Height, set_Height): Float = 0;
+	private function get_Height(): Float {
+		if (_Height == null) {
+			return defaultHeight;
+		}
+		return _Height;
+	}
 	private function set_Height(v: Float): Float {
-		if (v != Height) {
-			Height = v;
+		if (v != _Height) {
+			_Height = v;
 			invalidSkin();
 			dispatchEvent(new Event(Event.RESIZE));
 		}
@@ -280,8 +296,18 @@ class BaseComponent extends Sprite {
 	 * @param	h	Height.
 	 */
 	public function setSize(w: Float, h: Float): Void {
-		Width = w;
-		Height = h;
+		var c_resize: Bool = false;
+		if (_Width != w) {
+			_Width = w;
+			c_resize = true;
+		}
+		if (_Height != h) {
+			_Height = h;
+			c_resize = true;
+		}
+		if (c_resize) {
+			dispatchEvent(new Event(Event.RESIZE));
+		}
 	}
 	
 	

@@ -44,4 +44,19 @@ class FWCore {
 		#end
 	}
 	
+	static public var defaultFontMultiplier: Float = 0.6;
+	static private var _fontMultipliers: Hash<Float> = new Hash<Float>();
+	
+	static public function addFontMultiplier(font: String, multiplier: Float): Void {
+		_fontMultipliers.set(font, multiplier);
+	}
+	
+	static public function getFontSize(?font: String): Int {
+		var c_multiplier: Float = defaultFontMultiplier;
+		if ((font != null) && _fontMultipliers.exists(font)) {
+			c_multiplier = _fontMultipliers.get(font);
+		}
+		return Math.floor(getHeightUnit() * c_multiplier);
+	}
+	
 }

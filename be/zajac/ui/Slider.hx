@@ -67,6 +67,13 @@ class Slider extends StyledComponent {
 	private function set_direction(v: String): String {
 		if (direction != v) {
 			direction = v;
+			if (direction == DIRECTION_HORIZONTAL) {
+				defaultWidth = FWCore.getHeightUnit() * 5;
+				defaultHeight = FWCore.getHeightUnit();
+			} else {
+				defaultWidth = FWCore.getHeightUnit();
+				defaultHeight = FWCore.getHeightUnit() * 5;
+			}
 			invalidSlider();
 		}
 		return v;
@@ -121,9 +128,6 @@ class Slider extends StyledComponent {
 	
 	public function new() {
 		super();
-		Width = FWCore.getHeightUnit() * 5;
-		Height = FWCore.getHeightUnit();
-		
 		direction = DIRECTION_HORIZONTAL;
 		maxValue = 100;
 		minValue = 0;

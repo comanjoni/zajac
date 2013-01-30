@@ -36,7 +36,7 @@ class Label extends StyledComponent {
 	@style public var autosize: Bool = false;
 	
 	@style public var textColor: Int = 0xffffff;
-	@style public var textSize: Int = 12;
+	@style public var textSize(get_textSize, default): Int;
 	@style public var font: String = 'Arial';
 	@style public var bold: Bool = false;
 	@style public var italic: Bool = false;
@@ -44,6 +44,10 @@ class Label extends StyledComponent {
 	@style public var align: String = ALIGN_LEFT;
 	@style public var leading: Float = 0;
 	@style public var letterSpacing: Float = 0;
+	
+	private function get_textSize(): Int {
+		return _getStyleProperty('textSize', FWCore.getFontSize(font));
+	}
 	
 	public var text(get_text, set_text): String;
 	private function get_text(): String {
@@ -61,8 +65,8 @@ class Label extends StyledComponent {
 	
 	public function new() {
 		super();
-		Width = FWCore.getHeightUnit() * 5;
-		Height = FWCore.getHeightUnit();
+		defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultHeight = FWCore.getHeightUnit();
 		text = '';
 	}
 	

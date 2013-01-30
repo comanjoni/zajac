@@ -35,7 +35,7 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		textField = new TextField();
 		textField.wordWrap = false;
 		textField.background = false;
-		textField.height = 20;
+		textField.height = FWCore.getHeightUnit();
 		textField.border = false;
 		textField.mouseEnabled = false;
 		textField.type = TextFieldType.DYNAMIC;
@@ -56,7 +56,7 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		#end
 		
 		c_format.color = c_client.color;
-		c_format.size = 12;
+		c_format.size = FWCore.getFontSize();
 
 		c_font = Assets.getFont('Arial');
 		if (c_font != null) {

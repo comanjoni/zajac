@@ -79,9 +79,11 @@ class CheckBox extends StyledComponent{
 	
 	public function new() {
 		super();
+		defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultHeight = FWCore.getHeightUnit();
 		
 		_tLabel = new TextField();
-		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size:14 } );
+		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
 		addChild(_tLabel);
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
