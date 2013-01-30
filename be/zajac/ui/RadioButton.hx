@@ -29,9 +29,7 @@ class RadioButton extends StyledComponent{
 	
 	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
 	private function get_buttonSize():Float {
-		var c_size:Float = FWCore.getHeightUnit();
-		if (Height > 0 && c_size > Height) c_size = Height;
-		return _getStyleProperty("buttonSize", c_size);
+		return Math.min(_getStyleProperty("buttonSize", FWCore.getHeightUnit()), Height);
 	}
 	
 	private var _tLabel:TextField;
