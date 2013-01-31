@@ -18,7 +18,7 @@ class Slider extends StyledComponent {
 	
 	@style public var backgroundColor: Int = 0xffffff;
 	@style public var borderColor: Int = 0x7e8082;
-	@style public var barSize: Int = -1;	//if barSize == -1 bar size is height / 3
+	@style public var barSize: Null<Int> = null;	//if barSize == null bar size is height / 3
 	@style public var roundness: Int = 10;
 	@style public var buttonBackgroundColor: Int = 0xeeeff0;
 	@style public var buttonBorderColor: Int = 0x7e8082;

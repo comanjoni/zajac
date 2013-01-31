@@ -28,7 +28,7 @@ class SliderSkin implements ISkin {
 		if (c_client.direction == Slider.DIRECTION_HORIZONTAL) c_buttonMaxSize = c_client.Height
 			else c_buttonMaxSize = c_client.Width;
 		
-		if (c_client.barSize > 0) {
+		if (c_client.barSize != null) {
 			if (c_client.barSize > c_buttonMaxSize) c_barSize = Math.floor( c_buttonMaxSize )
 				else c_barSize = c_client.barSize;
 		}else c_barSize = Math.round( c_buttonMaxSize / 3 );

@@ -86,22 +86,22 @@ class CheckBox extends StyledComponent{
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
+		addEventListener(MouseEvent.CLICK, 		onClick);
 		#if (!android && !ios)
 		addEventListener(MouseEvent.ROLL_OVER, 	onMouseOver);
 		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
 		buttonMode = true;
 		#end
 		
-		run();
 	}
 	
-	private function run():Void {
+	override private function initialize(): Void {
 		skinClass = CheckBoxSkin;
 		state = UP;
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void {
-		selected = !_selected;
+		state = getRightState(DOWN);
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void {
@@ -122,6 +122,10 @@ class CheckBox extends StyledComponent{
 	private function getRightState(state:String):String {
 		if (_selected) return "sel_" + state;
 		return state;
+	}
+	
+	private function onClick(e:MouseEvent):Void {
+		selected = !_selected;
 	}
 	
 }
