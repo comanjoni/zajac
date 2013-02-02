@@ -4,10 +4,12 @@ import be.zajac.ui.BaseComponent;
 import nme.Assets;
 import nme.display.DisplayObject;
 import nme.display.Graphics;
+import nme.display.Shape;
 import nme.events.Event;
 import nme.events.MouseEvent;
 import nme.text.Font;
 import nme.text.TextField;
+import nme.text.TextFieldAutoSize;
 import nme.text.TextFieldType;
 import nme.text.TextFormat;
 
@@ -33,22 +35,24 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		super.initialize();
 		
 		textField = new TextField();
+		textField.type = TextFieldType.DYNAMIC;
+		textField.autoSize = TextFieldAutoSize.LEFT;
 		textField.wordWrap = false;
 		textField.background = false;
-		textField.height = FWCore.getHeightUnit();
 		textField.border = false;
 		textField.mouseEnabled = false;
-		textField.type = TextFieldType.DYNAMIC;
 		addChild(textField);
 	}
 	
 	override public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
 		var c_client: ListItemRenderer = cast(client);
 		var c_textField: TextField = c_client.textField;
+		var c_gr: Graphics;
 		var c_font: Font;
 		var c_format: TextFormat;
-		var c_gr: Graphics = c_client.graphics;
+		var c_shape: Shape;
 		
+		// update text field
 		#if (cpp || neko)
 			c_format = c_textField.defaultTextFormat;
 		#else
@@ -66,9 +70,14 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		
 		c_textField.defaultTextFormat = c_format;
 		c_textField.width = c_client.Width;
-		c_textField.height = c_client.Height;
 		c_textField.text = c_client.data;
 		
+		c_textField.y = (c_client.Height - c_textField.height) / 2;
+		
+		// draw background
+		c_gr = c_client.graphics;
+		
+		c_gr.clear();
 		c_gr.beginFill(c_client.backgroundColor);
 		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
 		c_gr.endFill();
@@ -76,6 +85,32 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		c_gr.lineStyle(1, c_client.spacerColor, c_client.spacerAlpha);
 		c_gr.moveTo(0, c_client.Height - 1);
 		c_gr.lineTo(c_client.Width, c_client.Height - 1);
+		
+		// draw over state
+		if (states.exists(AbstractListItemRenderer.OVER)) {
+			c_shape = cast states.get(AbstractListItemRenderer.OVER);
+		} else {
+			c_shape = new Shape();
+			states.set(AbstractListItemRenderer.OVER, c_shape);
+		}
+		c_gr = c_shape.graphics;
+		c_gr.clear();
+		c_gr.beginFill(0xcbcbcb, 0.3);
+		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
+		c_gr.endFill();
+		
+		// draw selected state
+		if (states.exists(AbstractListItemRenderer.SELECTED)) {
+			c_shape = cast states.get(AbstractListItemRenderer.SELECTED);
+		} else {
+			c_shape = new Shape();
+			states.set(AbstractListItemRenderer.SELECTED, c_shape);
+		}
+		c_gr = c_shape.graphics;
+		c_gr.clear();
+		c_gr.beginFill(0xcbcbcb, 0.3);
+		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
+		c_gr.endFill();
 		
 	}
 	

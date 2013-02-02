@@ -6,6 +6,7 @@ import be.zajac.core.FWCore;
 import be.zajac.skins.PanelSkin;
 import be.zajac.ui.Slider;
 import be.zajac.ui.StyledComponent;
+import be.zajac.util.PointUtil;
 import nme.display.DisplayObject;
 import nme.display.Sprite;
 import nme.events.Event;
@@ -216,6 +217,7 @@ class Panel extends StyledComponent {
 	// mobile scroll methods
 	private var _lastGlobalPoint: Point;
 	private var _globalPoint: Point;
+	private var _dragging: Bool = false;
 	
 	private function _onMouseDown(evt: MouseEvent): Void {
 		_animator.stop();
@@ -228,6 +230,11 @@ class Panel extends StyledComponent {
 	
 	private function _onMouseMove(evt: MouseEvent): Void {
 		var c_point: Point = new Point(evt.stageX, evt.stageY);
+		
+		if (!_dragging && PointUtil.distance(_globalPoint, c_point) < 10) return;
+		mouseChildren = false;
+		_dragging = true;
+		
 		var c_value: Float, c_oldValue: Float;
 		var c_changed: Bool = false;
 		
@@ -278,6 +285,9 @@ class Panel extends StyledComponent {
 		
 		_lastGlobalPoint = null;
 		_globalPoint = null;
+		
+		mouseChildren = true;
+		_dragging = false;
 	}
 	// end mobile scroll methods
 	

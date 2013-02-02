@@ -13,7 +13,10 @@ import be.zajac.renderers.ListItemRenderer;
 
 class List extends Panel {
 
+	@style public var itemStyleName: String;
+	
 	private var _dirtyItems: Bool = true;
+	private var _dirtyItemsPosition: Bool = true;
 	
 	public function invalidItems(): Void {
 		if (_dirtyItems) return;
@@ -21,16 +24,39 @@ class List extends Panel {
 		invalidScroll();
 	}
 	
+	public function invalidItemsPosition(): Void {
+		if (_dirtyItemsPosition) return;
+		_dirtyItemsPosition = true;
+		invalidScroll();
+	}
+	
 	private var _itemComponents: Array<AbstractListItemRenderer>;
+	
+	private function _validateItemsPosition(): Bool {
+		if (_dirtyItemsPosition) {
+			if (_itemComponents != null) {
+				var c_y: Float = 0;
+				for (itemComp in _itemComponents) {
+					itemComp.y = c_y;
+					c_y += itemComp.Height;
+				}
+			}
+			
+			_dirtyItemsPosition = false;
+			
+			return true;
+		}
+		return false;
+	}
 	
 	private function _validateItems(): Bool {
 		if (_dirtyItems) {
 			var itemComp: AbstractListItemRenderer;
-			var c_y: Float = 0;
 			
 			if (_itemComponents != null) {
 				for (itemComp in _itemComponents) {
 					itemComp.removeEventListener(Event.SELECT, _onItemSelect);
+					itemComp.removeEventListener(Event.RESIZE, _onItemResize);
 					removeChild(itemComp);
 				}
 				_itemComponents = null;
@@ -38,32 +64,23 @@ class List extends Panel {
 			
 			if (items != null) {
 				_itemComponents = new Array<AbstractListItemRenderer>();
-				c_y = 0;
 				for (item in items) {
 					itemComp = Type.createInstance(itemRenderer, []);
+					itemComp.styleName = itemStyleName;
 					itemComp.data = item;
 					if (selectable && item == selectedItem) {
 						itemComp.selected = true;
 					}
 					itemComp.Width = Width;
-					itemComp.y = c_y;
 					_itemComponents.push(itemComp);
 					addChild(itemComp);
-					c_y += itemComp.Height;
 					itemComp.addEventListener(Event.SELECT, _onItemSelect);
+					itemComp.addEventListener(Event.RESIZE, _onItemResize);
 				}
 			}
 			
-			#if !(android || ios)
-				if (c_y > Height) {
-					var c_width: Float = Width - verticalSlider.Width;
-					for (itemComp in _itemComponents) {
-						itemComp.Width = c_width;
-					}
-				}
-			#end
-			
 			_dirtyItems = false;
+			_dirtyItemsPosition = true;
 			
 			return true;
 		}
@@ -72,7 +89,12 @@ class List extends Panel {
 	
 	override public function validate(): Void {
 		_validateItems();
+		_validateItemsPosition();
 		super.validate();
+	}
+	
+	private function _onItemResize(evt: Event): Void {
+		invalidItemsPosition();
 	}
 	
 	public var itemRenderer(default, set_itemRenderer): Class<AbstractListItemRenderer>;
@@ -216,7 +238,15 @@ class List extends Panel {
 		}
 	}
 	
-	public var selectable: Bool = true;
+	public var selectable(default, set_selectable): Bool = true;
+	private function set_selectable(v: Bool): Bool {
+		if (selectable == v) return v;
+		if (!v) {
+			selectedItem = null;
+		}
+		selectable = v;
+		return v;
+	}
 	
 	public function new() {
 		super();

@@ -1,18 +1,25 @@
 package be.zajac.renderers;
 import be.zajac.core.FWCore;
 import be.zajac.skins.ISkin;
+import be.zajac.ui.StyledComponent;
 import be.zajac.ui.BaseComponent;
 import nme.display.DisplayObject;
 import nme.events.MouseEvent;
 import nme.events.Event;
+import nme.geom.Point;
 
 /**
  * ...
  * @author Aleksandar Bogdanovic
  */
 
-class AbstractListItemRenderer extends BaseComponent, implements ISkin {
+class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 
+	inline static public var OUT:		String = 'out';
+	inline static public var OVER:		String = 'over';
+	inline static public var SELECTED:	String = 'selected';
+	
+	
 	public function new() {
 		super();
 		defaultWidth = FWCore.getHeightUnit() * 5;
@@ -20,42 +27,31 @@ class AbstractListItemRenderer extends BaseComponent, implements ISkin {
 	}
 	
 	override public function initialize(): Void {
-		#if (android || ios)
-			addEventListener(MouseEvent.MOUSE_DOWN, _onMouseDown);
-		#else
-			addEventListener(MouseEvent.CLICK, _onClick);
+		addEventListener(MouseEvent.CLICK, _onClick);
+		#if !(android || ios)
+		addEventListener(MouseEvent.ROLL_OVER, _onRollOver);
+		addEventListener(MouseEvent.ROLL_OUT, _onRollOut);
 		#end
 		skin = this;
+		state = OUT;
 	}
 	
-	// ios and android
-	private var _pressTimestamp: Float;
-	
-	private function _onMouseDown(evt: MouseEvent): Void {
-		_pressTimestamp = Date.now().getTime();
-		addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-		addEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
+	override private function get_state(): String {
+		if (selected) return SELECTED;
+		return state;
 	}
 	
-	private function _onMouseMove(evt: MouseEvent): Void {
-		_pressTimestamp = -1;
-		removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
-		removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
-	}
-	
-	private function _onMouseUp(evt: MouseEvent): Void {
-		if (_pressTimestamp > 0 && (Date.now().getTime() - _pressTimestamp) < 1000) {
-			dispatchEvent(new Event(Event.SELECT));
-		}
-		_onMouseMove(evt);
-	}
-	// end ios and android
-	
-	// desktop
 	private function _onClick(evt: MouseEvent): Void {
 		dispatchEvent(new Event(Event.SELECT));
 	}
-	// end desktop
+	
+	private function _onRollOver(evt: MouseEvent): Void {
+		state = OVER;
+	}
+	
+	private function _onRollOut(evt: MouseEvent): Void {
+		state = OUT;
+	}
 	
 	public var data(default, set_data): Dynamic;
 	private function set_data(v: Dynamic): Dynamic {

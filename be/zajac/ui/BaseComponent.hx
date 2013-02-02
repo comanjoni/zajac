@@ -9,20 +9,34 @@ import nme.Lib;
 
 private class BaseComonentUtil {
 	
-	static private var _componentUID: Int = 1;
-	/**
-	 * Unique identifier creator for BaseComponent.
-	 * @return	String unique identifier.
-	 */
+	//******************************
+	//		PRIVATE VARIABLES
+	//******************************
+	
+	static private var _componentUID: Int = 666;
+	static private var _invalidComponents: Hash<BaseComponent> = new Hash<BaseComponent>();
+	static private var _validator: Sprite;
+	
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
+	
+	// Unique identifier creator for BaseComponent.
 	static public function nextComponentUID(): String {
 		return StringTools.hex(_componentUID++);
 	}
 	
+	// Add component which changes should be validated on next enter frame event.
+	static public function invalidComponent(component: BaseComponent): Void {
+		if (_invalidComponents.exists(component.componentUID)) return;
+		_invalidComponents.set(component.componentUID, component);
+		_createValidator();
+	}
 	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
 
-	static private var _invalidComponents: Hash<BaseComponent> = new Hash<BaseComponent>();
-	static private var _validator: Sprite;
-	
 	static private function _validateComponents(evt: Event): Void {
 		var c_components: Hash<BaseComponent> = _invalidComponents;
 		_invalidComponents = new Hash<BaseComponent>();
@@ -47,15 +61,6 @@ private class BaseComonentUtil {
 		_validator = null;
 	}
 	
-	/**
-	 * Add component which changes should be validated on next enter frame event.
-	 * @param	component	Invalid ui component.
-	 */
-	static public function invalidComponent(component: BaseComponent): Void {
-		if (_invalidComponents.exists(component.componentUID)) return;
-		_invalidComponents.set(component.componentUID, component);
-		_createValidator();
-	}
 }
 
 /**
@@ -64,237 +69,94 @@ private class BaseComonentUtil {
  */
 class BaseComponent extends Sprite {
 	
-	/**
-	 * Unique component identiier in framework.
-	 */
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
+	
+	// Unique component identiier in framework.
 	public var componentUID(default, null): String;
 	
-	//used for enabled to remember mouseEnabled and mouseChildren values before disabled component disable them
+	// Current component state.
+	public var state(get_state, set_state): String;
+	
+	// Skin class.
+	public var skinClass(get_skinClass, set_skinClass): Class<ISkin>;
+	
+	// Component that draws states.
+	public var skin(get_skin, set_skin): ISkin;
+	
+	public var Width(get_Width, set_Width): Float;
+	public var Height(get_Height, set_Height): Float;
+	
+	public var enabled(default, set_enabled): Bool = true;
+	
+	//******************************
+	//		PRIVATE VARIABLES
+	//******************************
+	
+	// Hash map with skins for each state.
+	private var _states: Hash<DisplayObject>;
+	
+	// Current visible state.
+	private var _currentState: DisplayObject;
+	
+	private var _skinClass: Class<ISkin>;
+	private var _skin: ISkin;
+	
+	private var _dirtySkin: Bool = true;
+	private var _dirtyState: Bool = true;
+	
+	// Replacement for width that can not be overriden.
+	private var defaultWidth: Float = 0;
+	private var _Width: Null<Float> = null;
+	
+	// Replacement for height that can not be overriden.
+	private var defaultHeight: Float = 0;
+	private var _Height: Null<Float> = null;
+	
+	// Used for enabled to remember mouseEnabled and mouseChildren values before disabled component disable them
 	private var _originalMouseEnabled:Bool;
 	private var _originalMouseChildren:Bool;
 	
-	public var enabled(default, set_enabled): Bool = true;
-	public function set_enabled(v: Bool): Bool {
-		if (v != enabled) {
-			enabled = v;
-			if (v == true) {
-				mouseEnabled = _originalMouseEnabled;
-				mouseChildren = _originalMouseChildren;
-				transform.colorTransform = new ColorTransform();
-			}else {
-				transform.colorTransform = new ColorTransform(.4, .4, .4, 1, 100, 100, 100);
-				_originalMouseEnabled = mouseEnabled;
-				_originalMouseChildren = mouseChildren;
-				mouseEnabled = false;
-				mouseChildren = false;
-			}
-		}
-		return v;
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
+	
+	// Constructor.
+	public function new() {
+		super();
+		componentUID = BaseComonentUtil.nextComponentUID();
+		_states = new Hash<DisplayObject>();
+		invalid();
+		initialize();
 	}
 	
-		
-	
-	/**
-	 * Hash map of skins for each state.
-	 */
-	private var _states: Hash<DisplayObject>;
-	
-	/**
-	 * Current visible state.
-	 */
-	private var _currentState: DisplayObject;
-	
-	
-	/**
-	 * Add current component in validation list for validating on next enter frame.
-	 */
+	// Add current component in validation list for validating on next enter frame.
 	public function invalid(): Void {
 		BaseComonentUtil.invalidComponent(this);
 	}
 	
-	
-	private var _dirtySkin: Bool = true;
-	
-	/**
-	 * Invalidate skin.
-	 */
+	// Invalidate skin.
 	public function invalidSkin(): Void {
 		if (_dirtySkin) return;
 		_dirtySkin = true;
 		invalid();
 	}
 	
-	/**
-	 * Draw new skins for states.
-	 * @return	true if there was update, otherwise false.
-	 */
-	private function _validateSkin(): Bool {
-		if (_dirtySkin && skin != null) {
-			skin.draw(this, _states);
-			#if js
-				var c_state: DisplayObject;
-				for (key in _states.keys()) {
-					c_state = _states.get(key);
-					if (!contains(c_state)) {
-						addChildAt(c_state, 0);
-						c_state.alpha = 0;
-					}
-				}
-			#end
-			_dirtySkin = false;
-			return true;
-		}
-		return false;
-	}
-	
-	
-	private var _dirtyState: Bool = true;
-	
-	/**
-	 * Invalidate state.
-	 */
+	// Invalidate state.
 	public function invalidState(): Void {
 		if (_dirtyState) return;
 		_dirtyState = true;
 		invalid();
 	}
 	
-	/**
-	 * Set DisplayObject for current state.
-	 * @return
-	 */
-	private function _validateState(): Bool {
-		if (_dirtyState && _states.exists(state)) {
-			#if js
-				if (_currentState != null) {
-					_currentState.alpha = 0;
-				}
-				_currentState = _states.get(state);
-				_currentState.alpha = 1;
-			#else
-				if (_currentState != null) {
-					removeChild(_currentState);
-				}
-				_currentState = _states.get(state);
-				addChildAt(_currentState, 0);
-			#end
-			_dirtyState = false;
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Put component in valid state based on changes.
-	 */
+	// Put component in valid state based on changes.
 	public function validate(): Void {
-		_dirtyState = _validateSkin() || _dirtyState;
+		_validateSkin();
 		_validateState();
 	}
 	
-	
-	/**
-	 * Current component state.
-	 */
-	public var state(default, _setState): String;
-	private function _setState(v: String): String {
-		if (v != state) {
-			state = v;
-			invalidState();
-		}
-		return state;
-	}
-	
-	
-	
-	private var _skinClass: Class<ISkin>;
-	private var _skin: ISkin;
-	
-	/**
-	 * Skin class.
-	 */
-	public var skinClass(get_skinClass, set_skinClass): Class<ISkin>;
-	private function get_skinClass(): Class<ISkin> {
-		return _skinClass;
-	}
-	private function set_skinClass(v: Class<ISkin>): Class<ISkin> {
-		if (v != _skinClass) {
-			_skin = null;
-			_skinClass = v;
-			invalidSkin();
-		}
-		return v;
-	}
-	
-	/**
-	 * Component that draws states.
-	 */
-	public var skin(get_skin, set_skin): ISkin;
-	private function get_skin(): ISkin {
-		if (_skin == null && _skinClass != null) {
-			_skin = SingletonFactory.getInstance(_skinClass);
-		}
-		return _skin;
-	}
-	private function set_skin(v: ISkin): ISkin {
-		if (v != _skin) {
-			_skinClass = null;
-			_skin = v;
-			invalidSkin();
-		}
-		return _skin;
-	}
-	
-	
-	/**
-	 * Replacement for width that can not be overriden.
-	 */
-	private var defaultWidth: Float = 0;
-	private var _Width: Null<Float> = null;
-	public var Width(get_Width, set_Width): Float = 0;
-	private function get_Width(): Float {
-		if (_Width == null) {
-			return defaultWidth;
-		}
-		return _Width;
-	}
-	private function set_Width(v: Float): Float {
-		if (v != _Width) {
-			_Width = v;
-			invalidSkin();
-			dispatchEvent(new Event(Event.RESIZE));
-		}
-		return v;
-	}
-	
-	
-	/**
-	 * Replacement for height that can not be overriden.
-	 */
-	private var defaultHeight: Float = 0;
-	private var _Height: Null<Float> = null;
-	public var Height(get_Height, set_Height): Float = 0;
-	private function get_Height(): Float {
-		if (_Height == null) {
-			return defaultHeight;
-		}
-		return _Height;
-	}
-	private function set_Height(v: Float): Float {
-		if (v != _Height) {
-			_Height = v;
-			invalidSkin();
-			dispatchEvent(new Event(Event.RESIZE));
-		}
-		return v;
-	}
-	
-	
-	/**
-	 * Set Width and Height.
-	 * @param	w	Width.
-	 * @param	h	Height.
-	 */
+	// Set Width and Height.
 	public function setSize(w: Float, h: Float): Void {
 		var c_resize: Bool = false;
 		if (_Width != w) {
@@ -311,17 +173,122 @@ class BaseComponent extends Sprite {
 		}
 	}
 	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
 	
-	public function new() {
-		super();
-		componentUID = BaseComonentUtil.nextComponentUID();
-		_states = new Hash<DisplayObject>();
-		_dirtySkin = true;
-		_dirtyState = true;
-		invalid();
-		initialize();
+	// Overridable.
+	private function initialize(): Void { }
+	
+	//Draw new skins for states.
+	private function _validateSkin(): Bool {
+		if (_dirtySkin && skin != null) {
+			skin.draw(this, _states);
+			_dirtySkin = false;
+			_dirtyState = true;
+			return true;
+		}
+		return false;
 	}
 	
-	private function initialize(): Void { }
+	// Set DisplayObject for current state.
+	private function _validateState(): Bool {
+		if (_dirtyState) {
+			if (_currentState != null) {
+				removeChild(_currentState);
+			}
+			_currentState = _states.get(state);
+			if (_currentState != null) {
+				addChildAt(_currentState, 0);
+			}
+			_dirtyState = false;
+			return true;
+		}
+		return false;
+	}
+	
+	//******************************
+	//		GETTERS AND SETTERS
+	//******************************
+	
+	private function get_state(): String {
+		return state;
+	}
+	private function set_state(v: String): String {
+		if (v != state) {
+			state = v;
+			invalidState();
+		}
+		return state;
+	}
+	
+	private function get_skinClass(): Class<ISkin> {
+		return _skinClass;
+	}
+	private function set_skinClass(v: Class<ISkin>): Class<ISkin> {
+		if (v != _skinClass) {
+			_skin = null;
+			_skinClass = v;
+			invalidSkin();
+		}
+		return v;
+	}
+	
+	private function get_skin(): ISkin {
+		if (_skin == null && _skinClass != null) {
+			_skin = SingletonFactory.getInstance(_skinClass);
+		}
+		return _skin;
+	}
+	private function set_skin(v: ISkin): ISkin {
+		if (v != _skin) {
+			_skinClass = null;
+			_skin = v;
+			invalidSkin();
+		}
+		return _skin;
+	}
+	
+	private function get_Width(): Float {
+		return _Width == null ? defaultWidth : _Width;
+	}
+	private function set_Width(v: Float): Float {
+		if (v != _Width) {
+			_Width = v;
+			invalidSkin();
+			dispatchEvent(new Event(Event.RESIZE));
+		}
+		return v;
+	}
+	
+	private function get_Height(): Float {
+		return _Height == null ? defaultHeight : _Height;
+	}
+	private function set_Height(v: Float): Float {
+		if (v != _Height) {
+			_Height = v;
+			invalidSkin();
+			dispatchEvent(new Event(Event.RESIZE));
+		}
+		return v;
+	}
+	
+	private function set_enabled(v: Bool): Bool {
+		if (v != enabled) {
+			enabled = v;
+			if (v == true) {
+				mouseEnabled = _originalMouseEnabled;
+				mouseChildren = _originalMouseChildren;
+				transform.colorTransform = new ColorTransform();
+			}else {
+				transform.colorTransform = new ColorTransform(.4, .4, .4, 1, 100, 100, 100);
+				_originalMouseEnabled = mouseEnabled;
+				_originalMouseChildren = mouseChildren;
+				mouseEnabled = false;
+				mouseChildren = false;
+			}
+		}
+		return v;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package be.zajac.managers;
 import be.zajac.ui.BaseComponent;
+import be.zajac.util.ComponentUtil;
 import flash.display.Graphics;
 import nme.display.DisplayObjectContainer;
 import nme.display.Stage;
@@ -41,7 +42,7 @@ class PopUpManager {
 	}
 	
 	private static function _resizeModalBackground(modalBackground: Sprite): Void {
-		var c_dimensions: Point = _dimensions(modalBackground.parent);
+		var c_dimensions: Point = ComponentUtil.size(modalBackground.parent);
 		var g: Graphics = modalBackground.graphics;
 		g.clear();
 		g.beginFill(0, 0.2);
@@ -145,20 +146,6 @@ class PopUpManager {
 		}
 	}
 	
-	private static function _dimensions(obj: DisplayObject): Point {
-		if (Std.is(obj, Stage)) {
-			var s: Stage = cast(obj);
-			return new Point(s.stageWidth, s.stageHeight);
-		}
-		
-		if (Std.is(obj, BaseComponent)) {
-			var b: BaseComponent = cast(obj);
-			return new Point(b.Width, b.Height);
-		}
-		
-		return new Point(obj.width, obj.height);
-	}
-	
 	public static function addPopUp(parent: DisplayObjectContainer, window: DisplayObject, modal: Bool = false): Void {
 		if (window == null) return;
 		if (parent == null) {
@@ -189,8 +176,8 @@ class PopUpManager {
 		if (window == null) return;
 		if (window.parent == null) return;
 		
-		var c_parentDimension: Point = _dimensions(window.parent);
-		var c_windowDimension: Point = _dimensions(window);
+		var c_parentDimension: Point = ComponentUtil.size(window.parent);
+		var c_windowDimension: Point = ComponentUtil.size(window);
 		
 		window.x = (c_parentDimension.x - c_windowDimension.x) / 2;
 		window.y = (c_parentDimension.y - c_windowDimension.y) / 2;

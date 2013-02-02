@@ -3,6 +3,7 @@ import be.zajac.core.FWCore;
 import be.zajac.skins.PanelSkin;
 import be.zajac.ui.Slider;
 import be.zajac.ui.StyledComponent;
+import be.zajac.util.ComponentUtil;
 import nme.display.DisplayObject;
 import nme.display.Sprite;
 import nme.events.Event;
@@ -37,39 +38,9 @@ class Panel extends StyledComponent {
 		_contentSize = null;
 	}
 	
-	public function getContentSize(): Point {
-		//TODO: calculate if x and y are < 0, Maca have implemented with bitmapData
-		if (_contentSize != null) {
-			_contentSize.x = Math.max(content.width, _contentSize.x);
-			_contentSize.y = Math.max(content.height, _contentSize.y);
-		} else {
-			var c_do: Dynamic;
-			_contentSize = new Point(content.width, content.height);
-			for (index in 0...content.numChildren) {
-				c_do = content.getChildAt(index);
-				_contentSize.x = Math.max(_contentSize.x, c_do.x + c_do.Width);
-				_contentSize.y = Math.max(_contentSize.y, c_do.y + c_do.Height);
-			}
-		}
-		return _contentSize;
-	}
-	
-	
 	// scroll update methods
 	public function updateScrollRect(): Void {
-		var c_width: Float;
-		var c_height: Float;
-		if (horizontalSlider.visible) {
-			c_height = Height - horizontalSlider.Height;
-		} else {
-			c_height = Height;
-		}
-		if (verticalSlider.visible) {
-			c_width = Width - verticalSlider.Width;
-		} else {
-			c_width = Width;
-		}
-		content.scrollRect = new Rectangle(horizontalSlider.value, verticalSlider.value, c_width, c_height);
+		content.scrollRect = new Rectangle(horizontalSlider.value, verticalSlider.value, Width, Height);
 	}
 	
 	private var _dirtyScroll: Bool = true;
@@ -84,7 +55,7 @@ class Panel extends StyledComponent {
 		if (_dirtyScroll) {
 			var c_width: Float;
 			var c_height: Float;
-			var c_contentSize: Point = getContentSize();
+			var c_contentSize: Point = ComponentUtil.visibleContentSize(content);
 			
 			horizontalSlider.visible = c_contentSize.x > Width;
 			verticalSlider.visible = c_contentSize.y > Height;
