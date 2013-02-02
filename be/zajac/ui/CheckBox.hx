@@ -33,6 +33,10 @@ class CheckBox extends StyledComponent{
 		return Math.min(_getStyleProperty("buttonSize", FWCore.getHeightUnit()), Height);
 	}
 	
+	override private function get_state(): String {
+		if (selected) return 'sel_'+state;
+		return state;
+	}
 	
 	private var _tLabel:TextField;
 	private function get_tLabel():TextField {
@@ -66,8 +70,8 @@ class CheckBox extends StyledComponent{
 		_selected = value;
 		
 		
-		if (_isOver) state = getRightState(OVER)
-			else state = getRightState(UP);
+		if (_isOver) state = OVER
+			else state = UP;
 		
 		if (c_changed) dispatchEvent(new Event(Event.CHANGE));
 		return _selected;
@@ -101,27 +105,22 @@ class CheckBox extends StyledComponent{
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void {
-		state = getRightState(DOWN);
+		state = DOWN;
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void {
-		if (_isOver) state = getRightState(OVER)
-			else state = getRightState(UP);
+		if (_isOver) state = OVER
+			else state = UP;
 	}
 	
 	private function onMouseOver(e:MouseEvent):Void {
 		_isOver = true;
-		state = getRightState(OVER);
+		state = OVER;
 	}
 	
 	private function onMouseOut(e:MouseEvent):Void {
 		_isOver = false;
-		state = getRightState(UP);
-	}
-	
-	private function getRightState(state:String):String {
-		if (_selected) return "sel_" + state;
-		return state;
+		state = UP;
 	}
 	
 	private function onClick(e:MouseEvent):Void {

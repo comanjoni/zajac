@@ -10,8 +10,12 @@ import nme.display.Graphics;
  * @author Aleksandar Bogdanovic
  */
 
-class SliderSkin implements ISkin {
+class SliderSkin implements ISliderSkin {
 
+	public function getButtonSkinClass():Class<ISkin> {
+		return ButtonCircleSkin;
+	}
+	
 	public function new() { }
 	
 	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
@@ -20,8 +24,8 @@ class SliderSkin implements ISkin {
 		var c_gr: Graphics = c_client.graphics;
 		var c_buttonMaxSize:Float;
 		var c_barSize:Int;
-		var c_barX:Int = 0;
-		var c_barY:Int = 0;
+		var c_barX:Float = 0;
+		var c_barY:Float = 0;
 		var c_width:Float;
 		var c_height:Float;
 		
@@ -44,6 +48,13 @@ class SliderSkin implements ISkin {
 		}
 		
 		c_gr.clear();
+		if (c_client.borderColor != null) {
+			c_gr.lineStyle(1, c_client.borderColor);
+			c_barX += 0.5;
+			c_barY += 0.5;
+			c_width -= 0.5;
+			c_height -= 0.5;
+		}
 		c_gr.beginFill(c_client.backgroundColor);
 		if (c_client.roundness > 0) {
 			c_gr.drawRoundRect(c_barX, c_barY, c_width, c_height, c_client.roundness, c_client.roundness);

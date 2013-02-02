@@ -101,6 +101,7 @@ class RadioButton extends StyledComponent{
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
+		addEventListener(MouseEvent.CLICK, 		onClick);
 		#if (!android && !ios)
 		addEventListener(MouseEvent.ROLL_OVER, 	onMouseOver);
 		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
@@ -111,8 +112,8 @@ class RadioButton extends StyledComponent{
 	}
 	
 	private function onMouseDown(e:MouseEvent):Void {
-		//if (!_selected) state = DOWN;
-		selected = true;
+		if (!_selected) state = DOWN;
+		//selected = true;
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void {
@@ -129,6 +130,10 @@ class RadioButton extends StyledComponent{
 	private function onMouseOut(e:MouseEvent):Void {
 		_isOver = false;
 		if (!_selected) state = UP;
+	}
+	
+	private function onClick(e:MouseEvent):Void {
+		selected = true;
 	}
 	
 	

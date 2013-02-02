@@ -1,6 +1,7 @@
 package be.zajac.ui;
 import be.zajac.core.FWCore;
 import be.zajac.skins.ButtonCircleSkin;
+import be.zajac.skins.ISliderSkin;
 import be.zajac.skins.SliderSkin;
 import nme.events.Event;
 import nme.events.MouseEvent;
@@ -17,11 +18,10 @@ class Slider extends StyledComponent {
 	inline public static var DIRECTION_VERTICAL:	String = 'vertical';
 	
 	@style public var backgroundColor: Int = 0xffffff;
-	@style public var borderColor: Int = 0x7e8082;
+	@style public var borderColor: Null<Int> = 0x7e8082;
 	@style public var barSize: Null<Int> = null;	//if barSize == null bar size is height / 3
 	@style public var roundness: Int = 10;
-	@style public var buttonBackgroundColor: Int = 0xeeeff0;
-	@style public var buttonBorderColor: Int = 0x7e8082;
+	@style public var buttonStyleName: String;
 	
 	private var _dirtySlider: Bool = true;
 	
@@ -31,21 +31,17 @@ class Slider extends StyledComponent {
 		invalid();
 	}
 	
+	
 	private function _validateSlider(): Bool {
 		if (_dirtySlider) {
-			//button.roundness = roundness;
-			button.backgroundColor = buttonBackgroundColor;
-			button.borderColor = buttonBorderColor;
-			button.skinClass = ButtonCircleSkin;
+			button.styleName = buttonStyleName;
 			
 			switch (direction) {
 				case DIRECTION_HORIZONTAL:
 					button.Width = button.Height = Height;
-					//button.Width = Math.max(Height, Width * pageSize / (maxValue - minValue));
 					button.x = (Width - button.Width) * (value - minValue) / (maxValue - minValue);
 				case DIRECTION_VERTICAL:
 					button.Height = button.Width = Width;
-					//button.Height = Math.max(Width, Height * pageSize / (maxValue - minValue));
 					button.y = (Height - button.Height) * (value - minValue) / (maxValue - minValue);
 			}
 			
@@ -61,6 +57,19 @@ class Slider extends StyledComponent {
 	override public function validate(): Void {
 		super.validate();
 		_validateSlider();
+	}
+	
+	override private function _validateSkin(): Bool {
+		if (super._validateSkin()) {
+			if (Std.is(skin, ISliderSkin)) {
+				var c_skin: ISliderSkin = cast(skin);
+				if (c_skin.getButtonSkinClass != null) {
+					button.skinClass = c_skin.getButtonSkinClass();
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	public var direction(default, set_direction): String;
