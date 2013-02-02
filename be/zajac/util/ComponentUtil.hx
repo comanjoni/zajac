@@ -12,7 +12,7 @@ import nme.geom.Point;
 
 class ComponentUtil {
 
-	public function new() { }
+	private function new() { }
 	
 	static public function size(obj: DisplayObject): Point {
 		if (Std.is(obj, BaseComponent)) {

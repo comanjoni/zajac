@@ -8,7 +8,7 @@ import nme.geom.Point;
 
 class PointUtil {
 
-	public function new() {}
+	private function new() {}
 	
 	static public function distance(p1: Point, p2: Point): Float {
 		var x: Float = p1.x - p2.x;

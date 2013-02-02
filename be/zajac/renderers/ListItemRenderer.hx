@@ -19,17 +19,38 @@ import nme.text.TextFormat;
  */
 
 class ListItemRenderer extends AbstractListItemRenderer {
+	
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
 
 	@style public var color: Int = 0x333333;				//renderer text color
 	@style public var backgroundColor: Int = 0xffffff;		//backgroundColor
 	@style public var spacerColor: Int = 0;					//spacer color between renderers
 	@style public var spacerAlpha: Float = 0.1;				//spacer alpha
+	@style public var font: String = 'Arial';
 	
 	public var textField(default, null): TextField;
+	
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
 	
 	public function new() {
 		super();
 	}
+	
+	override public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
+		var c_client: ListItemRenderer = cast(client);
+		drawTextField(c_client);
+		drawBackground(c_client);
+		states.set(AbstractListItemRenderer.OVER, drawStateOVER(c_client, states.get(AbstractListItemRenderer.OVER)));
+		states.set(AbstractListItemRenderer.SELECTED, drawStateSELECTED(c_client, states.get(AbstractListItemRenderer.SELECTED)));
+	}
+	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
 	
 	override public function initialize(): Void {
 		super.initialize();
@@ -44,74 +65,65 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		addChild(textField);
 	}
 	
-	override public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
-		var c_client: ListItemRenderer = cast(client);
-		var c_textField: TextField = c_client.textField;
-		var c_gr: Graphics;
+	private function drawTextField(client: ListItemRenderer): Void {
+		var c_textField: TextField = client.textField;
 		var c_font: Font;
 		var c_format: TextFormat;
-		var c_shape: Shape;
 		
-		// update text field
 		#if (cpp || neko)
-			c_format = c_textField.defaultTextFormat;
+		c_format = c_textField.defaultTextFormat;
 		#else
-			c_format = c_textField.getTextFormat();
+		c_format = c_textField.getTextFormat();
 		#end
 		
-		c_format.color = c_client.color;
+		c_format.color = client.color;
 		c_format.size = FWCore.getFontSize();
 
-		c_font = Assets.getFont('Arial');
+		c_font = Assets.getFont(client.font);
 		if (c_font != null) {
 			c_format.font = c_font.fontName;
 			c_textField.embedFonts = true;
 		}
 		
 		c_textField.defaultTextFormat = c_format;
-		c_textField.width = c_client.Width;
-		c_textField.text = c_client.data;
+		c_textField.width = client.Width;
+		c_textField.text = client.data;
 		
-		c_textField.y = (c_client.Height - c_textField.height) / 2;
-		
-		// draw background
-		c_gr = c_client.graphics;
+		c_textField.y = (client.Height - c_textField.height) / 2;
+	}
+	
+	private function drawBackground(client: ListItemRenderer): Void {
+		var c_gr: Graphics = client.graphics;
 		
 		c_gr.clear();
-		c_gr.beginFill(c_client.backgroundColor);
-		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
+		c_gr.beginFill(client.backgroundColor);
+		c_gr.drawRect(0, 0, client.Width, client.Height);
 		c_gr.endFill();
 		
-		c_gr.lineStyle(1, c_client.spacerColor, c_client.spacerAlpha);
-		c_gr.moveTo(0, c_client.Height - 1);
-		c_gr.lineTo(c_client.Width, c_client.Height - 1);
-		
-		// draw over state
-		if (states.exists(AbstractListItemRenderer.OVER)) {
-			c_shape = cast states.get(AbstractListItemRenderer.OVER);
-		} else {
+		c_gr.lineStyle(1, client.spacerColor, client.spacerAlpha);
+		c_gr.moveTo(0, client.Height - 1);
+		c_gr.lineTo(client.Width, client.Height - 1);
+	}
+	
+	private function drawStateOVER(client: ListItemRenderer, state: DisplayObject): DisplayObject {
+		var c_shape: Shape;
+		if (state == null) {
 			c_shape = new Shape();
-			states.set(AbstractListItemRenderer.OVER, c_shape);
+		} else  {
+			c_shape = cast(state);
 		}
-		c_gr = c_shape.graphics;
+		
+		var c_gr: Graphics = c_shape.graphics;
 		c_gr.clear();
 		c_gr.beginFill(0xcbcbcb, 0.3);
-		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
+		c_gr.drawRect(0, 0, client.Width, client.Height);
 		c_gr.endFill();
 		
-		// draw selected state
-		if (states.exists(AbstractListItemRenderer.SELECTED)) {
-			c_shape = cast states.get(AbstractListItemRenderer.SELECTED);
-		} else {
-			c_shape = new Shape();
-			states.set(AbstractListItemRenderer.SELECTED, c_shape);
-		}
-		c_gr = c_shape.graphics;
-		c_gr.clear();
-		c_gr.beginFill(0xcbcbcb, 0.3);
-		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
-		c_gr.endFill();
-		
+		return c_shape;
+	}
+	
+	private function drawStateSELECTED(client: ListItemRenderer, state: DisplayObject): DisplayObject {
+		return drawStateOVER(client, state);
 	}
 	
 }
