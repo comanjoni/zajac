@@ -7,20 +7,26 @@ package be.zajac.containers;
  */
 
 class Panel extends be.zajac.ui.StyledComponent {
+	
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
 
 	var backgroundColor: Int;
 	var backgroundAlpha: Float;
-	var borderColor: Int;
+	var borderColor: Null<Int>;
+	var scrollSize: Float;
+	
+	var verticalScroll: be.zajac.ui.Scroll;
+	var horizontalScroll: be.zajac.ui.Scroll;
 	
 	var mouseWheelStep: Float;
 	
-	var elasticEdges: Bool;
+	public var contentRect(get_contentRect, null): nme.geom.Rectangle;
 	
-	var content(default, null): nme.display.Sprite;
-	var verticalSlider(default, null): be.zajac.ui.Slider;
-	var horizontalSlider(default, null): be.zajac.ui.Slider;
-	
-	function getContentSize(): nme.geom.Point;
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
 	
 	function updateScrollRect(): Void;
 	

@@ -9,17 +9,38 @@ import nme.display.Graphics;
  * @author Aleksandar Bogdanovic
  */
 
-class PanelSkin implements ISkin {
+class PanelSkin implements IPanelSkin {
 
-	public function new() {
+	public function new() { }
+	
+	public function getVScrollSkinClass(): Class<ISkin> {
+		return ScrollSkin;
+	}
+	public function getHScrollSkinClass(): Class<ISkin> {
+		return ScrollSkin;
 	}
 	
 	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
 		var c_client: Panel = cast(client);
-		var c_gr: Graphics = c_client.graphics;
+		drawBackground(c_client);
+	}
+	
+	private function drawBackground(client: Panel): Void {
+		var c_x: Float = 0;
+		var c_y: Float = 0;
+		var c_width: Float = client.Width;
+		var c_height: Float = client.Height;
+		var c_gr: Graphics = client.graphics;
 		
-		c_gr.beginFill(c_client.backgroundColor, c_client.backgroundAlpha);
-		c_gr.drawRect(0, 0, c_client.Width, c_client.Height);
+		c_gr.beginFill(client.backgroundColor, client.backgroundAlpha);
+		if (client.borderColor != null) {
+			c_gr.lineStyle(1, client.borderColor);
+			c_x += 0.5;
+			c_y += 0.5;
+			c_width -= 1;
+			c_height -= 1;
+		}
+		c_gr.drawRect(c_x, c_y, c_width, c_height);
 		c_gr.endFill();
 	}
 	

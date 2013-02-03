@@ -101,8 +101,8 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		c_gr.endFill();
 		
 		c_gr.lineStyle(1, client.spacerColor, client.spacerAlpha);
-		c_gr.moveTo(0, client.Height - 1);
-		c_gr.lineTo(client.Width, client.Height - 1);
+		c_gr.moveTo(0, client.Height - 0.5);
+		c_gr.lineTo(client.Width, client.Height - 0.5);
 	}
 	
 	private function drawStateOVER(client: ListItemRenderer, state: DisplayObject): DisplayObject {

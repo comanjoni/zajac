@@ -160,7 +160,7 @@ class List extends Panel {
 			if (selectable && item == selectedItem) {
 				itemComp.selected = true;
 			}
-			itemComp.Width = Width;
+			itemComp.Width = contentRect.width;
 			_itemComponents.push(itemComp);
 			addChild(itemComp);
 			itemComp.addEventListener(Event.SELECT, _onItemSelect);
