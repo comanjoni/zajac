@@ -258,6 +258,7 @@ class Panel extends StyledComponent {
 	}
 	
 	private function _onMouseWheel(evt: MouseEvent): Void {
+		if (!enabled) return;
 		if (!evt.ctrlKey && verticalScroll.visible) {
 			verticalScroll.value += mouseWheelStep * ((evt.delta < 0) ? 1 : -1);
 			updateScrollRect();

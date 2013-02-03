@@ -4,6 +4,7 @@ import be.zajac.skins.ISkin;
 import nme.display.Sprite;
 import nme.display.DisplayObject;
 import nme.events.Event;
+import nme.events.MouseEvent;
 import nme.geom.ColorTransform;
 import nme.Lib;
 
@@ -85,8 +86,13 @@ class BaseComponent extends Sprite {
 	// Component that draws states.
 	public var skin(get_skin, set_skin): ISkin;
 	
+	// Replacement for width that can not be overriden.
 	public var Width(get_Width, set_Width): Float;
+	public var defaultWidth: Float = 0;
+	
+	// Replacement for height that can not be overriden.
 	public var Height(get_Height, set_Height): Float;
+	public var defaultHeight: Float = 0;
 	
 	public var enabled(default, set_enabled): Bool = true;
 	
@@ -106,12 +112,7 @@ class BaseComponent extends Sprite {
 	private var _dirtySkin: Bool = true;
 	private var _dirtyState: Bool = true;
 	
-	// Replacement for width that can not be overriden.
-	private var defaultWidth: Float = 0;
 	private var _Width: Null<Float> = null;
-	
-	// Replacement for height that can not be overriden.
-	private var defaultHeight: Float = 0;
 	private var _Height: Null<Float> = null;
 	
 	// Used for enabled to remember mouseEnabled and mouseChildren values before disabled component disable them

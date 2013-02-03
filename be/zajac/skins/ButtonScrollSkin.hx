@@ -24,7 +24,7 @@ class ButtonScrollSkin implements ISkin {
 		c_gr.clear();
 		c_gr.beginFill(client.backgroundColor);
 		
-		if (client.borderColor >= 0) {
+		if (client.borderColor != null) {
 			c_gr.lineStyle(1, client.borderColor);
 			c_x = 0.5;
 			c_y = 0.5;

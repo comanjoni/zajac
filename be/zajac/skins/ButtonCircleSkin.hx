@@ -46,7 +46,7 @@ class ButtonCircleSkin implements ISkin{
 		c_gr = c_client.graphics;
 		c_gr.clear();
 		c_gr.beginFill(c_client.backgroundColor);
-		if (c_client.borderColor > 0) c_gr.lineStyle(1, c_client.borderColor);
+		if (c_client.borderColor != null) c_gr.lineStyle(1, c_client.borderColor);
 		c_gr.drawCircle(c_buttonX, c_buttonY, c_buttonSize);
 		c_gr.endFill();
 		

@@ -86,6 +86,8 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		}
 		
 		c_textField.defaultTextFormat = c_format;
+		c_textField.setTextFormat(c_format);
+		
 		c_textField.width = client.Width;
 		c_textField.text = client.data;
 		

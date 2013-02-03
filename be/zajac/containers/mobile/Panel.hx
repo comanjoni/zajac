@@ -267,6 +267,7 @@ class Panel extends StyledComponent {
 	}
 	
 	private function _onMouseDown(evt: MouseEvent): Void {
+		if (!enabled) return;
 		_stopAnimation();
 		_dragPoint = new Point(evt.stageX, evt.stageY);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
@@ -274,6 +275,7 @@ class Panel extends StyledComponent {
 	}
 	
 	private function _onMouseMove(evt: MouseEvent): Void {
+		if (!enabled) return;
 		var c_point: Point = new Point(evt.stageX, evt.stageY);
 		
 		if (!_dragging && PointUtil.distance(_dragPoint, c_point) < 10) return;
@@ -296,6 +298,7 @@ class Panel extends StyledComponent {
 	}
 	
 	private function _onMouseUp(evt: MouseEvent): Void {
+		if (!enabled) return;
 		stage.removeEventListener(MouseEvent.MOUSE_MOVE, _onMouseMove);
 		stage.removeEventListener(MouseEvent.MOUSE_UP, _onMouseUp);
 		_content.mouseChildren = true;

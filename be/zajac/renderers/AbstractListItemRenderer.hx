@@ -83,14 +83,17 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 	//******************************
 	
 	private function _onClick(evt: MouseEvent): Void {
+		if (!enabled) return;
 		dispatchEvent(new Event(Event.SELECT));
 	}
 	
 	private function _onRollOver(evt: MouseEvent): Void {
+		if (!enabled) return;
 		state = OVER;
 	}
 	
 	private function _onRollOut(evt: MouseEvent): Void {
+		if (!enabled) return;
 		state = OUT;
 	}
 	

@@ -12,79 +12,103 @@ import nme.text.TextFormatAlign;
  * @author Ilic S Stojan
  */
 
-class Button extends StyledComponent{
+class Button extends StyledComponent {
 
 	inline public static var UP:	String = 'up';
 	inline public static var OVER:	String = 'over';
 	inline public static var DOWN:	String = 'down';
 	
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
+	
 	@style public var color: Int = 0;			//text color
 	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
 	@style public var roundness: Int = 0;
-	@style public var borderColor: Int = -1;
+	@style public var borderColor: Null<Int> = 0xbfc0c2;
 	
+	public var labelField(default, null): TextField;
 	
-	private var _tLabel:TextField;
-	private function get_tLabel():TextField {
-		return _tLabel;
-	}
-	public var labelField(get_tLabel, null):TextField;
+	public var label(default, set_label): String = '';
+	
+	//******************************
+	//		PRIVATE VARIABLES
+	//******************************
 	
 	private var _isOver:Bool;
 	
-	private var _label:String;
-	private function get_label():String {
-		return _label;
-	}
-	private function set_label(value:String):String {
-		if (value == null) _label = ""
-			else _label = value;
-		_tLabel.text = _label;
-		return _label;
-	}
-	public var label(get_label, set_label):String;
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultWidth = FWCore.getHeightUnit();
 		defaultHeight = FWCore.getHeightUnit();
-		
-		_tLabel = new TextField();
-		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.CENTER, multiline:false, autoSize:TextFieldAutoSize.CENTER, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
-		addChild(_tLabel);
-		
-		skinClass = ButtonSkin;
-		state = UP;
+		mouseChildren = false;
+	}
+	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
+	
+	override private function initialize(): Void {
+		labelField = new TextField();
+		labelField.autoSize = TextFieldAutoSize.LEFT;
+		labelField.multiline = false;
+		labelField.selectable = false;
+		labelField.mouseEnabled = false;
+		TextFieldUtil.fillFieldFromObject(labelField, { align: TextFormatAlign.LEFT, size: FWCore.getFontSize() } );
+		addChild(labelField);
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
-		#if (!android && !ios)
-		addEventListener(MouseEvent.ROLL_OVER, 	onMouseOver);
-		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
-		buttonMode = true;
+		#if !(android && ios)
+		addEventListener(MouseEvent.MOUSE_OVER, 	onMouseOver);
+		addEventListener(MouseEvent.MOUSE_OUT, 	onMouseOut);
+		buttonMode = useHandCursor = true;
 		#end
+		
+		skinClass = ButtonSkin;
+		state = UP;
 	}
 	
-	override public function validate():Void {
-		super.validate();
-		addChild(_tLabel);
+	//******************************
+	//		GETTERS AND SETTERS
+	//******************************
+	
+	private function set_label(value: String): String {
+		if (value != label) {
+			label = value;
+			labelField.text = label;
+			defaultWidth = labelField.width + FWCore.getHeightUnit();
+			invalidSkin();
+		}
+		return value;
 	}
+	
+	//******************************
+	//		EVENT LISTENERS
+	//******************************
 	
 	private function onMouseDown(e:MouseEvent):Void {
+		if (!enabled) return;
 		state = DOWN;
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void {
-		if (_isOver) state = OVER
-			else state = UP;
+		if (!enabled) return;
+		state = _isOver ? OVER : UP;
 	}
 	
 	private function onMouseOver(e:MouseEvent):Void {
+		if (!enabled) return;
 		_isOver = true;
 		state = OVER;
 	}
 	
 	private function onMouseOut(e:MouseEvent):Void {
+		if (!enabled) return;
 		_isOver = false;
 		state = UP;
 	}
