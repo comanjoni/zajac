@@ -3,6 +3,7 @@ import be.zajac.core.FWCore;
 import be.zajac.skins.ButtonSkin;
 import be.zajac.util.TextFieldUtil;
 import nme.events.MouseEvent;
+import nme.events.TouchEvent;
 import nme.text.TextField;
 import nme.text.TextFieldAutoSize;
 import nme.text.TextFormatAlign;
@@ -61,11 +62,16 @@ class Button extends StyledComponent {
 		TextFieldUtil.fillFieldFromObject(labelField, { align: TextFormatAlign.LEFT, size: FWCore.getFontSize() } );
 		addChild(labelField);
 		
+		#if (android || ios)
+		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
+		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
+		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
+		addEventListener(TouchEvent.TOUCH_OUT,	onTouchOut);
+		#else
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
-		#if !(android && ios)
-		addEventListener(MouseEvent.MOUSE_OVER, 	onMouseOver);
-		addEventListener(MouseEvent.MOUSE_OUT, 	onMouseOut);
+		addEventListener(MouseEvent.ROLL_OVER, 	onMouseOver);
+		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
 		buttonMode = useHandCursor = true;
 		#end
 		
@@ -91,6 +97,30 @@ class Button extends StyledComponent {
 	//		EVENT LISTENERS
 	//******************************
 	
+	#if (android || ios)
+	
+	private function onTouchBegin(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = DOWN;
+	}
+	
+	private function onTouchEnd(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = UP;
+	}
+	
+	private function onTouchOver(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = DOWN;
+	}
+	
+	private function onTouchOut(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = UP;
+	}
+	
+	#else
+	
 	private function onMouseDown(e:MouseEvent):Void {
 		if (!enabled) return;
 		state = DOWN;
@@ -112,5 +142,7 @@ class Button extends StyledComponent {
 		_isOver = false;
 		state = UP;
 	}
+	
+	#end
 	
 }
