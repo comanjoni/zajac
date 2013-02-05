@@ -35,8 +35,8 @@ import be.zajac.core.StyleManager;
 	
 	// Constructor.
 	public function new() {
-		super();
 		_style = StyleManager.getStyle(this);
+		super();
 	}
 	
 	//******************************
