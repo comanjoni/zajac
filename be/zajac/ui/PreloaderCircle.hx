@@ -20,6 +20,7 @@ class PreloaderCircle extends StyledComponent{
 	@style public var linear	: Bool = true;
 	
 	private var _angle:Float = 0;
+	private var _stableFrames:Int = 2;//how many frames to wait before next turn
 	
 	//******************************
 	//		PUBLIC METHODS
@@ -41,8 +42,12 @@ class PreloaderCircle extends StyledComponent{
 		removeEventListener(Event.ENTER_FRAME, onFrame);
 	}
 	
-	private function onFrame(evt:Event):Void{
-		rotation -= _angle;
+	private var _currentFrame:Int = 0;
+	private function onFrame(evt:Event):Void {
+		if (++_currentFrame >= _stableFrames) {
+			rotation -= _angle;
+			_currentFrame -= _stableFrames;
+		}
 	}
 
 	//******************************
@@ -54,6 +59,11 @@ class PreloaderCircle extends StyledComponent{
 		start();
 	}
 	
+	override public function validate():Void {
+		super.validate();
+		draw();
+	}
+	
 	private function draw():Void{
 		var i:Int;
 		var c_x:Float;
@@ -62,7 +72,11 @@ class PreloaderCircle extends StyledComponent{
 		var c_circRadius:Int;
 		
 		_angle = 360 / segments;
-		
+			//calculate how fast loader will be move
+		if (stage != null) _stableFrames = Math.ceil( stage.frameRate / segments )
+			else _stableFrames = Math.ceil( 30 / segments );
+		_stableFrames = cast(Math.max(2, Math.min(_stableFrames, 5) ), Int);
+			
 		graphics.clear();
 		graphics.beginFill(color);
 		
