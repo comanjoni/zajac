@@ -15,53 +15,38 @@ import nme.text.TextFieldType;
 
 class TextInput extends StyledComponent {
 
+	inline public static var ALIGN_LEFT: String = 'left';
+	inline public static var ALIGN_CENTER: String = 'center';
+	inline public static var ALIGN_RIGHT: String = 'right';
+
 	inline public static var FOCUSIN:		String = 'focusin';
 	inline public static var FOCUSOUT:		String = 'focusout';
 	inline public static var TOUCH:			String = 'touch';
 	
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
+	
 	@style public var textColor: Int = 0;
-	@style public var textSize(get_textSize, default): Int;
 	@style public var font: String = 'Arial';
-	@style public var bold: Bool = false;
-	@style public var italic: Bool = false;
-	@style public var underline: Bool = false;
-	@style public var leading: Float = 0;
+	@style public var align: String = ALIGN_LEFT;
 	@style public var letterSpacing: Float = 0;
-	
-	@style public var backgroundColor: Int = 0xffffff;
-	
-	private function get_textSize(): Int {
-		return _getStyleProperty('textSize', FWCore.getFontSize(font));
-	}
+	@style public var textSize(get_textSize, default): Int;
+	@style public var backgroundColor: Null<Int> = 0xffffff;
+	@style public var roundness: Int = 0;
+	@style public var borderColor: Null<Int> = 0xbfc0c2;
+	@style public var focusColor: Null<Int> = 0xa4d4ff;
 	
 	public var displayAsPassword(default, set_displayAsPassword): Bool;
-	private function set_displayAsPassword(v: Bool): Bool {
-		if (displayAsPassword != v) {
-			displayAsPassword = v;
-			invalidSkin();
-		}
-		return v;
-	}
-	
 	public var maxChars(get_maxChars, set_maxChars): Int;
-	private function get_maxChars(): Int {
-		return textField.maxChars;
-	}
-	private function set_maxChars(v: Int): Int {
-		textField.maxChars = v;
-		return v;
-	}
 	
 	public var text(get_text, set_text): String;
-	private function get_text(): String {
-		return textField.text;
-	}
-	private function set_text(v: String): String {
-		textField.text = v;
-		return v;
-	}
 	
 	public var textField(default, null): TextField;
+	
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
 	
 	public function new() {
 		super();
@@ -74,13 +59,10 @@ class TextInput extends StyledComponent {
 		addChild(textField);
 		textField.background = false;
 		textField.border = false;
-		textField.text = '';
 		textField.wordWrap = false;
 		textField.multiline = false;
 		textField.type = TextFieldType.INPUT;
-		textField.autoSize = TextFieldAutoSize.NONE;
-		
-		state = FOCUSOUT;
+		textField.text = '';
 		
 		textField.addEventListener(FocusEvent.FOCUS_IN, _onFocusIn);
 		textField.addEventListener(FocusEvent.FOCUS_OUT, _onFocusOut);
@@ -93,8 +75,47 @@ class TextInput extends StyledComponent {
 		textField.addEventListener(Event.CHANGE, _onTextChange);
 		#end
 		
+		state = FOCUSOUT;
+		
 		skinClass = TextInputSkin;
 	}
+	
+	//******************************
+	//		GETTERS AND SETTERS
+	//******************************
+	
+	private function get_textSize(): Int {
+		return _getStyleProperty('textSize', FWCore.getFontSize(font));
+	}
+	private function set_displayAsPassword(v: Bool): Bool {
+		if (displayAsPassword != v) {
+			displayAsPassword = v;
+			invalidSkin();
+		}
+		return v;
+	}
+	
+	private function get_maxChars(): Int {
+		return textField.maxChars;
+	}
+	
+	private function set_maxChars(v: Int): Int {
+		textField.maxChars = v;
+		return v;
+	}
+	
+	private function get_text(): String {
+		return textField.text;
+	}
+	
+	private function set_text(v: String): String {
+		textField.text = v;
+		return v;
+	}
+	
+	//******************************
+	//		EVENT LISTENERS
+	//******************************
 	
 	private function _onFocusIn(evt: FocusEvent): Void {
 		if (state != TOUCH) {

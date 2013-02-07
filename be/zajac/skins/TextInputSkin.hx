@@ -9,6 +9,7 @@ import nme.text.Font;
 import nme.text.TextField;
 import nme.text.TextFieldAutoSize;
 import nme.text.TextFormat;
+import nme.text.TextFormatAlign;
 
 /**
  * ...
@@ -23,6 +24,7 @@ class TextInputSkin implements ISkin {
 		var c_textField: TextField = client.textField;
 		var c_font: Font;
 		var c_format: TextFormat;
+		var c_height: Float;
 		
 		#if (cpp || neko)
 			c_format = c_textField.defaultTextFormat;
@@ -30,14 +32,19 @@ class TextInputSkin implements ISkin {
 			c_format = c_textField.getTextFormat();
 		#end
 		
-		c_format.color = client.textColor;
-		c_format.bold = client.bold;
-		c_format.italic = client.italic;
-		c_format.leading = client.leading;
+		c_textField.textColor = c_format.color = client.textColor;
 		c_format.letterSpacing = client.letterSpacing;
 		c_format.size = client.textSize;
-		c_format.underline = client.underline;
-
+		
+		switch (client.align) {
+			case TextInput.ALIGN_LEFT:
+				c_format.align = TextFormatAlign.LEFT;
+			case TextInput.ALIGN_RIGHT:
+				c_format.align = TextFormatAlign.RIGHT;
+			default:
+				c_format.align = TextFormatAlign.CENTER;
+		}
+		
 		if (client.font != null) {
 			c_font = Assets.getFont(client.font);
 			if (c_font != null) {
@@ -47,88 +54,100 @@ class TextInputSkin implements ISkin {
 		}
 		
 		c_textField.defaultTextFormat = c_format;
+		c_textField.setTextFormat(c_format);
 		
 		c_textField.displayAsPassword = client.displayAsPassword;
 		
-		if (client.Width > 0) {
-			c_textField.width = client.Width;
-		} else {
-			client.Width = c_textField.width;
-		}
-		if (client.Height > 0) {
-			c_textField.height = client.Height;
-		} else {
-			client.Height = c_textField.height;
-		}
-		
-		#if (!flash)
+		c_textField.autoSize = TextFieldAutoSize.LEFT;
 		c_textField.text = c_textField.text;
-		#end
+		c_height = c_textField.height;
+		c_textField.autoSize = TextFieldAutoSize.NONE;
+		c_textField.height = c_height;
+		
+		c_textField.width = client.Width;
+		c_textField.y = (client.Height - c_textField.height) / 2;
 	}
 	
-	private function drawBackgound(client: TextInput): Void {
+	private function drawBackground(client: TextInput): Void {
+		if (client.backgroundColor == null && client.borderColor == null) return;
+		
 		var c_gr: Graphics = client.graphics;
+		var c_x: Float = 0;
+		var c_y: Float = 0;
+		var c_width: Float = client.Width;
+		var c_height: Float = client.Height;
+		
 		c_gr.clear();
-		c_gr.beginFill(client.backgroundColor);
-		c_gr.drawRect(0, 0, client.Width, client.Height);
+		if (client.backgroundColor != null) {
+			c_gr.beginFill(client.backgroundColor);
+		}
+		
+		if (client.borderColor != null) {
+			c_gr.lineStyle(1, client.borderColor);
+			c_x = 0.5;
+			c_y = 0.5;
+			c_width -= 1;
+			c_height -= 1;
+		}
+		
+		if (client.roundness > 0) {
+			c_gr.drawRoundRect(c_x, c_y, c_width, c_height, client.roundness, client.roundness);
+		} else {
+			c_gr.drawRect(c_x, c_y, c_width, c_height);
+		}
+			
 		c_gr.endFill();
 	}
 	
 	private function drawStateFOCUSIN(client: TextInput, state: DisplayObject): DisplayObject {
 		var c_shape: Shape;
+		var c_gr: Graphics;
+		
 		if (state == null) {
 			c_shape = new Shape();
 		} else  {
 			c_shape = cast(state);
 		}
 		
-		var c_gr: Graphics = c_shape.graphics;
+		c_gr = c_shape.graphics;
+		c_gr.clear();
+		c_gr.lineStyle(2, client.focusColor, 1);
 		
-		c_gr.lineStyle(1, 0xff0000);
-		c_gr.lineTo(0, 0);
-		c_gr.lineTo(client.Width, 0);
-		c_gr.lineTo(client.Width, client.Height);
-		c_gr.lineTo(0, client.Height);
-		c_gr.lineTo(0, 0);
+		if (client.roundness > 0) {
+			c_gr.drawRoundRect(0, 0, client.Width, client.Height, client.roundness, client.roundness);
+		} else {
+			c_gr.drawRect(0, 0, client.Width, client.Height);
+		}
 		c_gr.endFill();
 		
 		return c_shape;
 	}
 	
 	private function drawStateFOCUSOUT(client: TextInput, state: DisplayObject): DisplayObject {
-		var c_shape: Shape;
-		if (state == null) {
-			c_shape = new Shape();
-		} else  {
-			c_shape = cast(state);
-		}
-		
-		var c_gr: Graphics = c_shape.graphics;
-		
-		// it's empty
-		
-		return c_shape;
+		return null;
 	}
 	
 	private function drawStateTOUCH(client: TextInput, state: DisplayObject): DisplayObject {
 		var c_shape: Shape;
+		var c_gr: Graphics;
+		
 		if (state == null) {
 			c_shape = new Shape();
 		} else  {
 			c_shape = cast(state);
 		}
 		
-		var c_gr: Graphics = c_shape.graphics;
-		
 		c_gr = c_shape.graphics;
-		c_gr.beginFill(0x0000ff);
-		c_gr.drawRect(0, 0, client.Width, client.Height);
-		c_gr.lineStyle(1, 0x00ff00);
-		c_gr.lineTo(0, 0);
-		c_gr.lineTo(client.Width, 0);
-		c_gr.lineTo(client.Width, client.Height);
-		c_gr.lineTo(0, client.Height);
-		c_gr.lineTo(0, 0);
+		c_gr.clear();
+		c_gr.lineStyle(2, client.focusColor, 0,5);
+		c_gr.beginFill(client.focusColor);
+		
+		if (client.roundness > 0) {
+			c_gr.drawRoundRect(0, 0, client.Width, client.Height, client.roundness, client.roundness);
+		} else {
+			c_gr.drawRect(0, 0, client.Width, client.Height);
+		}
+			
 		c_gr.endFill();
 		
 		return c_shape;
@@ -136,9 +155,8 @@ class TextInputSkin implements ISkin {
 	
 	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
 		var c_client: TextInput = cast(client);
-		
 		drawTextField(c_client);
-		drawBackgound(c_client);
+		drawBackground(c_client);
 		states.set(TextInput.FOCUSIN, drawStateFOCUSIN(c_client, states.get(TextInput.FOCUSIN)));
 		states.set(TextInput.FOCUSOUT, drawStateFOCUSOUT(c_client, states.get(TextInput.FOCUSOUT)));
 		states.set(TextInput.TOUCH, drawStateTOUCH(c_client, states.get(TextInput.TOUCH)));
