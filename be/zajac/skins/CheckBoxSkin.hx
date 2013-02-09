@@ -50,6 +50,8 @@ class CheckBoxSkin implements ISkin{
 		drawSelectedState(getState(CheckBox.SELECTED_DOWN, states), c_client, c_rounded, c_lineSize, c_iconMargin, c_matrix);
 		
 		processLabel(c_client);
+		
+		drawHitBackground(c_client);
 	}
 	
 	private function getState(name:String, states: Hash<DisplayObject>, ?blendMode:BlendMode):Shape {
@@ -76,10 +78,28 @@ class CheckBoxSkin implements ISkin{
 				else c_label.y = 0;
 	}
 	
+	private function drawHitBackground(client:CheckBox):Void {
+		var c_g:Graphics;
+		var c_width:Float;
+		var c_height:Float;
+		c_g = client.graphics;
+		
+		c_width = Math.max(client.buttonSize, client.labelField.x + client.labelField.width);
+		c_height = Math.max(client.buttonSize, client.labelField.height);
+		
+		//because in CPP textfield isn't clicable we need to fill this textField area
+		#if cpp
+		c_g.beginFill(0, 0.005);
+		c_g.drawRect(0, 0, c_width, c_height);
+		c_g.endFill();
+		#end
+	}
+	
 	private function drawBackground(client:CheckBox, rounded:Bool):Void {
 		var c_gr:Graphics;
 		c_gr = client.graphics;
 		c_gr.clear();
+		
 		c_gr.beginFill(client.backgroundColor);
 		if (client.borderColor > 0) c_gr.lineStyle(1, client.borderColor);
 		if (rounded) c_gr.drawRoundRect(0, 0, client.buttonSize, client.buttonSize, client.roundness, client.roundness)

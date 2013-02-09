@@ -4,6 +4,7 @@ import be.zajac.skins.CheckBoxSkin;
 import be.zajac.util.TextFieldUtil;
 import nme.events.Event;
 import nme.events.MouseEvent;
+import nme.events.TouchEvent;
 import nme.text.TextField;
 import nme.text.TextFieldAutoSize;
 import nme.text.TextFormatAlign;
@@ -54,6 +55,7 @@ class CheckBox extends StyledComponent{
 		if (value == null) _label = ""
 			else _label = value;
 		_tLabel.text = _label;
+		invalidSkin();
 		return _label;
 	}
 	public var label(get_label, set_label):String;
@@ -88,14 +90,19 @@ class CheckBox extends StyledComponent{
 		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
 		addChild(_tLabel);
 		
+		#if (android || ios)
+		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
+		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
+		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
+		addEventListener(TouchEvent.TOUCH_OUT,	onTouchOut);
+		#else
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
-		addEventListener(MouseEvent.CLICK, 		onClick);
-		#if (!android && !ios)
 		addEventListener(MouseEvent.ROLL_OVER, 	onMouseOver);
 		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
 		buttonMode = true;
 		#end
+		addEventListener(MouseEvent.CLICK, 		onClick);
 		
 	}
 	
@@ -104,27 +111,54 @@ class CheckBox extends StyledComponent{
 		state = UP;
 	}
 	
+	#if (android || ios)
+	
+	private function onTouchBegin(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = DOWN;
+	}
+	
+	private function onTouchEnd(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = UP;
+	}
+	
+	private function onTouchOver(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = DOWN;
+	}
+	
+	private function onTouchOut(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = UP;
+	}
+	
+	#else
 	private function onMouseDown(e:MouseEvent):Void {
+		if (!enabled) return;
 		state = DOWN;
 	}
 	
 	private function onMouseUp(e:MouseEvent):Void {
+		if (!enabled) return;
 		if (_isOver) state = OVER
 			else state = UP;
 	}
 	
 	private function onMouseOver(e:MouseEvent):Void {
+		if (!enabled) return;
 		_isOver = true;
 		state = OVER;
 	}
 	
 	private function onMouseOut(e:MouseEvent):Void {
+		if (!enabled) return;
 		_isOver = false;
 		state = UP;
 	}
+	#end
 	
 	private function onClick(e:MouseEvent):Void {
 		selected = !_selected;
 	}
-	
 }
