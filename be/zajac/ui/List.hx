@@ -1,5 +1,6 @@
 package be.zajac.ui;
 import be.zajac.containers.Panel;
+import be.zajac.core.FWCore;
 import be.zajac.events.ListEvent;
 import be.zajac.renderers.AbstractListItemRenderer;
 import nme.display.DisplayObject;
@@ -24,6 +25,8 @@ class List extends Panel {
 	public var selectedItem(default, set_selectedItem): Dynamic;
 	public var selectable(default, set_selectable): Bool = true;
 	
+	public var maxDefaultHeigh: Float = 0;
+	
 	//******************************
 	//		PRIVATE VARIABLES
 	//******************************
@@ -39,6 +42,7 @@ class List extends Panel {
 	
 	public function new() {
 		super();
+		maxDefaultHeigh = FWCore.getHeightUnit() * 5;
 	}
 	
 	public function invalidItems(): Void {
@@ -59,7 +63,7 @@ class List extends Panel {
 		super.validate();
 	}
 	
-	public function addItem(item: Dynamic): Dynamic {
+	public function addItem(item: Dynamic): Void {
 		if (items == null) {
 			items = new Array<Dynamic>();
 		}
@@ -67,7 +71,7 @@ class List extends Panel {
 		invalidItems();
 	}
 	
-	public function addItemAt(item: Dynamic, index: Int): Dynamic {
+	public function addItemAt(item: Dynamic, index: Int): Void {
 		if (items == null) {
 			items = new Array<Dynamic>();
 		}
@@ -175,6 +179,10 @@ class List extends Panel {
 			itemComp.y = c_y;
 			c_y += itemComp.Height;
 		}
+		defaultHeight = c_y;
+		if (borderColor != null) {
+			defaultHeight += 2;
+		}
 	}
 	
 	private function _validateItemsPosition(): Bool {
@@ -200,6 +208,10 @@ class List extends Panel {
 	//******************************
 	//		GETTERS AND SETTERS
 	//******************************
+	
+	override private function get_Height(): Float {
+		return _Height == null ? Math.min(defaultHeight, maxDefaultHeigh) : _Height;
+	}
 	
 	private function set_itemRenderer(c: Class<AbstractListItemRenderer>): Class<AbstractListItemRenderer> {
 		if (itemRenderer != c) {
@@ -230,12 +242,15 @@ class List extends Panel {
 				}
 			}
 			
-			selectedItem = item;
-			
-			if (selectedItem != null) {
-				c_index = getItemIndex(selectedItem);
-				if (_itemComponents != null && c_index >= 0 && c_index < _itemComponents.length) {
-					_itemComponents[c_index].selected = true;
+			if (item == null) {
+				selectedItem = null;
+			} else {
+				c_index = getItemIndex(item);
+				if (c_index != -1) {
+					selectedItem = item;
+					if (_itemComponents != null && c_index >= 0 && c_index < _itemComponents.length) {
+						_itemComponents[c_index].selected = true;
+					}
 				}
 			}
 			dispatchEvent(new ListEvent(ListEvent.SELECT, false, false, selectedItem));
