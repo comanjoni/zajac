@@ -40,6 +40,8 @@ class RadioButtonSkin implements ISkin{
 		drawSelectedState(getState(RadioButton.SELECTED, states) , c_client, c_matrix);
 		
 		processLabel(c_client);
+		
+		drawHitBackground(c_client);
 	}
 	
 	private function getState(name:String, states: Hash<DisplayObject>, ?blendMode:BlendMode):Shape {
@@ -64,6 +66,23 @@ class RadioButtonSkin implements ISkin{
 		if (client.Height > 0) c_label.y = Math.round( (client.Height - c_label.height) / 2)
 			else if (client.buttonSize > 0) c_label.y = Math.round( (client.buttonSize - c_label.height) / 2)
 				else c_label.y = 0;
+	}
+	
+	private function drawHitBackground(client:RadioButton):Void {
+		var c_g:Graphics;
+		var c_width:Float;
+		var c_height:Float;
+		c_g = client.graphics;
+		
+		c_width = Math.max(client.buttonSize, client.labelField.x + client.labelField.width);
+		c_height = Math.max(client.buttonSize, client.labelField.height);
+		
+		//because in CPP textfield isn't clicable we need to fill this textField area
+		#if cpp
+		c_g.beginFill(0, 0.005);
+		c_g.drawRect(0, 0, c_width, c_height);
+		c_g.endFill();
+		#end
 	}
 	
 	private function drawBackground(client:RadioButton):Void {

@@ -4,7 +4,9 @@ import be.zajac.skins.CheckBoxSkin;
 import be.zajac.util.TextFieldUtil;
 import nme.events.Event;
 import nme.events.MouseEvent;
+#if (android || ios)
 import nme.events.TouchEvent;
+#end
 import nme.text.TextField;
 import nme.text.TextFieldAutoSize;
 import nme.text.TextFormatAlign;

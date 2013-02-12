@@ -3,6 +3,9 @@ import be.zajac.core.FWCore;
 import be.zajac.managers.RadioGroup;
 import be.zajac.skins.RadioButtonSkin;
 import be.zajac.util.TextFieldUtil;
+#if (android || ios)
+import nme.events.TouchEvent;
+#end
 import nme.events.Event;
 import nme.events.MouseEvent;
 import nme.text.TextField;
@@ -48,6 +51,7 @@ class RadioButton extends StyledComponent{
 		if (value == null) _label = ""
 			else _label = value;
 		_tLabel.text = _label;
+		invalidSkin();
 		return _label;
 	}
 	public var label(get_label, set_label):String;
@@ -99,18 +103,46 @@ class RadioButton extends StyledComponent{
 		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
 		addChild(_tLabel);
 		
+		#if (android || ios)
+		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
+		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
+		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
+		addEventListener(TouchEvent.TOUCH_OUT,	onTouchOut);
+		#else
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		addEventListener(MouseEvent.MOUSE_UP, 	onMouseUp);
-		addEventListener(MouseEvent.CLICK, 		onClick);
-		#if (!android && !ios)
 		addEventListener(MouseEvent.ROLL_OVER, 	onMouseOver);
 		addEventListener(MouseEvent.ROLL_OUT, 	onMouseOut);
 		buttonMode = true;
 		#end
+		addEventListener(MouseEvent.CLICK, 		onClick);
 		
 		skinClass = RadioButtonSkin;
 	}
 	
+	#if (android || ios)
+	
+	private function onTouchBegin(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = DOWN;
+	}
+	
+	private function onTouchEnd(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = UP;
+	}
+	
+	private function onTouchOver(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = DOWN;
+	}
+	
+	private function onTouchOut(e: TouchEvent): Void {
+		if (!enabled) return;
+		state = UP;
+	}
+	
+	#else
 	private function onMouseDown(e:MouseEvent):Void {
 		if (!_selected) state = DOWN;
 		//selected = true;
@@ -131,6 +163,7 @@ class RadioButton extends StyledComponent{
 		_isOver = false;
 		if (!_selected) state = UP;
 	}
+	#end
 	
 	private function onClick(e:MouseEvent):Void {
 		selected = true;
