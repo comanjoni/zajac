@@ -1,5 +1,5 @@
 package rs.zajac.containers.desktop;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.IPanelSkin;
 import rs.zajac.skins.PanelSkin;
 import rs.zajac.ui.Scroll;
@@ -49,7 +49,7 @@ class Panel extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultWidth = defaultHeight = FWCore.getHeightUnit() * 5;
+		defaultWidth = defaultHeight = ZajacCore.getHeightUnit() * 5;
 	}
 	
 	override public function validate(): Void {
@@ -220,7 +220,7 @@ class Panel extends StyledComponent {
 	//******************************
 	
 	private function get_scrollSize(): Float {
-		return _getStyleProperty('scrollSize', FWCore.getHeightUnit() / 2);
+		return _getStyleProperty('scrollSize', ZajacCore.getHeightUnit() / 2);
 	}
 	
 	private function set_scrollSize(v: Float): Float {

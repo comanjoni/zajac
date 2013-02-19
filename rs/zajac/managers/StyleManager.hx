@@ -1,4 +1,6 @@
-package rs.zajac.core;
+package rs.zajac.managers;
+import rs.zajac.core.StyleParser;
+import rs.zajac.core.StyleProperty;
 import rs.zajac.util.HashUtil;
 import rs.zajac.ui.StyledComponent;
 import nme.Assets;

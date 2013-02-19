@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.managers.RadioGroup;
 import rs.zajac.skins.RadioButtonSkin;
 import rs.zajac.util.TextFieldUtil;
@@ -32,7 +32,7 @@ class RadioButton extends StyledComponent{
 	
 	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
 	private function get_buttonSize():Float {
-		return Math.min(_getStyleProperty("buttonSize", FWCore.getHeightUnit()), Height);
+		return Math.min(_getStyleProperty("buttonSize", ZajacCore.getHeightUnit()), Height);
 	}
 	
 	private var _tLabel:TextField;
@@ -93,14 +93,14 @@ class RadioButton extends StyledComponent{
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit() * 5;
+		defaultHeight = ZajacCore.getHeightUnit();
 		state = UP;
 	}
 	
 	override private function initialize(): Void {
 		_tLabel = new TextField();
-		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
+		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: ZajacCore.getFontSize() } );
 		addChild(_tLabel);
 		
 		#if mobile

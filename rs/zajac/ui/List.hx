@@ -1,6 +1,6 @@
 package rs.zajac.ui;
 import rs.zajac.containers.Panel;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.events.ListEvent;
 import rs.zajac.renderers.AbstractListItemRenderer;
 import nme.display.DisplayObject;
@@ -42,7 +42,7 @@ class List extends Panel {
 	
 	public function new() {
 		super();
-		maxDefaultHeigh = FWCore.getHeightUnit() * 5;
+		maxDefaultHeigh = ZajacCore.getHeightUnit() * 5;
 	}
 	
 	public function invalidItems(): Void {

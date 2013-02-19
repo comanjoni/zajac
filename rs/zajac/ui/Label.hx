@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.LabelSkin;
 import nme.text.TextField;
 import nme.text.TextFieldAutoSize;
@@ -40,7 +40,7 @@ class Label extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultHeight = FWCore.getHeightUnit();
+		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
 	override private function initialize(): Void {
@@ -61,7 +61,7 @@ class Label extends StyledComponent {
 	//******************************
 	
 	private function get_textSize(): Int {
-		return _getStyleProperty('textSize', FWCore.getFontSize(font));
+		return _getStyleProperty('textSize', ZajacCore.getFontSize(font));
 	}
 	private function get_text(): String {
 		return text;

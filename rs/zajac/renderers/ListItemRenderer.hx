@@ -1,5 +1,5 @@
 package rs.zajac.renderers;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.ui.BaseComponent;
 import nme.Assets;
 import nme.display.DisplayObject;
@@ -77,7 +77,7 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		#end
 		
 		c_format.color = client.color;
-		c_format.size = FWCore.getFontSize();
+		c_format.size = ZajacCore.getFontSize();
 
 		c_font = Assets.getFont(client.font);
 		if (c_font != null) {

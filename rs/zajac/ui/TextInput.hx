@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.TextInputSkin;
 import nme.events.Event;
 import nme.events.FocusEvent;
@@ -50,8 +50,8 @@ class TextInput extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit() * 5;
+		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
 	override private function initialize(): Void {
@@ -85,7 +85,7 @@ class TextInput extends StyledComponent {
 	//******************************
 	
 	private function get_textSize(): Int {
-		return _getStyleProperty('textSize', FWCore.getFontSize(font));
+		return _getStyleProperty('textSize', ZajacCore.getFontSize(font));
 	}
 	private function set_displayAsPassword(v: Bool): Bool {
 		if (displayAsPassword != v) {

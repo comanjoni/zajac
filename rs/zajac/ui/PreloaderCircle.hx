@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import nme.events.Event;
 
 /**
@@ -28,8 +28,8 @@ class PreloaderCircle extends StyledComponent{
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit();
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit();
+		defaultHeight = ZajacCore.getHeightUnit();
 		mouseChildren = false;
 		mouseEnabled = false;
 	}
