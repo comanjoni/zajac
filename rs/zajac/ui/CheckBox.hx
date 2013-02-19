@@ -92,7 +92,7 @@ class CheckBox extends StyledComponent{
 		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
 		addChild(_tLabel);
 		
-		#if (android || ios)
+		#if mobile
 		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
 		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
 		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
@@ -113,7 +113,7 @@ class CheckBox extends StyledComponent{
 		state = UP;
 	}
 	
-	#if (android || ios)
+	#if mobile
 	
 	private function onTouchBegin(e: TouchEvent): Void {
 		if (!enabled) return;

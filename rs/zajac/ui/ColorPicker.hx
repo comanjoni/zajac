@@ -87,7 +87,7 @@ class ColorPicker extends StyledComponent {
 		colorBox = new Bitmap();
 		addChild(colorBox);
 		
-		#if (android || ios)
+		#if mobile
 		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
 		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
 		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
@@ -134,7 +134,7 @@ class ColorPicker extends StyledComponent {
 	
 	private function _showPalette(): Void {
 		if (_paletteVisible) return;
-		#if (android || ios)
+		#if mobile
 		PopUpManager.addPopUp(popupParent, palette, true);
 		PopUpManager.centerPopUp(palette);
 		#else
@@ -184,7 +184,7 @@ class ColorPicker extends StyledComponent {
 		invalidColor();
 	}
 	
-	#if (android || ios)
+	#if mobile
 	
 	private function onTouchBegin(e: TouchEvent): Void {
 		if (!enabled) return;

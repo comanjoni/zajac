@@ -44,7 +44,7 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 	
 	override public function initialize(): Void {
 		addEventListener(MouseEvent.CLICK, _onClick);
-		#if !(android || ios)
+		#if !mobile
 		addEventListener(MouseEvent.ROLL_OVER, _onRollOver);
 		addEventListener(MouseEvent.ROLL_OUT, _onRollOut);
 		#end
@@ -87,6 +87,8 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 		dispatchEvent(new Event(Event.SELECT));
 	}
 	
+	#if !mobile
+	
 	private function _onRollOver(evt: MouseEvent): Void {
 		if (!enabled) return;
 		state = OVER;
@@ -96,5 +98,7 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 		if (!enabled) return;
 		state = OUT;
 	}
+	
+	#end
 	
 }

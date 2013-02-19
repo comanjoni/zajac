@@ -66,12 +66,12 @@ class TextInput extends StyledComponent {
 		
 		textField.addEventListener(FocusEvent.FOCUS_IN, _onFocusIn);
 		textField.addEventListener(FocusEvent.FOCUS_OUT, _onFocusOut);
-		#if (android || ios)
+		#if mobile
 		addEventListener(TouchEvent.TOUCH_BEGIN, _onTouchBegin);
 		addEventListener(TouchEvent.TOUCH_END, _onTouchEnd);
 		addEventListener(TouchEvent.TOUCH_OUT, _onTouchEnd);
 		#end
-		#if (!flash)
+		#if !flash
 		textField.addEventListener(Event.CHANGE, _onTextChange);
 		#end
 		
@@ -127,7 +127,7 @@ class TextInput extends StyledComponent {
 		state = FOCUSOUT;
 	}
 	
-	#if (android || ios)
+	#if mobile
 	private function _onTouchBegin(evt: TouchEvent): Void {
 		state = TOUCH;
 	}
@@ -139,7 +139,7 @@ class TextInput extends StyledComponent {
 	}
 	#end
 	
-	#if (!flash)
+	#if !flash
 	private function _onTextChange(evt: Event): Void {
 		evt = evt.clone();
 		evt.target = this;

@@ -33,7 +33,7 @@ class FWCore {
 	 * will calculated height, otherwise it will return staticHeightUnit.
 	 */
 	static public function getHeightUnit(): Float {
-		#if (iphone || android)
+		#if mobile
 			if (componentAutoSize) {
 				return Capabilities.screenDPI * heightUnitMultiplier;
 			} else {

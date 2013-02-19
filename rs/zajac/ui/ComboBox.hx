@@ -120,7 +120,7 @@ class ComboBox extends StyledComponent {
 		list.defaultWidth = FWCore.getHeightUnit() * 5;
 		list.addEventListener(ListEvent.SELECT, onListSelect);
 		
-		#if (android || ios)
+		#if mobile
 		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
 		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
 		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
@@ -156,7 +156,7 @@ class ComboBox extends StyledComponent {
 	
 	private function _showList(): Void {
 		if (_listVisible) return;
-		#if (android || ios)
+		#if mobile
 		PopUpManager.addPopUp(popupParent, list, true);
 		PopUpManager.centerPopUp(list);
 		#else
@@ -233,7 +233,7 @@ class ComboBox extends StyledComponent {
 		state = OUT;
 	}
 	
-	#if (android || ios)
+	#if mobile
 	
 	private function onTouchBegin(e: TouchEvent): Void {
 		if (!enabled) return;

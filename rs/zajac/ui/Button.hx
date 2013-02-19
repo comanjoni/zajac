@@ -62,7 +62,7 @@ class Button extends StyledComponent {
 		TextFieldUtil.fillFieldFromObject(labelField, { align: TextFormatAlign.LEFT, size: FWCore.getFontSize() } );
 		addChild(labelField);
 		
-		#if (android || ios)
+		#if mobile
 		addEventListener(TouchEvent.TOUCH_BEGIN,onTouchBegin);
 		addEventListener(TouchEvent.TOUCH_END, 	onTouchEnd);
 		addEventListener(TouchEvent.TOUCH_OVER,	onTouchOver);
@@ -97,7 +97,7 @@ class Button extends StyledComponent {
 	//		EVENT LISTENERS
 	//******************************
 	
-	#if (android || ios)
+	#if mobile
 	
 	private function onTouchBegin(e: TouchEvent): Void {
 		if (!enabled) return;

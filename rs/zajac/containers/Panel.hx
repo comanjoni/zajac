@@ -34,7 +34,7 @@ class Panel extends rs.zajac.ui.StyledComponent {
 	
 }
 
-#elseif (android || ios)
+#elseif mobile
 typedef Panel = rs.zajac.containers.mobile.Panel;
 #else
 typedef Panel = rs.zajac.containers.desktop.Panel;
