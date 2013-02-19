@@ -1,4 +1,4 @@
-package be.zajac.events;
+package rs.zajac.events;
 import nme.events.Event;
 
 /**

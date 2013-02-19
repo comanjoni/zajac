@@ -1,7 +1,7 @@
-package be.zajac.ui;
+package rs.zajac.ui;
 
-import be.zajac.core.StyleProperty;
-import be.zajac.core.StyleManager;
+import rs.zajac.core.StyleProperty;
+import rs.zajac.core.StyleManager;
 
 /**
  * Root component that support styling.
@@ -14,7 +14,7 @@ import be.zajac.core.StyleManager;
  * Property type can be: Int, Float, Bool and String
  * @author Aleksandar Bogdanovic
  */
-@:autoBuild(be.zajac.macro.StyleMacro.build()) class StyledComponent extends BaseComponent {
+@:autoBuild(rs.zajac.macro.StyleMacro.build()) class StyledComponent extends BaseComponent {
 	
 	//******************************
 	//		PUBLIC VARIABLES

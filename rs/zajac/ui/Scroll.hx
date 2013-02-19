@@ -1,8 +1,8 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
-import be.zajac.skins.ButtonCircleSkin;
-import be.zajac.skins.IScrollSkin;
-import be.zajac.skins.ScrollSkin;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.ButtonCircleSkin;
+import rs.zajac.skins.IScrollSkin;
+import rs.zajac.skins.ScrollSkin;
 import nme.events.Event;
 import nme.events.MouseEvent;
 import nme.geom.Point;

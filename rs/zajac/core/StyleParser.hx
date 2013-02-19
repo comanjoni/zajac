@@ -1,6 +1,6 @@
-package be.zajac.core;
-import be.zajac.util.HashUtil;
-import be.zajac.util.IntUtil;
+package rs.zajac.core;
+import rs.zajac.util.HashUtil;
+import rs.zajac.util.IntUtil;
 
 /**
  * CSS parser.

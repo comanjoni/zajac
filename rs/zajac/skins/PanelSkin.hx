@@ -1,6 +1,6 @@
-package be.zajac.skins;
-import be.zajac.containers.Panel;
-import be.zajac.ui.BaseComponent;
+package rs.zajac.skins;
+import rs.zajac.containers.Panel;
+import rs.zajac.ui.BaseComponent;
 import nme.display.DisplayObject;
 import nme.display.Graphics;
 

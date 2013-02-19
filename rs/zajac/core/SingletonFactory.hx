@@ -1,4 +1,4 @@
-package be.zajac.core;
+package rs.zajac.core;
 
 /**
  * ...

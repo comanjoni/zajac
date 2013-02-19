@@ -1,10 +1,10 @@
-package be.zajac.containers.desktop;
-import be.zajac.core.FWCore;
-import be.zajac.skins.IPanelSkin;
-import be.zajac.skins.PanelSkin;
-import be.zajac.ui.Scroll;
-import be.zajac.ui.StyledComponent;
-import be.zajac.util.ComponentUtil;
+package rs.zajac.containers.desktop;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.IPanelSkin;
+import rs.zajac.skins.PanelSkin;
+import rs.zajac.ui.Scroll;
+import rs.zajac.ui.StyledComponent;
+import rs.zajac.util.ComponentUtil;
 import nme.display.DisplayObject;
 import nme.display.Sprite;
 import nme.events.Event;

@@ -1,7 +1,7 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
-import be.zajac.skins.CheckBoxSkin;
-import be.zajac.util.TextFieldUtil;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.CheckBoxSkin;
+import rs.zajac.util.TextFieldUtil;
 import nme.events.Event;
 import nme.events.MouseEvent;
 #if (android || ios)

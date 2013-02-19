@@ -1,6 +1,6 @@
-package be.zajac.core;
-import be.zajac.util.HashUtil;
-import be.zajac.ui.StyledComponent;
+package rs.zajac.core;
+import rs.zajac.util.HashUtil;
+import rs.zajac.ui.StyledComponent;
 import nme.Assets;
 import haxe.rtti.Meta;
 import nme.utils.ByteArray;

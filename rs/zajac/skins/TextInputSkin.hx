@@ -1,6 +1,6 @@
-package be.zajac.skins;
-import be.zajac.ui.BaseComponent;
-import be.zajac.ui.TextInput;
+package rs.zajac.skins;
+import rs.zajac.ui.BaseComponent;
+import rs.zajac.ui.TextInput;
 import nme.Assets;
 import nme.display.DisplayObject;
 import nme.display.Graphics;

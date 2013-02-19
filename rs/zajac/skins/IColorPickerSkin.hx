@@ -1,4 +1,4 @@
-package be.zajac.skins;
+package rs.zajac.skins;
 
 /**
  * ...

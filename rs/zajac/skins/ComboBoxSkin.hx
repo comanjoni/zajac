@@ -1,6 +1,6 @@
-package be.zajac.skins;
-import be.zajac.ui.BaseComponent;
-import be.zajac.ui.ComboBox;
+package rs.zajac.skins;
+import rs.zajac.ui.BaseComponent;
+import rs.zajac.ui.ComboBox;
 import nme.display.BlendMode;
 import nme.display.DisplayObject;
 import nme.display.GradientType;

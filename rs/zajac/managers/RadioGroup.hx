@@ -1,5 +1,5 @@
-package be.zajac.managers;
-import be.zajac.ui.RadioButton;
+package rs.zajac.managers;
+import rs.zajac.ui.RadioButton;
 import nme.events.Event;
 import nme.events.EventDispatcher;
 

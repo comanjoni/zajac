@@ -1,8 +1,8 @@
-package be.zajac.renderers;
-import be.zajac.core.FWCore;
-import be.zajac.skins.ISkin;
-import be.zajac.ui.StyledComponent;
-import be.zajac.ui.BaseComponent;
+package rs.zajac.renderers;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.ISkin;
+import rs.zajac.ui.StyledComponent;
+import rs.zajac.ui.BaseComponent;
 import nme.display.DisplayObject;
 import nme.events.MouseEvent;
 import nme.events.Event;

@@ -1,6 +1,6 @@
-package be.zajac.managers;
-import be.zajac.ui.BaseComponent;
-import be.zajac.util.ComponentUtil;
+package rs.zajac.managers;
+import rs.zajac.ui.BaseComponent;
+import rs.zajac.util.ComponentUtil;
 import flash.display.Graphics;
 import nme.display.DisplayObjectContainer;
 import nme.display.Stage;

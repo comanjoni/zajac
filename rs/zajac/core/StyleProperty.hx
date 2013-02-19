@@ -1,4 +1,4 @@
-package be.zajac.core;
+package rs.zajac.core;
 
 /**
  * This class is used for storing values of styled properties in StyledComponent.

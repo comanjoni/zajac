@@ -1,4 +1,4 @@
-package be.zajac.macro;
+package rs.zajac.macro;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 

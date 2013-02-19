@@ -1,5 +1,5 @@
-package be.zajac.util;
-import be.zajac.ui.BaseComponent;
+package rs.zajac.util;
+import rs.zajac.ui.BaseComponent;
 import nme.display.DisplayObject;
 import nme.display.DisplayObjectContainer;
 import nme.display.Stage;

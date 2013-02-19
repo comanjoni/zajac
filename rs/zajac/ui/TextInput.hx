@@ -1,6 +1,6 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
-import be.zajac.skins.TextInputSkin;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.TextInputSkin;
 import nme.events.Event;
 import nme.events.FocusEvent;
 import nme.events.TouchEvent;

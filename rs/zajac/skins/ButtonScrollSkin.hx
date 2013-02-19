@@ -1,6 +1,6 @@
-package be.zajac.skins;
-import be.zajac.ui.BaseComponent;
-import be.zajac.ui.Button;
+package rs.zajac.skins;
+import rs.zajac.ui.BaseComponent;
+import rs.zajac.ui.Button;
 import nme.display.DisplayObject;
 import nme.display.Graphics;
 import nme.display.Shape;

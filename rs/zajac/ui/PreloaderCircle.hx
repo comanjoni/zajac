@@ -1,5 +1,5 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
 import nme.events.Event;
 
 /**

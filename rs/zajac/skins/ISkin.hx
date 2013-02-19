@@ -1,5 +1,5 @@
-package be.zajac.skins;
-import be.zajac.ui.BaseComponent;
+package rs.zajac.skins;
+import rs.zajac.ui.BaseComponent;
 import nme.display.DisplayObject;
 
 /**

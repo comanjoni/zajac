@@ -1,6 +1,6 @@
-package be.zajac.ui;
-import be.zajac.core.SingletonFactory;
-import be.zajac.skins.ISkin;
+package rs.zajac.ui;
+import rs.zajac.core.SingletonFactory;
+import rs.zajac.skins.ISkin;
 import nme.display.Sprite;
 import nme.display.DisplayObject;
 import nme.events.Event;

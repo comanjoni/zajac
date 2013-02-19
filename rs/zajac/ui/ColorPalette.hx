@@ -1,8 +1,8 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
-import be.zajac.skins.ColorPaletteSkin;
-import be.zajac.skins.IColorPaletteSkin;
-import be.zajac.util.ColorUtil;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.ColorPaletteSkin;
+import rs.zajac.skins.IColorPaletteSkin;
+import rs.zajac.util.ColorUtil;
 import nme.display.Bitmap;
 import nme.display.DisplayObject;
 import nme.display.Shape;

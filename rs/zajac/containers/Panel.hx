@@ -1,4 +1,4 @@
-package be.zajac.containers;
+package rs.zajac.containers;
 #if code_completion
 
 /**
@@ -6,7 +6,7 @@ package be.zajac.containers;
  * @author Aleksandar Bogdanovic
  */
 
-class Panel extends be.zajac.ui.StyledComponent {
+class Panel extends rs.zajac.ui.StyledComponent {
 	
 	//******************************
 	//		PUBLIC VARIABLES
@@ -17,8 +17,8 @@ class Panel extends be.zajac.ui.StyledComponent {
 	var borderColor: Null<Int>;
 	var scrollSize: Float;
 	
-	var verticalScroll: be.zajac.ui.Scroll;
-	var horizontalScroll: be.zajac.ui.Scroll;
+	var verticalScroll: rs.zajac.ui.Scroll;
+	var horizontalScroll: rs.zajac.ui.Scroll;
 	
 	var mouseWheelStep: Float;
 	
@@ -35,7 +35,7 @@ class Panel extends be.zajac.ui.StyledComponent {
 }
 
 #elseif (android || ios)
-typedef Panel = be.zajac.containers.mobile.Panel;
+typedef Panel = rs.zajac.containers.mobile.Panel;
 #else
-typedef Panel = be.zajac.containers.desktop.Panel;
+typedef Panel = rs.zajac.containers.desktop.Panel;
 #end

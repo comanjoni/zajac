@@ -1,7 +1,7 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
-import be.zajac.skins.ButtonSkin;
-import be.zajac.util.TextFieldUtil;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.ButtonSkin;
+import rs.zajac.util.TextFieldUtil;
 import nme.events.MouseEvent;
 import nme.events.TouchEvent;
 import nme.text.TextField;

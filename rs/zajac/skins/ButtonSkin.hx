@@ -1,7 +1,7 @@
-package be.zajac.skins;
-import be.zajac.core.FWCore;
-import be.zajac.ui.BaseComponent;
-import be.zajac.ui.Button;
+package rs.zajac.skins;
+import rs.zajac.core.FWCore;
+import rs.zajac.ui.BaseComponent;
+import rs.zajac.ui.Button;
 import nme.display.BlendMode;
 import nme.display.DisplayObject;
 import nme.display.GradientType;

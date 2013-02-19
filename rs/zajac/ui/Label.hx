@@ -1,6 +1,6 @@
-package be.zajac.ui;
-import be.zajac.core.FWCore;
-import be.zajac.skins.LabelSkin;
+package rs.zajac.ui;
+import rs.zajac.core.FWCore;
+import rs.zajac.skins.LabelSkin;
 import nme.text.TextField;
 import nme.text.TextFieldAutoSize;
 import nme.text.TextFieldType;

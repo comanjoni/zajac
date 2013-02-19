@@ -1,4 +1,4 @@
-package be.zajac.util;
+package rs.zajac.util;
 import nme.Assets;
 import nme.text.Font;
 import nme.text.TextField;
