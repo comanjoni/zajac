@@ -3,7 +3,7 @@ import rs.zajac.core.FWCore;
 import rs.zajac.managers.RadioGroup;
 import rs.zajac.skins.RadioButtonSkin;
 import rs.zajac.util.TextFieldUtil;
-#if (android || ios)
+#if mobile
 import nme.events.TouchEvent;
 #end
 import nme.events.Event;
