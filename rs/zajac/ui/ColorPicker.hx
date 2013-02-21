@@ -182,6 +182,7 @@ class ColorPicker extends StyledComponent {
 	
 	private function onPaletteChange(e: Event): Void {
 		invalidColor();
+		dispatchEvent(new Event(Event.SELECT));
 	}
 	
 	#if mobile
