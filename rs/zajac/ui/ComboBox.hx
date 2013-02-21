@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.events.ListEvent;
 import rs.zajac.managers.PopUpManager;
 import rs.zajac.skins.ComboBoxSkin;
@@ -63,8 +63,8 @@ class ComboBox extends StyledComponent {
 
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit() * 5;
+		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
 	public function addItem(item: Dynamic): Dynamic {
@@ -113,11 +113,11 @@ class ComboBox extends StyledComponent {
 		textField.wordWrap = false;
 		textField.multiline = false;
 		textField.type = TextFieldType.DYNAMIC;
-		TextFieldUtil.fillFieldFromObject(textField, { size: FWCore.getFontSize() } );
+		TextFieldUtil.fillFieldFromObject(textField, { size: ZajacCore.getFontSize() } );
 		addChild(textField);
 		
 		list = new List();
-		list.defaultWidth = FWCore.getHeightUnit() * 5;
+		list.defaultWidth = ZajacCore.getHeightUnit() * 5;
 		list.addEventListener(ListEvent.SELECT, onListSelect);
 		
 		#if mobile
@@ -213,7 +213,7 @@ class ComboBox extends StyledComponent {
 	}
 	
 	private function get_buttonSize(): Float {
-		return Math.min(_getStyleProperty("buttonSize", FWCore.getHeightUnit()), Height);
+		return Math.min(_getStyleProperty("buttonSize", ZajacCore.getHeightUnit()), Height);
 	}
 	
 	private function get_text(): String {

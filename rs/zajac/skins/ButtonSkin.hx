@@ -1,5 +1,5 @@
 package rs.zajac.skins;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.Button;
 import nme.display.BlendMode;

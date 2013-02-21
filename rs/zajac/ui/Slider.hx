@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ButtonCircleSkin;
 import rs.zajac.skins.ISliderSkin;
 import rs.zajac.skins.SliderSkin;
@@ -77,11 +77,11 @@ class Slider extends StyledComponent {
 		if (direction != v) {
 			direction = v;
 			if (direction == DIRECTION_HORIZONTAL) {
-				defaultWidth = FWCore.getHeightUnit() * 5;
-				defaultHeight = FWCore.getHeightUnit();
+				defaultWidth = ZajacCore.getHeightUnit() * 5;
+				defaultHeight = ZajacCore.getHeightUnit();
 			} else {
-				defaultWidth = FWCore.getHeightUnit();
-				defaultHeight = FWCore.getHeightUnit() * 5;
+				defaultWidth = ZajacCore.getHeightUnit();
+				defaultHeight = ZajacCore.getHeightUnit() * 5;
 			}
 			invalidSlider();
 		}

@@ -1,7 +1,7 @@
 package rs.zajac.ui;
 
 import rs.zajac.core.StyleProperty;
-import rs.zajac.core.StyleManager;
+import rs.zajac.managers.StyleManager;
 
 /**
  * Root component that support styling.

@@ -1,5 +1,5 @@
 package rs.zajac.renderers;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ISkin;
 import rs.zajac.ui.StyledComponent;
 import rs.zajac.ui.BaseComponent;
@@ -32,8 +32,8 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit() * 5;
+		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
 	public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void { }

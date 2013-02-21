@@ -1,5 +1,5 @@
 package rs.zajac.skins;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.ColorPalette;
 import rs.zajac.util.ColorUtil;
@@ -21,7 +21,7 @@ class ColorPaletteSkin implements IColorPaletteSkin {
 		var c_gr: Graphics = c_shape.graphics;
 		
 		c_gr.lineStyle(2, 0xffffff);
-		c_gr.drawCircle(0, 0, FWCore.getHeightUnit() / 5);
+		c_gr.drawCircle(0, 0, ZajacCore.getHeightUnit() / 5);
 		c_gr.endFill();
 		
 		return c_shape;
@@ -73,7 +73,7 @@ class ColorPaletteSkin implements IColorPaletteSkin {
 	}
 	
 	private function drawPalette(client: ColorPalette): Void {
-		var c_padding: Int = Math.round(FWCore.getHeightUnit() / 4);
+		var c_padding: Int = Math.round(ZajacCore.getHeightUnit() / 4);
 		var c_width: Int = Math.round(client.Width - 2 * c_padding);
 		var c_height: Int = Math.round(client.Height - 2 * c_padding);
 		var c_gr: Graphics = client.graphics;

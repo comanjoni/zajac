@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.CheckBoxSkin;
 import rs.zajac.util.TextFieldUtil;
 import nme.events.Event;
@@ -33,7 +33,7 @@ class CheckBox extends StyledComponent{
 	
 	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
 	private function get_buttonSize():Float {
-		return Math.min(_getStyleProperty("buttonSize", FWCore.getHeightUnit()), Height);
+		return Math.min(_getStyleProperty("buttonSize", ZajacCore.getHeightUnit()), Height);
 	}
 	
 	override private function get_state(): String {
@@ -85,11 +85,11 @@ class CheckBox extends StyledComponent{
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit() * 5;
+		defaultHeight = ZajacCore.getHeightUnit();
 		
 		_tLabel = new TextField();
-		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: FWCore.getFontSize() } );
+		TextFieldUtil.fillFieldFromObject(_tLabel, { align:TextFormatAlign.LEFT, multiline:false, autoSize:TextFieldAutoSize.LEFT, selectable:false, mouseEnabled:false, size: ZajacCore.getFontSize() } );
 		addChild(_tLabel);
 		
 		#if mobile

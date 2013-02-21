@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ButtonSkin;
 import rs.zajac.util.TextFieldUtil;
 import nme.events.MouseEvent;
@@ -44,8 +44,8 @@ class Button extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit();
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit();
+		defaultHeight = ZajacCore.getHeightUnit();
 		mouseChildren = false;
 	}
 	
@@ -59,7 +59,7 @@ class Button extends StyledComponent {
 		labelField.multiline = false;
 		labelField.selectable = false;
 		labelField.mouseEnabled = false;
-		TextFieldUtil.fillFieldFromObject(labelField, { align: TextFormatAlign.LEFT, size: FWCore.getFontSize() } );
+		TextFieldUtil.fillFieldFromObject(labelField, { align: TextFormatAlign.LEFT, size: ZajacCore.getFontSize() } );
 		addChild(labelField);
 		
 		#if mobile
@@ -87,7 +87,7 @@ class Button extends StyledComponent {
 		if (value != label) {
 			label = value;
 			labelField.text = label;
-			defaultWidth = labelField.width + FWCore.getHeightUnit();
+			defaultWidth = labelField.width + ZajacCore.getHeightUnit();
 			invalidSkin();
 		}
 		return value;

@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ColorPaletteSkin;
 import rs.zajac.skins.IColorPaletteSkin;
 import rs.zajac.util.ColorUtil;
@@ -44,7 +44,7 @@ class ColorPalette extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultHeight = defaultWidth = FWCore.getHeightUnit() * 5;
+		defaultHeight = defaultWidth = ZajacCore.getHeightUnit() * 5;
 	}
 	
 	//******************************

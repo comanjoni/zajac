@@ -1,5 +1,5 @@
 package rs.zajac.ui;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.managers.PopUpManager;
 import rs.zajac.skins.ColorPickerSkin;
 import rs.zajac.skins.IColorPickerSkin;
@@ -58,8 +58,8 @@ class ColorPicker extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultWidth = FWCore.getHeightUnit() * 5;
-		defaultHeight = FWCore.getHeightUnit();
+		defaultWidth = ZajacCore.getHeightUnit() * 5;
+		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
 	override public function validate(): Void {
@@ -81,7 +81,7 @@ class ColorPicker extends StyledComponent {
 		super.initialize();
 		
 		palette = new ColorPalette();
-		palette.defaultWidth = FWCore.getHeightUnit() * 5;
+		palette.defaultWidth = ZajacCore.getHeightUnit() * 5;
 		palette.addEventListener(Event.CHANGE, onPaletteChange);
 		
 		colorBox = new Bitmap();
@@ -173,7 +173,7 @@ class ColorPicker extends StyledComponent {
 	}
 	
 	private function get_buttonSize(): Float {
-		return Math.min(_getStyleProperty("buttonSize", FWCore.getHeightUnit()), Height);
+		return Math.min(_getStyleProperty("buttonSize", ZajacCore.getHeightUnit()), Height);
 	}
 	
 	//******************************

@@ -6,7 +6,7 @@ import nme.system.Capabilities;
  * @author Aleksandar Bogdanovic
  */
 
-class FWCore {
+class ZajacCore {
 	
 	private function new() {}
 	
