@@ -3,10 +3,15 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 
 /**
- * ...
+ * Macro for modifying components that are extending StyledComponent.
+ * It is adding getters and setters on style properties that are not defined by developer.
+ * If getter or setter is defined by developer it must respect following rule:
+	 * getter must get value from _stlye hash and the best way for that is using
+	 * _getStyleProperty private method.
+	 * setter must set value in _style hash and the best way for that is using
+	 * _setStyleProperty private method.
  * @author Aleksandar Bogdanovic
  */
-
 class StyleMacro {
 
 	private static function buildGetter(name, fieldName, varType, varValue, pos): Field {

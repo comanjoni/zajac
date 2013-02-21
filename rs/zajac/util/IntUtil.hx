@@ -4,7 +4,6 @@ package rs.zajac.util;
  * Util functionality for Int.
  * @author Aleksandar Bogdanovic
  */
-
 class IntUtil {
 
 	private function new() { }

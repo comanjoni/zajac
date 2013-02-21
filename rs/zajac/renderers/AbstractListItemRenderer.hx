@@ -9,21 +9,35 @@ import nme.events.Event;
 import nme.geom.Point;
 
 /**
- * ...
+ * Abstract class for renderers that should be used in List.
  * @author Aleksandar Bogdanovic
  */
-
 class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 
+	/**
+	 * List item state when mouse is out.
+	 */
 	inline static public var OUT:		String = 'out';
+	
+	/**
+	 * List item state when mouse is over.
+	 */
 	inline static public var OVER:		String = 'over';
+	
+	/**
+	 * List item state when mouse is selected.
+	 */
 	inline static public var SELECTED:	String = 'selected';
 	
 	//******************************
 	//		PUBLIC VARIABLES
 	//******************************
 	
+	/**
+	 * Current data in list item.
+	 */
 	public var data(default, set_data): Dynamic;
+	
 	public var selected(default, set_selected): Bool = false;
 	
 	//******************************
@@ -36,6 +50,12 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
+	/**
+	 * Renderer is its own skin.
+	 * Thi smethod is empty. Should be filled in subclass.
+	 * @param	client
+	 * @param	states
+	 */
 	public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void { }
 	
 	//******************************

@@ -4,7 +4,6 @@ package rs.zajac.core;
  * This class is used for storing values of styled properties in StyledComponent.
  * @author Aleksandar Bogdanovic
  */
-
 class StyleProperty {
 
 	static public inline var PRIORITY_COMPONENT				= 1;
@@ -28,10 +27,6 @@ class StyleProperty {
 	public function new(pvalue: Dynamic, ppriority: Int = PRIORITY_COMPONENT) {
 		value = pvalue;
 		priority = ppriority;
-	}
-	
-	public function toString(): String {
-		return '[StyleProperty value="' + value + '" priority="' + priority + '"]';
 	}
 	
 }

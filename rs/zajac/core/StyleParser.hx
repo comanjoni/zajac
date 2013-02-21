@@ -6,7 +6,6 @@ import rs.zajac.util.IntUtil;
  * CSS parser.
  * @author Aleksandar Bogdanovic
  */
-
 class StyleParser {
 	
 	private function new() {}
@@ -141,7 +140,7 @@ class StyleParser {
 		return c_ruleSets;
 	}
 	
-	static public function _removeCommented(input: String): String {
+	static private function _removeCommented(input: String): String {
 		var c_chunks: Array<String> = input.split('/*');
 		var c_chunk: String;
 		var c_index: Int;
@@ -159,6 +158,11 @@ class StyleParser {
 		return input;
 	}
 	
+	/**
+	 * Parsing css content into styles. Each style entry consist of several StyleProperty.
+	 * @param	input	String, css content
+	 * @return	map of styles defined in content
+	 */
 	static public function parse(input: String): Hash<Hash<StyleProperty>> {
 		input = _removeCommented(input);
 		

@@ -13,7 +13,8 @@ import nme.geom.Point;
 import nme.geom.Rectangle;
 
 /**
- * ...
+ * Panel implementaion for desktop application.
+ * Scrolls are listening for user IO.
  * @author Aleksandar Bogdanovic
  */
 

@@ -14,22 +14,46 @@ import nme.text.TextFieldType;
 import nme.text.TextFormat;
 
 /**
- * ...
+ * Basic list item renderer.
+ * Expected data is string.
  * @author Aleksandar Bogdanovic
  */
-
 class ListItemRenderer extends AbstractListItemRenderer {
 	
 	//******************************
 	//		PUBLIC VARIABLES
 	//******************************
 
-	@style public var color: Int = 0x333333;				//renderer text color
-	@style public var backgroundColor: Int = 0xffffff;		//backgroundColor
-	@style public var spacerColor: Int = 0;					//spacer color between renderers
-	@style public var spacerAlpha: Float = 0.1;				//spacer alpha
+	/**
+	 * Style property for text color. Can be set in css.
+	 */
+	@style public var color: Int = 0x333333;
+	
+	/**
+	 * Style property for background color. Can be set in css.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+	
+	/**
+	 * Style property for spacer color (spacer is line between lit items).
+	 * Can be set in css.
+	 */
+	@style public var spacerColor: Int = 0;
+	
+	/**
+	 * Style property for spacer alpha (spacer is line between lit items).
+	 * Can be set in css.
+	 */
+	@style public var spacerAlpha: Float = 0.1;
+	
+	/**
+	 * Style property for text font name. Can be set in css.
+	 */
 	@style public var font: String = 'Arial';
 	
+	/**
+	 * Reference to text field in list item.
+	 */
 	public var textField(default, null): TextField;
 	
 	//******************************
@@ -40,6 +64,11 @@ class ListItemRenderer extends AbstractListItemRenderer {
 		super();
 	}
 	
+	/**
+	 * Draw states for list item.
+	 * @param	client
+	 * @param	states
+	 */
 	override public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
 		var c_client: ListItemRenderer = cast(client);
 		drawTextField(c_client);

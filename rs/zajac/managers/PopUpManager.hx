@@ -11,21 +11,29 @@ import nme.geom.Point;
 import nme.Lib;
 
 /**
- * ...
+ * Private class for storing information about popup window.
  * @author Aleksandar Bogdanovic
  */
-
 class _PopUpDef {
 	
 	public var window: DisplayObject;
 	public var modal: Bool;
 	
+	/**
+	 * Constructor.
+	 * @param	window
+	 * @param	modal	
+	 */
 	public function new(window: DisplayObject, modal: Bool) {
 		this.window = window;
 		this.modal = modal;
 	}
 }
 
+/**
+ * Manager for controlling popups.
+ * @author Aleksandar Bogdanovic
+ */
 class PopUpManager {
 
 	private function new() { }
@@ -146,6 +154,13 @@ class PopUpManager {
 		}
 	}
 	
+	/**
+	 * Add popup at top on specific parent container. If parent is null popup will be added on top of stage.
+	 * If popup is already added t specified parent it will be added in front of all popups.
+	 * @param	parent	container for holding popup or null for stage.
+	 * @param	window	popup
+	 * @param	modal
+	 */
 	public static function addPopUp(parent: DisplayObjectContainer, window: DisplayObject, modal: Bool = false): Void {
 		if (window == null) return;
 		if (parent == null) {
@@ -172,6 +187,10 @@ class PopUpManager {
 		_addEvents();
 	}
 	
+	/**
+	 * Center popup in its parent. If popup is not added to any container do nothing.
+	 * @param	window	popup
+	 */
 	public static function centerPopUp(window: DisplayObject): Void {
 		if (window == null) return;
 		if (window.parent == null) return;
@@ -183,6 +202,10 @@ class PopUpManager {
 		window.y = (c_parentDimension.y - c_windowDimension.y) / 2;
 	}
 	
+	/**
+	 * Remove popup from its parent container. If popup is not added to any container do nothing.
+	 * @param	window	popup
+	 */
 	public static function removePopUp(window: DisplayObject): Void {
 		if (window == null) return;
 		

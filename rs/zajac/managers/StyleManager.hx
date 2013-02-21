@@ -8,7 +8,10 @@ import haxe.rtti.Meta;
 import nme.utils.ByteArray;
 
 /**
- * Provides functionality related to styles.
+ * Provides functionality related to styles:
+	 * Adding css style from assets.
+	 * Getting style for specific component.
+	 * Getting style by name.
  * @author Aleksandar Bogdanovic
  */
 class StyleManager {
@@ -75,7 +78,7 @@ class StyleManager {
 	}
 	
 	/**
-	 * 
+	 * Get style by name with properties corresponding to the target object.
 	 * @param	target	Any subclass of StyledComponent.
 	 * @param	name	Name of style in css asset (in css file it should start with ".")
 	 * @return		Hash map with style properties that should be aplied to StyleComponent style.
@@ -141,7 +144,7 @@ class StyleManager {
 	}
 	
 	/**
-	 * Returns all field names that are styleable on targeted subclass of StyleComponent.
+	 * Returns all field names that are styleable on targeted instane (that is subclass of StyleComponent).
 	 * @param	target
 	 * @return
 	 */

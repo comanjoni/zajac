@@ -4,7 +4,6 @@ package rs.zajac.util;
  * Util functionality for Hash.
  * @author Aleksandar Bogdanovic
  */
-
 class HashUtil {
 
 	private function new() {}

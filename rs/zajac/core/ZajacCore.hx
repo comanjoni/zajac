@@ -2,22 +2,21 @@ package rs.zajac.core;
 import nme.system.Capabilities;
 
 /**
- * Framework initializer.
+ * Framework core properties.
  * @author Aleksandar Bogdanovic
  */
-
 class ZajacCore {
 	
 	private function new() {}
 	
 	/**
-	 * Calculate different height unit based on device.
+	 * Enable calculating different height unit based on device.
 	 * Otherwise getHeightUnit will return value from staticHeightUnit.
 	 */
 	static public var componentAutoSize: Bool = true;
 	
 	/**
-	 * If componentAutoSize is false or application is compiled for
+	 * If componentAutoSize is disabled or application is compiled for
 	 * desktop this value will be returned as height unit.
 	 */
 	static public var staticHeightUnit: Float = 20;
@@ -28,8 +27,8 @@ class ZajacCore {
 	static public var heightUnitMultiplier: Float = 0.5;
 	
 	/**
-	 * Get default height unit based on device and dpi.
-	 * If mobile devise is in use and componentAutoSize is true it
+	 * Get default height unit based on device type and screen DPI.
+	 * If mobile devise is in use and componentAutoSize is enabled it
 	 * will calculated height, otherwise it will return staticHeightUnit.
 	 */
 	static public function getHeightUnit(): Float {
@@ -44,13 +43,30 @@ class ZajacCore {
 		#end
 	}
 	
+	/**
+	 * Default height unit will be multiplied with this value for default font
+	 * size calculation.
+	 */
 	static public var defaultFontMultiplier: Float = 0.6;
+	
 	static private var _fontMultipliers: Hash<Float> = new Hash<Float>();
 	
+	/**
+	 * Adding multiplier for specific font.
+	 * @param	font	font name.
+	 * @param	multiplier	multiplying value for specified font.
+	 */
 	static public function addFontMultiplier(font: String, multiplier: Float): Void {
 		_fontMultipliers.set(font, multiplier);
 	}
 	
+	/**
+	 * Get default font size for specific font. If font is not specified or 
+	 * multiplier is not specified using addFontMultiplier it will return value
+	 * calculated using defaultFontMultiplier.
+	 * @param	?font	font name or null
+	 * @return	default font size
+	 */
 	static public function getFontSize(?font: String): Int {
 		var c_multiplier: Float = defaultFontMultiplier;
 		if ((font != null) && _fontMultipliers.exists(font)) {

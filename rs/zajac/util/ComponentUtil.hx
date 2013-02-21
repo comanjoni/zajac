@@ -6,14 +6,21 @@ import nme.display.Stage;
 import nme.geom.Point;
 
 /**
- * ...
+ * Set of methods for measuring display components.
  * @author Aleksandar Bogdanovic
  */
-
 class ComponentUtil {
 
 	private function new() { }
 	
+	/**
+	 * Get size of component. Support 3 types of components:
+		 * BaseComponent
+		 * Stage
+		 * Other DisplayObject
+	 * @param	obj	component for measuring
+	 * @return	point containing size: x = width, y = height
+	 */
 	static public function size(obj: DisplayObject): Point {
 		if (Std.is(obj, BaseComponent)) {
 			var b: BaseComponent = cast(obj);
@@ -28,6 +35,11 @@ class ComponentUtil {
 		return new Point(obj.width, obj.height);
 	}
 	
+	/**
+	 * Minimal size of rect that wraps all visible components in container.
+	 * @param	container
+	 * @return	point containing size: x = width, y = height
+	 */
 	static public function visibleContentSize(container: DisplayObjectContainer): Point {
 		var c_total: Point = new Point(0, 0);
 		var c_size: Point;

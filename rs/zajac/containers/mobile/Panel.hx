@@ -1,5 +1,5 @@
 package rs.zajac.containers.mobile;
-import rs.zajac.core.FWCore;
+import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.IPanelSkin;
 import rs.zajac.skins.PanelSkin;
 import rs.zajac.ui.Scroll;
@@ -16,10 +16,10 @@ import nme.geom.Rectangle;
 import nme.Lib;
 
 /**
- * ...
+ * Panel implementation for mobile application.
+ * Scrolls are not responding on IO. User can drag content.
  * @author Aleksandar Bogdanovic
  */
-
 class Panel extends StyledComponent {
 	
 	//******************************
@@ -58,7 +58,7 @@ class Panel extends StyledComponent {
 	
 	public function new() {
 		super();
-		defaultWidth = defaultHeight = FWCore.getHeightUnit() * 5;
+		defaultWidth = defaultHeight = ZajacCore.getHeightUnit() * 5;
 	}
 	
 	override public function validate(): Void {
@@ -237,7 +237,7 @@ class Panel extends StyledComponent {
 	//******************************
 	
 	private function get_scrollSize(): Float {
-		return _getStyleProperty('scrollSize', FWCore.getHeightUnit() / 5);
+		return _getStyleProperty('scrollSize', ZajacCore.getHeightUnit() / 5);
 	}
 	
 	private function set_scrollSize(v: Float): Float {

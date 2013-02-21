@@ -1,10 +1,9 @@
 package rs.zajac.util;
 
 /**
- * ...
+ * Set of methods for converting color representation.
  * @author Aleksandar Bogdanovic
  */
-
 class ColorUtil {
 
 	private function new() { }
@@ -13,6 +12,13 @@ class ColorUtil {
 	//		HSV		
 	//**************
 	
+	/**
+	 * Convert hsv color representation to rgb. 
+	 * @param	h	hue
+	 * @param	s	saturation
+	 * @param	v	value
+	 * @return	rgb as integer
+	 */
 	static public function hsv2rgb(h: Float, s: Float, v: Float): Int {
 		var i: Int = Math.floor(h * 6);
 		var f: Float = h * 6 - i;
@@ -47,6 +53,11 @@ class ColorUtil {
 		return 0;
 	}
 	
+	/**
+	 * Convert rgb color represenation to hsv.
+	 * @param	rgb
+	 * @return	array with 3 elements [hue, saturation, value]
+	 */
 	static public function rgb2hsv(rgb: Int): Array<Float> {
 		var r: Float = cast((rgb & 0xff0000) / 0x10000, Float) / 0xff;
 		var g: Float = cast((rgb & 0x00ff00) / 0x100, Float) / 0xff;
@@ -74,6 +85,13 @@ class ColorUtil {
 	//		HSL		
 	//**************
 	
+	/**
+	 * Convert hsl color representation to rgb.
+	 * @param	h	hue
+	 * @param	s	saturation
+	 * @param	l	lightness
+	 * @return	rgb as integer
+	 */
 	static public function hsl2rgb(h: Float, s: Float, l: Float): Int {
 		var r: Float = l;
 		var g: Float = l;
@@ -90,6 +108,11 @@ class ColorUtil {
 		return Math.floor(r * 0xff) * 0x10000 + Math.floor(g * 0xff) * 0x100 + Math.floor(b * 0xff);
 	}
 	
+	/**
+	 * Convert rgb color representation to hsl.
+	 * @param	rgb
+	 * @return	array with 3 elements [hue, saturation, lightness]
+	 */
 	static public function rgb2hsl(rgb: Int): Array<Float> {
 		var r: Float = cast((rgb & 0xff0000) / 0x10000, Float) / 0xff;
 		var g: Float = cast((rgb & 0x00ff00) / 0x100, Float) / 0xff;
@@ -118,7 +141,13 @@ class ColorUtil {
 	//		HELPER	
 	//**************
 	
-	static public function hue2rgb(p: Float , q: Float, t: Float) {
+	/**
+	 * Helper method for converting hue to rgb.
+	 * @param	p
+	 * @param	q
+	 * @param	t
+	 */
+	static public function hue2rgb(p: Float , q: Float, t: Float): Float {
 		if (t < 0) t += 1;
 		if (t > 1) t -= 1;
 		if (t < 1 / 6) return p + (q - p) * 6 * t;
