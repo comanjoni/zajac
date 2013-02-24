@@ -13,22 +13,38 @@ import nme.geom.Point;
 import nme.Lib;
 
 /**
- * ...
+ * HSV color palette.
  * @author Aleksandar Bogdanovic
  */
-
 class ColorPalette extends StyledComponent {
 
 	//******************************
 	//		PUBLIC VARIABLES
 	//******************************
 
+	/**
+	 * Styled property defining palette background color.
+	 */
 	@style public var backgroundColor: Int = 0xe6e7e9;
+
+	/**
+	 * Styled property defining palette border color.
+	 */
 	@style public var borderColor: Null<Int> = 0xadaeb0;
 	
+	/**
+	 * Selected color.
+	 */
 	public var color(get_color, set_color): Int;
 	
+	/**
+	 * Reference to palette visual component.
+	 */
 	public var palette(default, null): Bitmap;
+	
+	/**
+	 * Refenrece to cursor component.
+	 */
 	public var cursor(default, null): DisplayObject;
 	
 	//******************************

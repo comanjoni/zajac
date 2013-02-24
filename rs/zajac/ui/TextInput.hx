@@ -15,9 +15,9 @@ import nme.text.TextFieldType;
 
 class TextInput extends StyledComponent {
 
-	inline public static var ALIGN_LEFT: String = 'left';
-	inline public static var ALIGN_CENTER: String = 'center';
-	inline public static var ALIGN_RIGHT: String = 'right';
+	inline public static var ALIGN_LEFT:	String = 'left';
+	inline public static var ALIGN_CENTER:	String = 'center';
+	inline public static var ALIGN_RIGHT:	String = 'right';
 
 	inline public static var FOCUSIN:		String = 'focusin';
 	inline public static var FOCUSOUT:		String = 'focusout';
@@ -27,21 +27,70 @@ class TextInput extends StyledComponent {
 	//		PUBLIC VARIABLES
 	//******************************
 	
+	/**
+	 * Styled property defining text color.
+	 */
 	@style public var textColor: Int = 0;
+
+	/**
+	 * Styled property defining text font.
+	 */
 	@style public var font: String = 'Arial';
+
+	/**
+	 * Styled property defining text align.
+	 */
 	@style public var align: String = ALIGN_LEFT;
+
+	/**
+	 * Styled property defining text letter space.
+	 */
 	@style public var letterSpacing: Float = 0;
+
+	/**
+	 * Styled property defining font size.
+	 */
 	@style public var textSize(get_textSize, default): Int;
+
+	/**
+	 * Styled property defining background color.
+	 */
 	@style public var backgroundColor: Null<Int> = 0xffffff;
+
+	/**
+	 * Styled property defining background and border roundness.
+	 */
 	@style public var roundness: Int = 0;
+
+	/**
+	 * Styled property defining border color.
+	 */
 	@style public var borderColor: Null<Int> = 0xbfc0c2;
+
+	/**
+	 * Styled property defining border color when component is selected.
+	 * On mobile application this color will be applied to background on touch down.
+	 */
 	@style public var focusColor: Null<Int> = 0xa4d4ff;
 	
+	/**
+	 * Display text as password.
+	 */
 	public var displayAsPassword(default, set_displayAsPassword): Bool;
+	
+	/**
+	 * Maximum number of characters that component will hold.
+	 */
 	public var maxChars(get_maxChars, set_maxChars): Int;
 	
+	/**
+	 * Current text in text input.
+	 */
 	public var text(get_text, set_text): String;
 	
+	/**
+	 * Reference to text field.
+	 */
 	public var textField(default, null): TextField;
 	
 	//******************************
@@ -53,6 +102,10 @@ class TextInput extends StyledComponent {
 		defaultWidth = ZajacCore.getHeightUnit() * 5;
 		defaultHeight = ZajacCore.getHeightUnit();
 	}
+	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
 	
 	override private function initialize(): Void {
 		textField = new TextField();

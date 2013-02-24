@@ -8,23 +8,42 @@ import nme.events.Event;
 import rs.zajac.renderers.ListItemRenderer;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class List extends Panel {
 	
 	//******************************
 	//		PUBLIC VARIABLES
 	//******************************
-
+	
+	/**
+	 * Stlyed propery defining style name for item renderer used in List.
+	 */
 	@style public var itemStyleName: String;
 	
+	/**
+	 * Class of item renderer that should be used in list.
+	 */
 	public var itemRenderer(default, set_itemRenderer): Class<AbstractListItemRenderer>;
+	
+	/**
+	 * Array of items shown in list.
+	 */
 	public var items(default, set_items): Array<Dynamic>;
+	
+	/**
+	 * Current selected item.
+	 */
 	public var selectedItem(default, set_selectedItem): Dynamic;
+	
+	/**
+	 * Enable/disable selecing items in list.
+	 */
 	public var selectable(default, set_selectable): Bool = true;
 	
+	/**
+	 * Maximum default height of list.
+	 */
 	public var maxDefaultHeigh: Float = 0;
 	
 	//******************************
@@ -63,6 +82,11 @@ class List extends Panel {
 		super.validate();
 	}
 	
+	/**
+	 * Add item to list.
+	 * @param	item
+	 * @return	Added item.
+	 */
 	public function addItem(item: Dynamic): Void {
 		if (items == null) {
 			items = new Array<Dynamic>();
@@ -71,6 +95,11 @@ class List extends Panel {
 		invalidItems();
 	}
 	
+	/**
+	 * Add item to list at specific position.
+	 * @param	item
+	 * @param	index
+	 */
 	public function addItemAt(item: Dynamic, index: Int): Void {
 		if (items == null) {
 			items = new Array<Dynamic>();
@@ -79,10 +108,20 @@ class List extends Panel {
 		invalidItems();
 	}
 	
+	/**
+	 * Check does list contain specific item.
+	 * @param	item
+	 * @return	True if contains, otherwise False.
+	 */
 	public function hasItem(item: Dynamic): Bool {
 		return getItemIndex(item) > -1;
 	}
 	
+	/**
+	 * Return index of item in list.
+	 * @param	item
+	 * @return	Item index.
+	 */
 	public function getItemIndex(item: Dynamic): Int {
 		if (items != null) {
 			for (i in 0...items.length) {
@@ -92,6 +131,11 @@ class List extends Panel {
 		return -1;
 	}
 	
+	/**
+	 * Return item from list at specific lication.
+	 * @param	index
+	 * @return	Item.
+	 */
 	public function getItemAt(index: Int): Dynamic {
 		if (items == null) return null;
 		if (index >= items.length) return null;
@@ -99,6 +143,11 @@ class List extends Panel {
 		return items[index];
 	}
 	
+	/**
+	 * Remove item from list.
+	 * @param	item
+	 * @return	Removed item.
+	 */
 	public function removeItem(item: Dynamic): Dynamic {
 		if (items != null && items.remove(item)) {
 			if (item == selectedItem) {
@@ -110,6 +159,11 @@ class List extends Panel {
 		return null;
 	}
 	
+	/**
+	 * Remove item from list at specific location.
+	 * @param	index
+	 * @return	Removed item.
+	 */
 	public function removeItemAt(index: Int): Dynamic {
 		if (items == null) return null;
 		if (index >= items.length) return null;
@@ -127,6 +181,9 @@ class List extends Panel {
 		return null;
 	}
 	
+	/**
+	 * Remove all items from list.
+	 */
 	public function removeAllItems(): Void {
 		if (items == null) return;
 		if (items.length == 0) return;

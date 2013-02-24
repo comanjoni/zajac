@@ -15,10 +15,8 @@ import nme.text.TextField;
 import nme.text.TextFieldType;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class ComboBox extends StyledComponent {
 	
 	inline public static var OUT:	String = 'out';
@@ -29,25 +27,74 @@ class ComboBox extends StyledComponent {
 	//		PUBLIC VARIABLES
 	//******************************
 	
+	/**
+	 * Stlyed propery defining style name for List used in ComboBox.
+	 */
 	@style public var listStyleName: String;
-	
-	@style public var color: Int = 0;			//text color
-	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
-	@style public var iconColor: Int = 0x666666;		//color of X of ok icon in the middle of the button box
+
+	/**
+	 * Styled property defining text color.
+	 */
+	@style public var color: Int = 0;
+
+	/**
+	 * Styled property defining picker background color.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+
+	/**
+	 * Styled property defining button arrow color.
+	 */
+	@style public var iconColor: Int = 0x666666;
+
+	/**
+	 * Styled property defining background and border roundness.
+	 */
 	@style public var roundness: Int = 0;
+
+	/**
+	 * Styled property defining picker border color.
+	 */
 	@style public var borderColor: Null<Int> = 0xbfc0c2;
+
+	/**
+	 * Styled property defining button size.
+	 */
+	@style public var buttonSize(get_buttonSize, default):Float;
 	
-	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
-	
+	/**
+	 * Array of items shown in list.
+	 */
 	public var items(get_items, set_items): Array<Dynamic>;
+	
+	/**
+	 * Current selected item.
+	 */
 	public var selectedItem(get_selectedItem, set_selectedItem): Dynamic;
 	
+	/**
+	 * Text shown if no item is selected.
+	 */
 	public var defaultText(default, set_defaultText): String = 'Please select';
 	
+	/**
+	 * Reference to text field showing selected item.
+	 */
 	public var textField(default, null): TextField;
+	
+	/**
+	 * Reference to list shown on click.
+	 */
 	public var list(default, null): List;
+	
+	/**
+	 * Reference to component that will be used in PopupManager as parent for list.
+	 */
 	public var popupParent: DisplayObjectContainer = null;
 	
+	/**
+	 * Read-only text to be printed in text field.
+	 */
 	public var text(get_text, null): String;
 	
 	//******************************
@@ -67,34 +114,72 @@ class ComboBox extends StyledComponent {
 		defaultHeight = ZajacCore.getHeightUnit();
 	}
 	
+	/**
+	 * Add item to list.
+	 * @param	item
+	 * @return	Added item.
+	 */
 	public function addItem(item: Dynamic): Dynamic {
 		list.addItem(item);
 	}
 	
+	/**
+	 * Add item to list at specific position.
+	 * @param	item
+	 * @param	index
+	 */
 	public function addItemAt(item: Dynamic, index: Int): Void {
 		list.addItemAt(item, index);
 	}
 	
+	/**
+	 * Check does list contain specific item.
+	 * @param	item
+	 * @return	True if contains, otherwise False.
+	 */
 	public function hasItem(item: Dynamic): Bool {
 		return list.hasItem(item);
 	}
 	
+	/**
+	 * Return index of item in list.
+	 * @param	item
+	 * @return	Item index.
+	 */
 	public function getItemIndex(item: Dynamic): Int {
 		return list.getItemIndex(item);
 	}
 	
+	/**
+	 * Return item from list at specific lication.
+	 * @param	index
+	 * @return	Item.
+	 */
 	public function getItemAt(index: Int): Dynamic {
 		return list.getItemAt(index);
 	}
 	
+	/**
+	 * Remove item from list.
+	 * @param	item
+	 * @return	Removed item.
+	 */
 	public function removeItem(item: Dynamic): Dynamic {
 		return list.removeItem(item);
 	}
 	
+	/**
+	 * Remove item from list at specific location.
+	 * @param	index
+	 * @return	Removed item.
+	 */
 	public function removeItemAt(index: Int): Dynamic {
 		return list.removeItemAt(index);
 	}
 	
+	/**
+	 * Remove all items from list.
+	 */
 	public function removeAllItems(): Void {
 		list.removeAllItems();
 	}

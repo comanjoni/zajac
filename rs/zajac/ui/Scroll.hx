@@ -21,19 +21,66 @@ class Scroll extends StyledComponent {
 	//		PUBLIC VARIABLES
 	//******************************
 	
-	@style public var backgroundColor: Int = 0xdddddd;
-	@style public var backgroundAlpha: Float = 0.7;
-	@style public var borderColor: Null<Int> = null;
-	@style public var roundness: Int = 0;
+	/**
+	 * Stlyed propery defining style name for Button used in Scroll.
+	 */
 	@style public var buttonStyleName: String;
+
+	/**
+	 * Styled property defining background color.
+	 */
+	@style public var backgroundColor: Int = 0xdddddd;
+
+	/**
+	 * Styled property defining background alpha.
+	 */
+	@style public var backgroundAlpha: Float = 0.7;
+
+	/**
+	 * Styled property defining border color.
+	 */
+	@style public var borderColor: Null<Int> = null;
+
+	/**
+	 * Styled property defining background and border roundness.
+	 */
+	@style public var roundness: Int = 0;
 	
+	/**
+	 * Reference to button.
+	 */
 	public var button(default, null): Button;
 	
+	/**
+	 * Scroll direction. Available values:
+		 * Scroll.DIRECTION_HORIZONTAL = 'horizontal'
+		 * Scroll.DIRECTION_VERTICAL = 'vertical'
+	 */
 	public var direction(default, set_direction): String = DIRECTION_HORIZONTAL;
+	
+	/**
+	 * Maximum value of scroll.
+	 */
 	public var maxValue(default, set_maxValue): Float = 100;
+	
+	/**
+	 * Minimum value of scroll.
+	 */
 	public var minValue(default, set_minValue): Float = 0;
+	
+	/**
+	 * Scroll current value. It can be in range [minValue, maxValue].
+	 */
 	public var value(default, set_value): Float = 0;
+	
+	/**
+	 * The number of items that can be viewed in display area.
+	 */
 	public var pageSize(default, set_pageSize): Float = 10;
+	
+	/**
+	 * If live dragging is on then changes will be dispatched on mouse move.
+	 */
 	public var liveDragging: Bool = true;
 	
 	//******************************

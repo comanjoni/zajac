@@ -7,10 +7,9 @@ import nme.text.TextFieldType;
 import nme.text.TextFormatAlign;
 
 /**
- * ...
+ * This component can only preview text.
  * @author Aleksandar Bogdanovic
  */
-
 class Label extends StyledComponent {
 
 	inline public static var ALIGN_LEFT: String = 'left';
@@ -21,17 +20,54 @@ class Label extends StyledComponent {
 	//		PUBLIC VARIABLES
 	//******************************
 	
-	@style public var color: Int = 0xffffff;
+	/**
+	 * Styled property defining text color.
+	 */
+	@style public var color: Int = 0;
+
+	/**
+	 * Styled property defining text font.
+	 */
 	@style public var font: String = 'Arial';
+
+	/**
+	 * Styled property defining text align.
+	 */
 	@style public var align: String = ALIGN_LEFT;
+
+	/**
+	 * Styled property defining text letter space.
+	 */
 	@style public var letterSpacing: Float = 0;
+
+	/**
+	 * Styled property defining font size.
+	 */
 	@style public var textSize(get_textSize, default): Int;
+
+	/**
+	 * Styled property defining background color.
+	 */
 	@style public var backgroundColor: Null<Int> = null;
+
+	/**
+	 * Styled property defining background and border roundness.
+	 */
 	@style public var roundness: Int = 0;
+
+	/**
+	 * Styled property defining border color.
+	 */
 	@style public var borderColor: Null<Int> = null;
 	
+	/**
+	 * Current shown text in label.
+	 */
 	public var text(get_text, set_text): String = '';
 	
+	/**
+	 * Reference to text field.
+	 */
 	public var textField(default, null): TextField;
 	
 	//******************************
@@ -42,6 +78,10 @@ class Label extends StyledComponent {
 		super();
 		defaultHeight = ZajacCore.getHeightUnit();
 	}
+	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
 	
 	override private function initialize(): Void {
 		textField = new TextField();

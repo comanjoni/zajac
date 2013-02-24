@@ -17,13 +17,92 @@ class Slider extends StyledComponent {
 	inline public static var DIRECTION_HORIZONTAL:	String = 'horizontal';
 	inline public static var DIRECTION_VERTICAL:	String = 'vertical';
 	
-	@style public var backgroundColor: Int = 0xffffff;
-	@style public var borderColor: Null<Int> = 0x7e8082;
-	@style public var barSize: Null<Int> = null;	//if barSize == null bar size is height / 3
-	@style public var roundness: Int = 10;
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
+	
+	/**
+	 * Stlyed propery defining style name for Button used in Slider.
+	 */
 	@style public var buttonStyleName: String;
+
+	/**
+	 * Styled property defining background color.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+
+	/**
+	 * Styled property defining border color.
+	 */
+	@style public var borderColor: Null<Int> = 0x7e8082;
+	
+	/**
+	 * Backgroun bar size. If is null barSize will be height / 3 for horizontal
+	 * and width / 3 for vertical direction.
+	 */
+	@style public var barSize: Null<Int> = null;
+
+	/**
+	 * Styled property defining background and border roundness.
+	 */
+	@style public var roundness: Int = 10;
+	
+	/**
+	 * Reference to button.
+	 */
+	public var button: Button;
+	
+	/**
+	 * Slider direction. Available values:
+		 * Slider.DIRECTION_HORIZONTAL = 'horizontal'
+		 * Slider.DIRECTION_VERTICAL = 'vertical'
+	 */
+	public var direction(default, set_direction): String = DIRECTION_HORIZONTAL;
+	
+	/**
+	 * Maximum value of scroll.
+	 */
+	public var maxValue(default, set_maxValue): Float = 100;
+	
+	/**
+	 * Minimum value of scroll.
+	 */
+	public var minValue(default, set_minValue): Float = 0;
+	
+	/**
+	 * Scroll current value. It can be in range [minValue, maxValue].
+	 */
+	public var value(default, set_value): Float = 0;
+	
+	/**
+	 * The number of items that can be viewed in display area.
+	 */
+	public var pageSize(default, set_pageSize): Float = 10;
+	
+	/**
+	 * If live dragging is on then changes will be dispatched on mouse move.
+	 */
+	public var liveDragging: Bool = true;
+	
+	//******************************
+	//		PRIVATE VARIABLES
+	//******************************
 	
 	private var _dirtySlider: Bool = true;
+	private var _localBeginPoint: Point;
+	
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
+	
+	public function new() {
+		super();
+	}
+	
+	override public function validate(): Void {
+		super.validate();
+		_validateSlider();
+	}
 	
 	public function invalidSlider(): Void {
 		if (_dirtySlider) return;
@@ -31,6 +110,32 @@ class Slider extends StyledComponent {
 		invalid();
 	}
 	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
+	
+	override private function initialize(): Void {
+		button = new Button();
+		addChild(button);
+		
+		button.addEventListener(MouseEvent.MOUSE_DOWN, _onBtnDown);
+		addEventListener(MouseEvent.CLICK, _onClick);
+		
+		skinClass = SliderSkin;
+	}
+	
+	override private function _validateSkin(): Bool {
+		if (super._validateSkin()) {
+			if (Std.is(skin, ISliderSkin)) {
+				var c_skin: ISliderSkin = cast(skin);
+				if (c_skin.getButtonSkinClass != null) {
+					button.skinClass = c_skin.getButtonSkinClass();
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 	
 	private function _validateSlider(): Bool {
 		if (_dirtySlider) {
@@ -54,105 +159,19 @@ class Slider extends StyledComponent {
 		return false;
 	}
 	
-	override public function validate(): Void {
-		super.validate();
-		_validateSlider();
-	}
-	
-	override private function _validateSkin(): Bool {
-		if (super._validateSkin()) {
-			if (Std.is(skin, ISliderSkin)) {
-				var c_skin: ISliderSkin = cast(skin);
-				if (c_skin.getButtonSkinClass != null) {
-					button.skinClass = c_skin.getButtonSkinClass();
-				}
-			}
-			return true;
+	private function _updateValue(stageX: Float, stageY: Float): Void {
+		var c_btnPoint: Point = globalToLocal(new Point(stageX - _localBeginPoint.x, stageY - _localBeginPoint.y));
+		switch (direction) {
+			case DIRECTION_HORIZONTAL:
+				value = minValue + (maxValue - minValue) * c_btnPoint.x / (Width - button.Width);
+			case DIRECTION_VERTICAL:
+				value = minValue + (maxValue - minValue) * c_btnPoint.y / (Height - button.Height);
 		}
-		return false;
 	}
 	
-	public var direction(default, set_direction): String;
-	private function set_direction(v: String): String {
-		if (direction != v) {
-			direction = v;
-			if (direction == DIRECTION_HORIZONTAL) {
-				defaultWidth = ZajacCore.getHeightUnit() * 5;
-				defaultHeight = ZajacCore.getHeightUnit();
-			} else {
-				defaultWidth = ZajacCore.getHeightUnit();
-				defaultHeight = ZajacCore.getHeightUnit() * 5;
-			}
-			invalidSlider();
-		}
-		return v;
-	}
-	
-	public var maxValue(default, set_maxValue): Float;
-	private function set_maxValue(v: Float): Float {
-		if (maxValue != v) {
-			maxValue = v;
-			if (maxValue < value) {
-				value = maxValue;
-			}
-			invalidSlider();
-		}
-		return v;
-	}
-	
-	public var minValue(default, set_minValue): Float;
-	private function set_minValue(v: Float): Float {
-		if (minValue != v) {
-			minValue = v;
-			if (minValue > value) {
-				value = minValue;
-			}
-			invalidSlider();
-		}
-		return v;
-	}
-	
-	public var value(default, set_value): Float;
-	private function set_value(v: Float): Float {
-		v = Math.min(maxValue, Math.max(minValue, v));
-		if (value != v) {
-			value = v;
-			invalidSlider();
-		}
-		return v;
-	}
-	
-	public var pageSize(default, set_pageSize): Float;
-	private function set_pageSize(v: Float): Float {
-		if (pageSize != v) {
-			pageSize = v;
-			invalidSlider();
-		}
-		return v;
-	}
-	
-	public var liveDragging: Bool = true;
-	
-	public var button: Button;
-	
-	public function new() {
-		super();
-		direction = DIRECTION_HORIZONTAL;
-		maxValue = 100;
-		minValue = 0;
-		pageSize = 10;
-		value = 0;
-	}
-	
-	override private function initialize(): Void {
-		button = new Button();
-		addChild(button);
-		
-		button.addEventListener(MouseEvent.MOUSE_DOWN, _onBtnDown);
-		addEventListener(MouseEvent.CLICK, _onClick);
-		
-		skinClass = SliderSkin;
-	}
+	//******************************
+	//		GETTERS AND SETTERS
+	//******************************
 	
 	override private function set_Width(v: Float): Float {
 		if (v != Width) {
@@ -170,18 +189,63 @@ class Slider extends StyledComponent {
 		return v;
 	}
 	
-	
-	private var _localBeginPoint: Point;
-	
-	private function _updateValue(stageX: Float, stageY: Float): Void {
-		var c_btnPoint: Point = globalToLocal(new Point(stageX - _localBeginPoint.x, stageY - _localBeginPoint.y));
-		switch (direction) {
-			case DIRECTION_HORIZONTAL:
-				value = minValue + (maxValue - minValue) * c_btnPoint.x / (Width - button.Width);
-			case DIRECTION_VERTICAL:
-				value = minValue + (maxValue - minValue) * c_btnPoint.y / (Height - button.Height);
+	private function set_direction(v: String): String {
+		if (direction != v) {
+			direction = v;
+			if (direction == DIRECTION_HORIZONTAL) {
+				defaultWidth = ZajacCore.getHeightUnit() * 5;
+				defaultHeight = ZajacCore.getHeightUnit();
+			} else {
+				defaultWidth = ZajacCore.getHeightUnit();
+				defaultHeight = ZajacCore.getHeightUnit() * 5;
+			}
+			invalidSlider();
 		}
+		return v;
 	}
+	
+	private function set_maxValue(v: Float): Float {
+		if (maxValue != v) {
+			maxValue = v;
+			if (maxValue < value) {
+				value = maxValue;
+			}
+			invalidSlider();
+		}
+		return v;
+	}
+	
+	private function set_minValue(v: Float): Float {
+		if (minValue != v) {
+			minValue = v;
+			if (minValue > value) {
+				value = minValue;
+			}
+			invalidSlider();
+		}
+		return v;
+	}
+	
+	private function set_value(v: Float): Float {
+		v = Math.min(maxValue, Math.max(minValue, v));
+		if (value != v) {
+			value = v;
+			invalidSlider();
+		}
+		return v;
+	}
+	
+	private function set_pageSize(v: Float): Float {
+		if (pageSize != v) {
+			pageSize = v;
+			invalidSlider();
+		}
+		return v;
+	}
+	
+	//******************************
+	//		EVENT LISTENERS
+	//******************************
 	
 	private function _onBtnDown(evt: MouseEvent): Void {
 		_localBeginPoint = new Point(evt.localX, evt.localY);

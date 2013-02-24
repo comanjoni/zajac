@@ -14,10 +14,9 @@ import nme.geom.Rectangle;
 import nme.Lib;
 
 /**
- * ...
+ * ComboBox like color picker relies on ColorPalette.
  * @author Aleksandar Bogdanovic
  */
-
 class ColorPicker extends StyledComponent {
 	
 	inline public static var OUT:	String = 'out';
@@ -28,21 +27,55 @@ class ColorPicker extends StyledComponent {
 	//		PUBLIC VARIABLES
 	//******************************
 	
+	/**
+	 * Stlyed propery defining style name for ColorPalette used in ColorPicker.
+	 */
 	@style public var paletteStyleName: String;
-	
-	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
-	@style public var iconColor: Int = 0x666666;		//color of X of ok icon in the middle of the button box
+
+	/**
+	 * Styled property defining picker background color.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+
+	/**
+	 * Styled property defining button arrow color.
+	 */
+	@style public var iconColor: Int = 0x666666;
+
+	/**
+	 * Styled property defining background and border roundness.
+	 */
 	@style public var roundness: Int = 0;
+
+	/**
+	 * Styled property defining picker border color.
+	 */
 	@style public var borderColor: Null<Int> = 0xbfc0c2;
+
+	/**
+	 * Styled property defining button size.
+	 */
+	@style public var buttonSize(get_buttonSize, default):Float;
 	
-	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
-	
+	/**
+	 * Reference to component that will be used in PopupManager as parent for palette.
+	 */
 	public var popupParent: DisplayObjectContainer = null;
 	
+	/**
+	 * Reference to pallete shown on click.
+	 */
 	public var palette(default, null): ColorPalette;
+	
+	/**
+	 * Reference to container for previewing selected color.
+	 */
 	public var colorBox(default, null): Bitmap;
 	
-	public var selectedColor(get_selectedColor, set_selectedColor): Int = 0;			//text color
+	/**
+	 * Current selected color.
+	 */
+	public var selectedColor(get_selectedColor, set_selectedColor): Int = 0;
 	
 	//******************************
 	//		PRIVATE VARIABLES
@@ -67,6 +100,9 @@ class ColorPicker extends StyledComponent {
 		_validateColor();
 	}
 	
+	/**
+	 * Inform component to change color of colorBox in next frame.
+	 */
 	public function invalidColor(): Void {
 		if (_dirtyColor) return;
 		_dirtyColor = true;
