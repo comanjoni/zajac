@@ -10,10 +10,8 @@ import nme.text.TextFieldAutoSize;
 import nme.text.TextFormat;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class LabelSkin implements ISkin {
 
 	public function new() { }

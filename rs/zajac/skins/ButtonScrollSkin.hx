@@ -6,10 +6,9 @@ import nme.display.Graphics;
 import nme.display.Shape;
 
 /**
- * ...
+ * Skin for Button used in Scroll.
  * @author Aleksandar Bogdanovic
  */
-
 class ButtonScrollSkin implements ISkin {
 
 	public function new() { }

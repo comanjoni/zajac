@@ -11,10 +11,8 @@ import nme.geom.Matrix;
 import nme.Vector;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class ColorPickerSkin implements IColorPickerSkin {
 
 	public function getPaletteSkinClass(): Class<ISkin> {

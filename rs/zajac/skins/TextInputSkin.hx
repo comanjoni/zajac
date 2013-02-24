@@ -12,10 +12,8 @@ import nme.text.TextFormat;
 import nme.text.TextFormatAlign;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class TextInputSkin implements ISkin {
 
 	public function new() {}

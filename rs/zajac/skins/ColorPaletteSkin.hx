@@ -10,10 +10,8 @@ import nme.display.Graphics;
 import nme.display.Shape;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class ColorPaletteSkin implements IColorPaletteSkin {
 
 	public function getCursor(): DisplayObject {

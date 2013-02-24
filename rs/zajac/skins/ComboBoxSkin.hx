@@ -14,10 +14,8 @@ import nme.Vector;
 import nme.Vector;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class ComboBoxSkin implements IComboBoxSkin {
 	
 	public function getListSkinClass(): Class<ISkin> {

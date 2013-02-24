@@ -7,10 +7,8 @@ import nme.display.DisplayObject;
 import nme.display.Graphics;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class ScrollSkin implements IScrollSkin {
 
 	public function getButtonSkinClass():Class<ISkin> {

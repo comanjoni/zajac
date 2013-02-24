@@ -6,10 +6,8 @@ import nme.display.DisplayObject;
 import nme.display.Graphics;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class SliderSkin implements ISliderSkin {
 
 	public function getButtonSkinClass():Class<ISkin> {

@@ -5,10 +5,8 @@ import nme.display.DisplayObject;
 import nme.display.Graphics;
 
 /**
- * ...
  * @author Aleksandar Bogdanovic
  */
-
 class PanelSkin implements IPanelSkin {
 
 	public function new() { }
