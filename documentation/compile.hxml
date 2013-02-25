@@ -1,6 +1,0 @@
--swf all.swf
--lib nme
---no-output
--xml ../haxedoc.xml
--cp ../
-ImportAll
