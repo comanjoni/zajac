@@ -12,12 +12,16 @@ import nme.text.TextFieldAutoSize;
 import nme.text.TextFormatAlign;
 
 /**
- * ...
+ * Check box
  * @author Ilic S Stojan
  */
 
 class CheckBox extends StyledComponent{
 
+	//******************************
+	//		COMPONENT STATES
+	//******************************
+	
 	inline public static var UP:			String = 'up';
 	inline public static var OVER:			String = 'over';
 	inline public static var DOWN:			String = 'down';
@@ -25,13 +29,43 @@ class CheckBox extends StyledComponent{
 	inline public static var SELECTED_OVER:	String = 'sel_over';
 	inline public static var SELECTED_DOWN:	String = 'sel_down';
 	
-	@style public var color: Int = 0;			//text color
-	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
-	@style public var iconColor: Int = 0x666666;		//color of X of ok icon in the middle of the button box
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
+	
+	/**
+	 * Styled property defining text color.
+	 */
+	@style public var color: Int = 0;
+	
+	/**
+	 * Styled property defining background color.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+	
+	/**
+	 * Styled property for icon color.
+	 */
+	@style public var iconColor: Int = 0x666666;
+	
+	/**
+	 * Styled property button roundness.
+	 */
 	@style public var roundness: Int = 0;
+	
+	/**
+	 * Styled property button border color.
+	 */
 	@style public var borderColor: Int = -1;
 	
-	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
+	//******************************
+	//		GETTERS/SETTERS
+	//******************************
+	
+	/**
+	 * Styled property - size of checked icon in pixels
+	 */
+	@style public var buttonSize(get_buttonSize, default):Float;
 	private function get_buttonSize():Float {
 		return Math.min(_getStyleProperty("buttonSize", ZajacCore.getHeightUnit()), Height);
 	}
@@ -40,15 +74,22 @@ class CheckBox extends StyledComponent{
 		if (selected) return 'sel_'+state;
 		return state;
 	}
-	
+
+	/**
+	 * [Read only] reference to label field 
+	 */
+	public var labelField(get_tLabel, null):TextField;
 	private var _tLabel:TextField;
 	private function get_tLabel():TextField {
 		return _tLabel;
 	}
-	public var labelField(get_tLabel, null):TextField;
 	
 	private var _isOver:Bool;
-	
+
+	/**
+	 * Check box label string
+	 */
+	public var label(get_label, set_label):String;
 	private var _label:String;
 	private function get_label():String {
 		return _label;
@@ -60,8 +101,11 @@ class CheckBox extends StyledComponent{
 		invalidSkin();
 		return _label;
 	}
-	public var label(get_label, set_label):String;
-	
+
+	/**
+	 * Selected state (true if checkbox is selected, false if it isn't)
+	 */
+	public var selected(get_selected, set_selected):Bool;
 	private var _selected:Bool;
 	private function get_selected():Bool {
 		return _selected;
@@ -80,8 +124,10 @@ class CheckBox extends StyledComponent{
 		if (c_changed) dispatchEvent(new Event(Event.CHANGE));
 		return _selected;
 	}
-	public var selected(get_selected, set_selected):Bool;
 	
+	//******************************
+	//		PUBLIC METHODS
+	//******************************
 	
 	public function new() {
 		super();
@@ -107,6 +153,10 @@ class CheckBox extends StyledComponent{
 		addEventListener(MouseEvent.CLICK, 		onClick);
 		
 	}
+	
+	//******************************
+	//		PRIVATE METHODS
+	//******************************
 	
 	override private function initialize(): Void {
 		skinClass = CheckBoxSkin;

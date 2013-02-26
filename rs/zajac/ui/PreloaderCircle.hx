@@ -13,10 +13,30 @@ class PreloaderCircle extends StyledComponent{
 	//		PUBLIC VARIABLES
 	//******************************
 	
-	@style public var radius	: Int = 32;			//preloader radius
-	@style public var segments	: Int = 12;		//how many circles
+	/**
+	 * Styled property defining preloader radius.
+	 */
+	@style public var radius	: Int = 32;
+	
+	/**
+	 * Styled property defining how manu circle segments preloader have.
+	 */
+	@style public var segments	: Int = 12;
+	
+	/**
+	 * Styled property defining preloader circle color.
+	 */
 	@style public var color		: Int = 0xcbcbcb;
+	
+	/**
+	 * Styled property defining margin between preloader circles in pixel.
+	 */
 	@style public var margin	: Int = 1;
+	
+	/**
+	 * Styled property type. If linear is true, circles radius starts from 0 to max radius.
+	 * If linear is false all preloader circles are the same radius
+	 */
 	@style public var linear	: Bool = true;
 	
 	private var _angle:Float = 0;
@@ -34,10 +54,16 @@ class PreloaderCircle extends StyledComponent{
 		mouseEnabled = false;
 	}
 	
+	/**
+	 * start loader animation
+	 */
 	public function start():Void{
 		if (!hasEventListener(Event.ENTER_FRAME) ) addEventListener(Event.ENTER_FRAME, onFrame);
 	}
 	
+	/**
+	 * stop loader animation
+	 */
 	public function stop():Void{
 		removeEventListener(Event.ENTER_FRAME, onFrame);
 	}

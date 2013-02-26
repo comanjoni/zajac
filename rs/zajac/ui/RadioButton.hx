@@ -19,17 +19,52 @@ import nme.text.TextFormatAlign;
 
 class RadioButton extends StyledComponent{
 
+	//******************************
+	//		COMPONENT STATES
+	//******************************
+	
 	inline public static var UP:		String = 'up';
 	inline public static var OVER:		String = 'over';
 	inline public static var DOWN:		String = 'down';
 	inline public static var SELECTED:	String = 'selected';
 	
-	@style public var color: Int = 0;					//text color
-	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
-	@style public var iconColor: Int = 0x666666;		//color of X of ok icon in the middle of the button box
-	@style public var roundness: Int = -1;				//roundness = -1 - icon is circle, if roundness is >= 0 icon is rect with selected roundness
+	//******************************
+	//		PUBLIC VARIABLES
+	//******************************
+	
+	
+	/**
+	 * Styled property defining text color.
+	 */
+	@style public var color: Int = 0;
+	
+	/**
+	 * Styled property defining background color.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+	
+	/**
+	 * Styled property defining color of X icon in the middle of the button box
+	 */
+	@style public var iconColor: Int = 0x666666;
+	
+	/**
+	 * Styled property defining button radius. If roundness is -1 icon is circle, if roundness is >= 0 icon is rect with selected roundness
+	 */
+	@style public var roundness: Int = -1;
+	
+	/**
+	 * Styled property defining border color. If border color is -1 border is disabled
+	 */
 	@style public var borderColor: Int = -1;
 	
+	//******************************
+	//		GETTERS/SETTERS
+	//******************************
+	
+	/**
+	 * Styled property - size of checked icon in pixels
+	 */
 	@style public var buttonSize(get_buttonSize, default):Float;//: Float = 20;		//size of checked icon in pixels
 	private function get_buttonSize():Float {
 		return Math.min(_getStyleProperty("buttonSize", ZajacCore.getHeightUnit()), Height);
@@ -54,6 +89,9 @@ class RadioButton extends StyledComponent{
 		invalidSkin();
 		return _label;
 	}
+	/**
+	 * [Read only] reference to label field 
+	 */
 	public var label(get_label, set_label):String;
 	
 	private var _selected:Bool;
@@ -76,10 +114,12 @@ class RadioButton extends StyledComponent{
 		if (c_changed) dispatchEvent(new Event(Event.CHANGE));
 		return _selected;
 	}
+	/**
+	 * Selected state (true if checkbox is selected, false if it isn't)
+	 */
 	public var selected(get_selected, set_selected):Bool;
 	
 	
-	//public var groupName:String;
 	private var _groupName:String;
 	private function get_groupName():String {
 		return _groupName;
@@ -89,6 +129,9 @@ class RadioButton extends StyledComponent{
 		RadioGroup.gi().addButton(this, value);
 		return _groupName = value;
 	}
+	/**
+	 * name of group where this radio button belongs
+	 */
 	public var groupName(get_groupName, set_groupName):String;
 	
 	public function new() {

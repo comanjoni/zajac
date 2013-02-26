@@ -23,13 +23,34 @@ class Button extends StyledComponent {
 	//		PUBLIC VARIABLES
 	//******************************
 	
-	@style public var color: Int = 0;			//text color
-	@style public var backgroundColor: Int = 0xffffff;	//backgroundColor
+	/**
+	 * Styled property defining text color.
+	 */
+	@style public var color: Int = 0;
+	
+	/**
+	 * Styled property defining background color.
+	 */
+	@style public var backgroundColor: Int = 0xffffff;
+	
+	/**
+	 * Styled property defining button roundness.
+	 */
 	@style public var roundness: Int = 0;
+	
+	/**
+	 * Styled property defining border color.
+	 */
 	@style public var borderColor: Null<Int> = 0xbfc0c2;
 	
+	/**
+	 * Reference to label field.
+	 */
 	public var labelField(default, null): TextField;
 	
+	/**
+	 * Button label text.
+	 */
 	public var label(default, set_label): String = '';
 	
 	//******************************
