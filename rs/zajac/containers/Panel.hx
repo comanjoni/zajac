@@ -15,44 +15,44 @@ class Panel extends rs.zajac.ui.StyledComponent {
 	/**
 	 * Styled property defining panel background color.
 	 */
-	var backgroundColor: Int;
+	@style public var backgroundColor: Int;
 	
 	/**
 	 * Styled proerty defining panel background alpha.
 	 */
-	var backgroundAlpha: Float;
+	@style public var backgroundAlpha: Float;
 	
 	/**
 	 * Styled property defining panel border color. If it's null
 	 * border will not be drawn.
 	 */
-	var borderColor: Null<Int>;
+	@style public var borderColor: Null<Int>;
 	
 	/**
 	 * Styled property defining size of scroll.
 	 * Width of vertical scroll and height of horizontal scroll.
 	 */
-	var scrollSize: Float;
+	@style public var scrollSize: Float;
 	
 	/**
 	 * Returns instance of vertical scroll.
 	 */
-	var verticalScroll: rs.zajac.ui.Scroll;
+	public var verticalScroll: rs.zajac.ui.Scroll;
 	
 	/**
 	 * Returns instance of horizontal scroll.
 	 */
-	var horizontalScroll: rs.zajac.ui.Scroll;
+	public var horizontalScroll: rs.zajac.ui.Scroll;
 	
 	/**
 	 * Scrolling step size for one mouse wheel event.
 	 */
-	var mouseWheelStep: Float;
+	public var mouseWheelStep: Float;
 	
 	/**
 	 * Position and size of content for children.
 	 */
-	public var contentRect(get_contentRect, null): nme.geom.Rectangle;
+	public var contentRect(default, null): nme.geom.Rectangle;
 	
 	//******************************
 	//		PUBLIC METHODS
@@ -61,12 +61,12 @@ class Panel extends rs.zajac.ui.StyledComponent {
 	/**
 	 * Update scroll rectangle bounds of content for children. 
 	 */
-	function updateScrollRect(): Void;
-	
+	public function updateScrollRect(): Void {}
+		
 	/**
 	 * Set scroll flag to dirty state so it can be updated in next frame.
 	 */
-	function invalidScroll(): Void;
+	public function invalidScroll(): Void {}
 	
 }
 
