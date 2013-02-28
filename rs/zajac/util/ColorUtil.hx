@@ -14,10 +14,10 @@ class ColorUtil {
 	
 	/**
 	 * Convert hsv color representation to rgb. 
-	 * @param	h	hue
-	 * @param	s	saturation
-	 * @param	v	value
-	 * @return	rgb as integer
+	 * @param	h	Hue.
+	 * @param	s	Saturation.
+	 * @param	v	Value.
+	 * @return	Rgb as integer.
 	 */
 	static public function hsv2rgb(h: Float, s: Float, v: Float): Int {
 		var i: Int = Math.floor(h * 6);
@@ -56,7 +56,7 @@ class ColorUtil {
 	/**
 	 * Convert rgb color represenation to hsv.
 	 * @param	rgb
-	 * @return	array with 3 elements [hue, saturation, value]
+	 * @return	Array with 3 elements [hue, saturation, value].
 	 */
 	static public function rgb2hsv(rgb: Int): Array<Float> {
 		var r: Float = cast((rgb & 0xff0000) / 0x10000, Float) / 0xff;
@@ -87,10 +87,10 @@ class ColorUtil {
 	
 	/**
 	 * Convert hsl color representation to rgb.
-	 * @param	h	hue
-	 * @param	s	saturation
-	 * @param	l	lightness
-	 * @return	rgb as integer
+	 * @param	h	Hue.
+	 * @param	s	Saturation.
+	 * @param	l	Lightness.
+	 * @return	Rgb as integer.
 	 */
 	static public function hsl2rgb(h: Float, s: Float, l: Float): Int {
 		var r: Float = l;
@@ -111,7 +111,7 @@ class ColorUtil {
 	/**
 	 * Convert rgb color representation to hsl.
 	 * @param	rgb
-	 * @return	array with 3 elements [hue, saturation, lightness]
+	 * @return	Array with 3 elements [hue, saturation, lightness].
 	 */
 	static public function rgb2hsl(rgb: Int): Array<Float> {
 		var r: Float = cast((rgb & 0xff0000) / 0x10000, Float) / 0xff;

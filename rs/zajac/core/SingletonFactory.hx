@@ -12,8 +12,8 @@ class SingletonFactory {
 	
 	/**
 	 * Creating only one instance per class.
-	 * @param	c	class that should be instanced
-	 * @return	class instance
+	 * @param	c	Class that should be instanced.
+	 * @return	Class instance.
 	 */
 	static public function getInstance(c: Class<Dynamic>): Dynamic {
 		var c_className: String = Type.getClassName(c);

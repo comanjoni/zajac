@@ -53,8 +53,8 @@ class ZajacCore {
 	
 	/**
 	 * Adding multiplier for specific font.
-	 * @param	font	font name.
-	 * @param	multiplier	multiplying value for specified font.
+	 * @param	font	Font name.
+	 * @param	multiplier	Multiplying value for specified font.
 	 */
 	static public function addFontMultiplier(font: String, multiplier: Float): Void {
 		_fontMultipliers.set(font, multiplier);
@@ -64,8 +64,8 @@ class ZajacCore {
 	 * Get default font size for specific font. If font is not specified or 
 	 * multiplier is not specified using addFontMultiplier it will return value
 	 * calculated using defaultFontMultiplier.
-	 * @param	?font	font name or null
-	 * @return	default font size
+	 * @param	?font	Font name or null.
+	 * @return	default Font size.
 	 */
 	static public function getFontSize(?font: String): Int {
 		var c_multiplier: Float = defaultFontMultiplier;

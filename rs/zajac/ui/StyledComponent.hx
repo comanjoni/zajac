@@ -6,31 +6,34 @@ import rs.zajac.managers.StyleManager;
 /**
  * Root framework component that support styling.
  * Subclasses need to specially define properties that should by styleable.
- * Styleable means that property can be set using css.
- * Styleable property example:
-	 * @style public var test: Int = 3;
- * In compile time this is translated to:
-	 * @style public var test(get_test, set_test): Int;
-	 * private function get_test(): Int {
-	 *     return _getStyleProperty("test", 3);
-	 * }
-	 * private function set_test(v: Int): Int {
-	 *     return _setStyleProperty("test", v);
-	 * }
+ * Styleable means that property can be set using css.												<br/>
+ * Styleable property example:																		<br/>
+ * <p style="font-family: Consolas, monospace;">@style public var test: Int = 3;</p>				<br/>
+ * In compile time this is translated to:															<br/>
+ * <p style="font-family: Consolas, monospace;">@style public var test(get_test, set_test): Int;	<br/>
+ * private function get_test(): Int {																<br/>
+ *     return _getStyleProperty("test", 3);															<br/>
+ * }																								<br/>
+ * private function set_test(v: Int): Int {															<br/>
+ *     return _setStyleProperty("test", v);															<br/>
+ * }																								<br/>
+ * </p>
  * If specific functionality is requred in getter or setter developer can make manually getter or setter
- * but _getStylePoperty and _setStyleProperty must be used for value storage.
- * Setter example:
-	 * @style public var (get_test, default): Int;
-	 * private function get_test(): Int {
-	 *     // some code
-	 *     return _getStyleProperty("test", 3);		// Notie that default value is defined here and not in variable definition.
-	 * }
- * Getter example:
-	 * @style public var test(default, set_test): Int = 3;
-	 * private function set_test(v: Int): Int {
-	 *     // some code
-	 *     return _setStyleProperty("test", v);
-	 * }
+ * but _getStylePoperty and _setStyleProperty must be used for value storage.						<br/>
+ * Setter example:																					<br/>
+ * <p style="font-family: Consolas, monospace;">@style public var (get_test, default): Int;			<br/>
+ * private function get_test(): Int {																<br/>
+ *     // some code																					<br/>
+ *     return _getStyleProperty("test", 3);		// Notie that default value is defined here and not in variable definition.	<br/>
+ * }																								<br/>
+ * </p>																								<br/>
+ * Getter example:																					<br/>
+ * <p style="font-family: Consolas, monospace;">@style public var test(default, set_test): Int = 3;	<br/>
+ * private function set_test(v: Int): Int {															<br/>
+ *     // some code																					<br/>
+ *     return _setStyleProperty("test", v);															<br/>
+ * }																								<br/>
+ * </p>
  * @author Aleksandar Bogdanovic
  */
 @:autoBuild(rs.zajac.macro.StyleMacro.build()) class StyledComponent extends BaseComponent {

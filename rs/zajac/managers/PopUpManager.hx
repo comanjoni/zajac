@@ -20,7 +20,6 @@ class _PopUpDef {
 	public var modal: Bool;
 	
 	/**
-	 * Constructor.
 	 * @param	window
 	 * @param	modal	
 	 */
@@ -157,8 +156,8 @@ class PopUpManager {
 	/**
 	 * Add popup at top on specific parent container. If parent is null popup will be added on top of stage.
 	 * If popup is already added t specified parent it will be added in front of all popups.
-	 * @param	parent	container for holding popup or null for stage.
-	 * @param	window	popup
+	 * @param	parent	Container for holding popup or null for stage.
+	 * @param	window	Popup.
 	 * @param	modal
 	 */
 	public static function addPopUp(parent: DisplayObjectContainer, window: DisplayObject, modal: Bool = false): Void {
@@ -189,7 +188,7 @@ class PopUpManager {
 	
 	/**
 	 * Center popup in its parent. If popup is not added to any container do nothing.
-	 * @param	window	popup
+	 * @param	window	Popup.
 	 */
 	public static function centerPopUp(window: DisplayObject): Void {
 		if (window == null) return;
@@ -204,7 +203,7 @@ class PopUpManager {
 	
 	/**
 	 * Remove popup from its parent container. If popup is not added to any container do nothing.
-	 * @param	window	popup
+	 * @param	window	Popup.
 	 */
 	public static function removePopUp(window: DisplayObject): Void {
 		if (window == null) return;

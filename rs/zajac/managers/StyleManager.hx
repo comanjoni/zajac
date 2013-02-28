@@ -9,9 +9,11 @@ import nme.utils.ByteArray;
 
 /**
  * Provides functionality related to styles:
-	 * Adding css style from assets.
-	 * Getting style for specific component.
-	 * Getting style by name.
+ * <ul>
+ * <li>- Adding css style from assets.</li>
+ * <li>- Getting style for specific component.</li>
+ * <li>- Getting style by name.</li>
+ * </ul>
  * @author Aleksandar Bogdanovic
  */
 class StyleManager {
@@ -30,7 +32,7 @@ class StyleManager {
 	
 	/**
 	 * Adding style (css) resource that is embeded as asset.
-	 * @usage		StyleManager.addResource("style.css");
+	 * @usage	StyleManager.addResource("style.css");
 	 * @param	res	The ID or asset path for the css file
 	 */
 	static public function addResource(res: String): Void {
@@ -58,7 +60,7 @@ class StyleManager {
 	/**
 	 * Returns predefined style for component instance.
 	 * @param	target	Any subclass of StyledComponent.
-	 * @return		Hash map with style properties that should be used or storing style property values in StyledComponent.
+	 * @return	Hash map with style properties that should be used or storing style property values in StyledComponent.
 	 */
 	static public function getStyle(target: StyledComponent): Hash<StyleProperty> {
 		var c_targetClass: Class<StyledComponent> = Type.getClass(target);
@@ -81,7 +83,7 @@ class StyleManager {
 	 * Get style by name with properties corresponding to the target object.
 	 * @param	target	Any subclass of StyledComponent.
 	 * @param	name	Name of style in css asset (in css file it should start with ".")
-	 * @return		Hash map with style properties that should be aplied to StyleComponent style.
+	 * @return	Hash map with style properties that should be aplied to StyleComponent style.
 	 */
 	static public function getStyleByName(target: StyledComponent, name: String): Hash<StyleProperty> {
 		if (name.charAt(0) != '.')
@@ -104,7 +106,7 @@ class StyleManager {
 	/**
 	 * Analyze StyleProperty subclass in order to resolve styleable fields and default values for them.
 	 * @param	targetClass	Class of component that should be analyzed.
-	 * @return		Hash map with default style property values of targetClass.
+	 * @return	Hash map with default style property values of targetClass.
 	 */
 	static private function _processStyledComponent(targetClass: Class<StyledComponent>): Array<String> {
 		var c_targetClassName: String = Type.getClassName(targetClass);
@@ -137,7 +139,7 @@ class StyleManager {
 	/**
 	 * Returns all field names that are styleable on targeted class.
 	 * @param	targetClass
-	 * @return		Iterator of field names.
+	 * @return	Iterator of field names.
 	 */
 	static public function getClassStyleProperties(targetClass: Class<StyledComponent>): Array<String> {
 		return _processStyledComponent(targetClass);

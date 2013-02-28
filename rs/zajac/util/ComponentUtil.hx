@@ -15,11 +15,13 @@ class ComponentUtil {
 	
 	/**
 	 * Get size of component. Support 3 types of components:
-		 * BaseComponent
-		 * Stage
-		 * Other DisplayObject
-	 * @param	obj	component for measuring
-	 * @return	point containing size: x = width, y = height
+	 * <ul>
+	 * <li>- BaseComponent</li>
+	 * <li>- Stage</li>
+	 * <li>- Other DisplayObject</li>
+	 * </ul>
+	 * @param	obj	Component for measuring.
+	 * @return	Point containing size: x = width, y = height.
 	 */
 	static public function size(obj: DisplayObject): Point {
 		if (Std.is(obj, BaseComponent)) {
@@ -38,7 +40,7 @@ class ComponentUtil {
 	/**
 	 * Minimal size of rect that wraps all visible components in container.
 	 * @param	container
-	 * @return	point containing size: x = width, y = height
+	 * @return	Point containing size: x = width, y = height.
 	 */
 	static public function visibleContentSize(container: DisplayObjectContainer): Point {
 		var c_total: Point = new Point(0, 0);

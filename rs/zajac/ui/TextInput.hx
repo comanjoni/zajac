@@ -9,7 +9,7 @@ import nme.text.TextFieldAutoSize;
 import nme.text.TextFieldType;
 
 /**
- * ...
+ * Text input.
  * @author Aleksandar Bogdanovic
  */
 

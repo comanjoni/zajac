@@ -8,7 +8,7 @@ import nme.events.MouseEvent;
 import nme.geom.Point;
 
 /**
- * ...
+ * Scroll.
  * @author Aleksandar Bogdanovic
  */
 
@@ -53,8 +53,10 @@ class Scroll extends StyledComponent {
 	
 	/**
 	 * Scroll direction. Available values:
-		 * Scroll.DIRECTION_HORIZONTAL = 'horizontal'
-		 * Scroll.DIRECTION_VERTICAL = 'vertical'
+	 * <ul>
+	 * <li>- Scroll.DIRECTION_HORIZONTAL = 'horizontal'</li>
+	 * <li>- Scroll.DIRECTION_VERTICAL = 'vertical'</li>
+	 * </ul>
 	 */
 	public var direction(default, set_direction): String = DIRECTION_HORIZONTAL;
 	

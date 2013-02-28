@@ -52,7 +52,7 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 	
 	/**
 	 * Renderer is its own skin.
-	 * Thi smethod is empty. Should be filled in subclass.
+	 * This method is empty. Should be filled in subclass.
 	 * @param	client
 	 * @param	states
 	 */

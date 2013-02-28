@@ -160,8 +160,8 @@ class StyleParser {
 	
 	/**
 	 * Parsing css content into styles. Each style entry consist of several StyleProperty.
-	 * @param	input	String, css content
-	 * @return	map of styles defined in content
+	 * @param	input	String, css content.
+	 * @return	Hash map of styles defined in content.
 	 */
 	static public function parse(input: String): Hash<Hash<StyleProperty>> {
 		input = _removeCommented(input);

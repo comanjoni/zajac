@@ -15,8 +15,8 @@ class IntUtil {
 	
 	/**
 	 * Converts hex string to integer value.
-	 * @param	hex	Hexadecimal string that starts with "0x" or "#"
-	 * @return		Int value of hex input.
+	 * @param	hex	Hexadecimal string that starts with "0x" or "#".
+	 * @return	Int value of hex input.
 	 */
 	static public function hex2int(hex: String): Int {
 		hex = hex.toLowerCase();

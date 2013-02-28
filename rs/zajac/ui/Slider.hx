@@ -8,7 +8,7 @@ import nme.events.MouseEvent;
 import nme.geom.Point;
 
 /**
- * ...
+ * Slider.
  * @author Aleksandar Bogdanovic
  */
 
@@ -54,8 +54,10 @@ class Slider extends StyledComponent {
 	
 	/**
 	 * Slider direction. Available values:
-		 * Slider.DIRECTION_HORIZONTAL = 'horizontal'
-		 * Slider.DIRECTION_VERTICAL = 'vertical'
+	 * <ul>
+	 * <li>- Slider.DIRECTION_HORIZONTAL = 'horizontal'</li>
+	 * <li>- Slider.DIRECTION_VERTICAL = 'vertical'</li>
+	 * </ul>
 	 */
 	public var direction(default, set_direction): String = DIRECTION_HORIZONTAL;
 	
