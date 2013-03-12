@@ -11,6 +11,8 @@ Tested on: iOS, Android, Blackberry, Windows, Flash
 
 Documentation: for now http://lib.haxe.org/d/zajac
 
+Example: https://github.com/stolex/testzajac
+
 Demo: comming soon
 
 Features
