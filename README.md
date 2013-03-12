@@ -13,7 +13,7 @@ Documentation: for now http://lib.haxe.org/d/zajac
 
 Example: https://github.com/stolex/testzajac
 
-Demo: comming soon
+Demo: http://zajac.rs/demo/
 
 Features
 -------------------------
