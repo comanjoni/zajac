@@ -9,7 +9,7 @@ Supported targets: cpp, flash, neko
 
 Tested on: iOS, Android, Blackberry, Windows, Flash
 
-Documentation: for now http://lib.haxe.org/d/zajac
+Documentation: http://www.zajac.rs/doc/
 
 Example: https://github.com/stolex/testzajac
 
