@@ -15,6 +15,10 @@ Example: https://github.com/stolex/testzajac
 
 Demo: http://zajac.rs/demo/
 
+Update
+-------------------------
+Haxe3 branch is for Haxe3/OpenFL migration.
+
 Features
 -------------------------
 * Framework does not require initialization.
