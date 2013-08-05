@@ -1,5 +1,5 @@
 package rs.zajac.core;
-import nme.system.Capabilities;
+import flash.system.Capabilities;
 
 /**
  * Framework core properties.
@@ -49,7 +49,7 @@ class ZajacCore {
 	 */
 	static public var defaultFontMultiplier: Float = 0.6;
 	
-	static private var _fontMultipliers: Hash<Float> = new Hash<Float>();
+	static private var _fontMultipliers: Map<String,Float> = new Map<String,Float>();
 	
 	/**
 	 * Adding multiplier for specific font.

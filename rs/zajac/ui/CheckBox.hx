@@ -2,14 +2,14 @@ package rs.zajac.ui;
 import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.CheckBoxSkin;
 import rs.zajac.util.TextFieldUtil;
-import nme.events.Event;
-import nme.events.MouseEvent;
+import flash.events.Event;
+import flash.events.MouseEvent;
 #if mobile
-import nme.events.TouchEvent;
+import flash.events.TouchEvent;
 #end
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFormatAlign;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormatAlign;
 
 /**
  * Check box

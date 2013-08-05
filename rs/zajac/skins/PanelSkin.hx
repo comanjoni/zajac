@@ -1,8 +1,8 @@
 package rs.zajac.skins;
 import rs.zajac.containers.Panel;
 import rs.zajac.ui.BaseComponent;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -18,7 +18,7 @@ class PanelSkin implements IPanelSkin {
 		return ScrollSkin;
 	}
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client: Panel = cast(client);
 		drawBackground(c_client);
 	}

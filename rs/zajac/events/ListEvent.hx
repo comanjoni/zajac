@@ -1,5 +1,5 @@
 package rs.zajac.events;
-import nme.events.Event;
+import flash.events.Event;
 
 /**
  * Events dispatched from List component.

@@ -3,14 +3,14 @@ import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ColorPaletteSkin;
 import rs.zajac.skins.IColorPaletteSkin;
 import rs.zajac.util.ColorUtil;
-import nme.display.Bitmap;
-import nme.display.DisplayObject;
-import nme.display.Shape;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.geom.Point;
-import nme.Lib;
+import flash.display.Bitmap;
+import flash.display.DisplayObject;
+import flash.display.Shape;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.Point;
+import flash.Lib;
 
 /**
  * HSV color palette.

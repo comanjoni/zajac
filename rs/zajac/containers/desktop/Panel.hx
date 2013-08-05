@@ -5,12 +5,12 @@ import rs.zajac.skins.PanelSkin;
 import rs.zajac.ui.Scroll;
 import rs.zajac.ui.StyledComponent;
 import rs.zajac.util.ComponentUtil;
-import nme.display.DisplayObject;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.geom.Point;
-import nme.geom.Rectangle;
+import flash.display.DisplayObject;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.Point;
+import flash.geom.Rectangle;
 
 /**
  * Panel implementaion for desktop application.

@@ -3,9 +3,9 @@ import rs.zajac.core.StyleParser;
 import rs.zajac.core.StyleProperty;
 import rs.zajac.util.HashUtil;
 import rs.zajac.ui.StyledComponent;
-import nme.Assets;
+import openfl.Assets;
 import haxe.rtti.Meta;
-import nme.utils.ByteArray;
+import flash.utils.ByteArray;
 
 /**
  * Provides functionality related to styles:
@@ -23,12 +23,12 @@ class StyleManager {
 	/**
 	 * Contains all style definitions in system.
 	 */
-	static private var _styles: Hash<Hash<StyleProperty>> = new Hash<Hash<StyleProperty>>();
+	static private var _styles: Map<String,Map<String,StyleProperty>> = new Map<String,Map<String,StyleProperty>>();
 	
 	/**
 	 * Contains style properties for each styled component.
 	 */
-	static private var _classStyleProperties: Hash<Array<String>> = new Hash<Array<String>>();
+	static private var _classStyleProperties: Map<String,Array<String>> = new Map<String,Array<String>>();
 	
 	/**
 	 * Adding style (css) resource that is embeded as asset.
@@ -46,7 +46,7 @@ class StyleManager {
 			c_css = Assets.getText(res);
 		#end
 		if (c_css != null) {
-			var c_styles: Hash<Hash<StyleProperty>> = StyleParser.parse(c_css);
+			var c_styles: Map<String,Map<String,StyleProperty>> = StyleParser.parse(c_css);
 			for (key in c_styles.keys()) {
 				if (_styles.exists(key)) {
 					HashUtil.update(_styles.get(key), c_styles.get(key));
@@ -60,15 +60,15 @@ class StyleManager {
 	/**
 	 * Returns predefined style for component instance.
 	 * @param	target	Any subclass of StyledComponent.
-	 * @return	Hash map with style properties that should be used or storing style property values in StyledComponent.
+	 * @return	Map map with style properties that should be used or storing style property values in StyledComponent.
 	 */
-	static public function getStyle(target: StyledComponent): Hash<StyleProperty> {
+	static public function getStyle(target: StyledComponent): Map<String,StyleProperty> {
 		var c_targetClass: Class<StyledComponent> = Type.getClass(target);
 		var c_targetClassName: String = Type.getClassName(c_targetClass);
-		var c_styleCopy: Hash<StyleProperty> = new Hash<StyleProperty>();
+		var c_styleCopy: Map<String,StyleProperty> = new Map<String,StyleProperty>();
 		
 		if (_styles.exists(c_targetClassName)) {
-			var c_style: Hash<StyleProperty> = _styles.get(c_targetClassName);
+			var c_style: Map<String,StyleProperty> = _styles.get(c_targetClassName);
 			for (propName in getClassStyleProperties(c_targetClass)) {
 				if (c_style.exists(propName)) {
 					c_styleCopy.set(propName, c_style.get(propName));
@@ -83,16 +83,16 @@ class StyleManager {
 	 * Get style by name with properties corresponding to the target object.
 	 * @param	target	Any subclass of StyledComponent.
 	 * @param	name	Name of style in css asset (in css file it should start with ".")
-	 * @return	Hash map with style properties that should be aplied to StyleComponent style.
+	 * @return	Map map with style properties that should be aplied to StyleComponent style.
 	 */
-	static public function getStyleByName(target: StyledComponent, name: String): Hash<StyleProperty> {
+	static public function getStyleByName(target: StyledComponent, name: String): Map<String,StyleProperty> {
 		if (name.charAt(0) != '.')
 			name = '.' + name;
 		
-		var c_styleCopy: Hash<StyleProperty> = new Hash<StyleProperty>();
+		var c_styleCopy: Map<String,StyleProperty> = new Map<String,StyleProperty>();
 		
 		if (_styles.exists(name)) {
-			var c_style: Hash<StyleProperty> = _styles.get(name);
+			var c_style: Map<String,StyleProperty> = _styles.get(name);
 			for (propName in getStyleProperties(target)) {
 				if (c_style.exists(propName)) {
 					c_styleCopy.set(propName, c_style.get(propName));
@@ -106,7 +106,7 @@ class StyleManager {
 	/**
 	 * Analyze StyleProperty subclass in order to resolve styleable fields and default values for them.
 	 * @param	targetClass	Class of component that should be analyzed.
-	 * @return	Hash map with default style property values of targetClass.
+	 * @return	Map map with default style property values of targetClass.
 	 */
 	static private function _processStyledComponent(targetClass: Class<StyledComponent>): Array<String> {
 		var c_targetClassName: String = Type.getClassName(targetClass);

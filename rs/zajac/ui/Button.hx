@@ -2,11 +2,11 @@ package rs.zajac.ui;
 import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ButtonSkin;
 import rs.zajac.util.TextFieldUtil;
-import nme.events.MouseEvent;
-import nme.events.TouchEvent;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFormatAlign;
+import flash.events.MouseEvent;
+import flash.events.TouchEvent;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormatAlign;
 
 /**
  * ...

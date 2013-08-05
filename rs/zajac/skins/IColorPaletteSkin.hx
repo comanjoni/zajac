@@ -1,11 +1,11 @@
 package rs.zajac.skins;
-import nme.display.DisplayObject;
+import flash.display.DisplayObject;
 
 /**
  * Interface that should be used for ColorPalette skin.
  * @author Aleksandar Bogdanovic
  */
-interface IColorPaletteSkin implements ISkin {
+interface IColorPaletteSkin extends ISkin {
 
 	/**
 	 * Skin for cursor pointing to selected color.

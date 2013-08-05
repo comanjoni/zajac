@@ -1,5 +1,5 @@
 package rs.zajac.util;
-import nme.geom.Point;
+import flash.geom.Point;
 
 /**
  * Util functionality for Point.

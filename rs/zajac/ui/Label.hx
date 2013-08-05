@@ -1,10 +1,10 @@
 package rs.zajac.ui;
 import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.LabelSkin;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFieldType;
-import nme.text.TextFormatAlign;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFieldType;
+import flash.text.TextFormatAlign;
 
 /**
  * This component can only preview text.

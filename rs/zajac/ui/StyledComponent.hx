@@ -55,7 +55,7 @@ import rs.zajac.managers.StyleManager;
 	 * Map of values for each style property.
 	 * Key in this map is name of style propery.
 	 */
-	private var _style: Hash<StyleProperty>;
+	private var _style: Map<String,StyleProperty>;
 	
 	//******************************
 	//		PUBLIC METHODS
@@ -75,7 +75,7 @@ import rs.zajac.managers.StyleManager;
 	 * Used for setting style from css.
 	 * @param	style
 	 */
-	private function _mergeStyle(style: Hash<StyleProperty>): Void {
+	private function _mergeStyle(style: Map<String,StyleProperty>): Void {
 		if (style == null) return;
 		
 		var c_prop: StyleProperty;

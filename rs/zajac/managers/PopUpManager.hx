@@ -2,13 +2,13 @@ package rs.zajac.managers;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.util.ComponentUtil;
 import flash.display.Graphics;
-import nme.display.DisplayObjectContainer;
-import nme.display.Stage;
-import nme.events.Event;
-import nme.display.DisplayObject;
-import nme.display.Sprite;
-import nme.geom.Point;
-import nme.Lib;
+import flash.display.DisplayObjectContainer;
+import flash.display.Stage;
+import flash.events.Event;
+import flash.display.DisplayObject;
+import flash.display.Sprite;
+import flash.geom.Point;
+import flash.Lib;
 
 /**
  * Private class for storing information about popup window.

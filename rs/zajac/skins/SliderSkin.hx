@@ -2,8 +2,8 @@ package rs.zajac.skins;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.Button;
 import rs.zajac.ui.Slider;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -16,7 +16,7 @@ class SliderSkin implements ISliderSkin {
 	
 	public function new() { }
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client: Slider = cast(client);
 		var c_button: Button = c_client.button;
 		var c_gr: Graphics = c_client.graphics;

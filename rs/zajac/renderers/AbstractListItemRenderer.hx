@@ -3,10 +3,10 @@ import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ISkin;
 import rs.zajac.ui.StyledComponent;
 import rs.zajac.ui.BaseComponent;
-import nme.display.DisplayObject;
-import nme.events.MouseEvent;
-import nme.events.Event;
-import nme.geom.Point;
+import flash.display.DisplayObject;
+import flash.events.MouseEvent;
+import flash.events.Event;
+import flash.geom.Point;
 
 /**
  * Abstract class for renderers that should be used in List.
@@ -56,7 +56,7 @@ class AbstractListItemRenderer extends StyledComponent, implements ISkin {
 	 * @param	client
 	 * @param	states
 	 */
-	public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void { }
+	public function draw(client: BaseComponent, states:Map<String,DisplayObject>): Void { }
 	
 	//******************************
 	//		PRIVATE METHODS

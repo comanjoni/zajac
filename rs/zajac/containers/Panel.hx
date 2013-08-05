@@ -52,7 +52,7 @@ class Panel extends rs.zajac.ui.StyledComponent {
 	/**
 	 * Position and size of content for children.
 	 */
-	public var contentRect(default, null): nme.geom.Rectangle;
+	public var contentRect(default, null): flash.geom.Rectangle;
 	
 	//******************************
 	//		PUBLIC METHODS

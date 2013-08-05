@@ -3,8 +3,8 @@ import rs.zajac.containers.Panel;
 import rs.zajac.core.ZajacCore;
 import rs.zajac.events.ListEvent;
 import rs.zajac.renderers.AbstractListItemRenderer;
-import nme.display.DisplayObject;
-import nme.events.Event;
+import flash.display.DisplayObject;
+import flash.events.Event;
 import rs.zajac.renderers.ListItemRenderer;
 
 /**

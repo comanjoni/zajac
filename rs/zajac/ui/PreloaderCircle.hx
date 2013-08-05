@@ -1,6 +1,6 @@
 package rs.zajac.ui;
 import rs.zajac.core.ZajacCore;
-import nme.events.Event;
+import flash.events.Event;
 
 /**
  * simple customizable circle preloader

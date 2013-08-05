@@ -1,14 +1,14 @@
 package rs.zajac.skins;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.ColorPicker;
-import nme.display.BitmapData;
-import nme.display.BlendMode;
-import nme.display.DisplayObject;
-import nme.display.GradientType;
-import nme.display.Graphics;
-import nme.display.Shape;
-import nme.geom.Matrix;
-import nme.Vector;
+import flash.display.BitmapData;
+import flash.display.BlendMode;
+import flash.display.DisplayObject;
+import flash.display.GradientType;
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.geom.Matrix;
+import flash.Vector;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -146,7 +146,7 @@ class ColorPickerSkin implements IColorPickerSkin {
 		return c_shape;
 	}
 	
-	public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
+	public function draw(client: BaseComponent, states:Map<String,DisplayObject>): Void {
 		var c_client: ColorPicker = cast(client);
 		drawBackground(c_client);
 		drawColorBox(c_client);

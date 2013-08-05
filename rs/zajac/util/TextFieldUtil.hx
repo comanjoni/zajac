@@ -1,9 +1,9 @@
 package rs.zajac.util;
-import nme.Assets;
-import nme.text.Font;
-import nme.text.TextField;
-import nme.text.TextFormat;
-import nme.text.TextFormatAlign;
+import openfl.Assets;
+import flash.text.Font;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 
 /**
  * ...
@@ -30,7 +30,7 @@ class TextFieldUtil {
 	public static function fillFieldFromObject(field:TextField, properties:Dynamic):Void {
 		var key:String;
 		var c_font:Font;
-		var c_prop:Hash<Dynamic>;
+		var c_prop:Map<String,Dynamic>;
 		var c_format:TextFormat;
 		
 		if (field == null || properties == null) return;

@@ -3,15 +3,15 @@ import rs.zajac.core.ZajacCore;
 import rs.zajac.managers.PopUpManager;
 import rs.zajac.skins.ColorPickerSkin;
 import rs.zajac.skins.IColorPickerSkin;
-import nme.display.Bitmap;
-import nme.display.DisplayObjectContainer;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.events.TouchEvent;
-import nme.geom.ColorTransform;
-import nme.geom.Point;
-import nme.geom.Rectangle;
-import nme.Lib;
+import flash.display.Bitmap;
+import flash.display.DisplayObjectContainer;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.events.TouchEvent;
+import flash.geom.ColorTransform;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import flash.Lib;
 
 /**
  * ComboBox like color picker relies on ColorPalette.

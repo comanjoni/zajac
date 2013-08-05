@@ -3,11 +3,11 @@ import rs.zajac.core.ZajacCore;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.ColorPalette;
 import rs.zajac.util.ColorUtil;
-import nme.display.Bitmap;
-import nme.display.BitmapData;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
-import nme.display.Shape;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
+import flash.display.Shape;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -44,7 +44,7 @@ class ColorPaletteSkin implements IColorPaletteSkin {
 	
 	public function new() { }
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client: ColorPalette = cast(client);
 		drawBackground(c_client);
 		drawPalette(c_client);

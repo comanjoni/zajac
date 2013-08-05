@@ -3,9 +3,9 @@ import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.ButtonCircleSkin;
 import rs.zajac.skins.ISliderSkin;
 import rs.zajac.skins.SliderSkin;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.geom.Point;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.Point;
 
 /**
  * Slider.

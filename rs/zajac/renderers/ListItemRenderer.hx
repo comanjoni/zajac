@@ -1,17 +1,17 @@
 package rs.zajac.renderers;
 import rs.zajac.core.ZajacCore;
 import rs.zajac.ui.BaseComponent;
-import nme.Assets;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
-import nme.display.Shape;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.text.Font;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFieldType;
-import nme.text.TextFormat;
+import openfl.Assets;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.text.Font;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFieldType;
+import flash.text.TextFormat;
 
 /**
  * Basic list item renderer.
@@ -69,7 +69,7 @@ class ListItemRenderer extends AbstractListItemRenderer {
 	 * @param	client
 	 * @param	states
 	 */
-	override public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
+	override public function draw(client: BaseComponent, states:Map<String,DisplayObject>): Void {
 		var c_client: ListItemRenderer = cast(client);
 		drawTextField(c_client);
 		drawBackground(c_client);

@@ -5,14 +5,14 @@ import rs.zajac.managers.PopUpManager;
 import rs.zajac.skins.ComboBoxSkin;
 import rs.zajac.skins.IComboBoxSkin;
 import rs.zajac.util.TextFieldUtil;
-import nme.display.DisplayObjectContainer;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.events.TouchEvent;
-import nme.geom.Point;
-import nme.Lib;
-import nme.text.TextField;
-import nme.text.TextFieldType;
+import flash.display.DisplayObjectContainer;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.events.TouchEvent;
+import flash.geom.Point;
+import flash.Lib;
+import flash.text.TextField;
+import flash.text.TextFieldType;
 
 /**
  * @author Aleksandar Bogdanovic

@@ -1,9 +1,9 @@
 package rs.zajac.skins;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.Button;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
-import nme.display.Shape;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
+import flash.display.Shape;
 
 /**
  * Skin for Button used in Scroll.
@@ -86,7 +86,7 @@ class ButtonScrollSkin implements ISkin {
 		return drawStateOVER(client, state);
 	}
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client:Button = cast(client);
 		drawBackground(c_client);
 		states.set(Button.UP, drawStateUP(c_client, states.get(Button.UP)));

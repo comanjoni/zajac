@@ -7,13 +7,13 @@ import rs.zajac.ui.Slider;
 import rs.zajac.ui.StyledComponent;
 import rs.zajac.util.ComponentUtil;
 import rs.zajac.util.PointUtil;
-import nme.display.DisplayObject;
-import nme.display.Sprite;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.geom.Point;
-import nme.geom.Rectangle;
-import nme.Lib;
+import flash.display.DisplayObject;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import flash.Lib;
 
 /**
  * Panel implementation for mobile application.

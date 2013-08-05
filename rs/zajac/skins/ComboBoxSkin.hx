@@ -1,17 +1,17 @@
 package rs.zajac.skins;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.ComboBox;
-import nme.display.BlendMode;
-import nme.display.DisplayObject;
-import nme.display.GradientType;
-import nme.display.Graphics;
-import nme.display.Shape;
-import nme.geom.Matrix;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFormat;
-import nme.Vector;
-import nme.Vector;
+import flash.display.BlendMode;
+import flash.display.DisplayObject;
+import flash.display.GradientType;
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.geom.Matrix;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
+import flash.Vector;
+import flash.Vector;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -166,7 +166,7 @@ class ComboBoxSkin implements IComboBoxSkin {
 		return c_shape;
 	}
 	
-	public function draw(client: BaseComponent, states:Hash<DisplayObject>): Void {
+	public function draw(client: BaseComponent, states:Map<String,DisplayObject>): Void {
 		var c_client: ComboBox = cast(client);
 		drawTextField(c_client);
 		drawBackground(c_client);

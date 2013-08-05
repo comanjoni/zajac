@@ -3,8 +3,8 @@ import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.Button;
 import rs.zajac.ui.Scroll;
 import rs.zajac.ui.Slider;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -17,7 +17,7 @@ class ScrollSkin implements IScrollSkin {
 	
 	public function new() { }
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client: Scroll = cast(client);
 		drawBackground(c_client);
 	}

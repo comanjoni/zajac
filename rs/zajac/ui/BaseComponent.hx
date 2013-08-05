@@ -1,12 +1,12 @@
 package rs.zajac.ui;
 import rs.zajac.core.SingletonFactory;
 import rs.zajac.skins.ISkin;
-import nme.display.Sprite;
-import nme.display.DisplayObject;
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.geom.ColorTransform;
-import nme.Lib;
+import flash.display.Sprite;
+import flash.display.DisplayObject;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.geom.ColorTransform;
+import flash.Lib;
 
 
 /**
@@ -27,7 +27,7 @@ private class BaseComonentUtil {
 	/**
 	 * Components that wiill be validated on next enter frame.
 	 */
-	static private var _invalidComponents: Hash<BaseComponent> = new Hash<BaseComponent>();
+	static private var _invalidComponents: Map<String,BaseComponent> = new Map<String,BaseComponent>();
 	
 	/**
 	 * Sprite that dispatches enter frame event.
@@ -65,8 +65,8 @@ private class BaseComonentUtil {
 	 * @param	evt
 	 */
 	static private function _validateComponents(evt: Event): Void {
-		var c_components: Hash<BaseComponent> = _invalidComponents;
-		_invalidComponents = new Hash<BaseComponent>();
+		var c_components: Map<String,BaseComponent> = _invalidComponents;
+		_invalidComponents = new Map<String,BaseComponent>();
 		_destroyValidator();
 		
 		for (c in c_components.iterator()) {
@@ -114,7 +114,7 @@ class BaseComponent extends Sprite {
 	/**
 	 * Current component state.
 	 */
-	public var state(get_state, set_state): String;
+	@:isVar public var state(get, set): String;
 	
 	/**
 	 * Skin class.
@@ -155,7 +155,7 @@ class BaseComponent extends Sprite {
 	/**
 	 * Map with look of each state.
 	 */
-	private var _states: Hash<DisplayObject>;
+	private var _states: Map<String,DisplayObject>;
 	
 	/**
 	 * Reference to current visible look.
@@ -196,7 +196,7 @@ class BaseComponent extends Sprite {
 	public function new() {
 		super();
 		componentUID = BaseComonentUtil.nextComponentUID();
-		_states = new Hash<DisplayObject>();
+		_states = new Map<String,DisplayObject>();
 		invalid();
 		initialize();
 	}

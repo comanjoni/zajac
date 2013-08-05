@@ -1,9 +1,9 @@
 package rs.zajac.util;
 import rs.zajac.ui.BaseComponent;
-import nme.display.DisplayObject;
-import nme.display.DisplayObjectContainer;
-import nme.display.Stage;
-import nme.geom.Point;
+import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
+import flash.display.Stage;
+import flash.geom.Point;
 
 /**
  * Set of methods for measuring display components.

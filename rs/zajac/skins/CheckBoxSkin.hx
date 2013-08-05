@@ -1,15 +1,15 @@
 package rs.zajac.skins;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.CheckBox;
-import nme.display.BlendMode;
-import nme.display.DisplayObject;
-import nme.display.GradientType;
-import nme.display.Graphics;
-import nme.display.Shape;
-import nme.display.Sprite;
-import nme.geom.Matrix;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
+import flash.display.BlendMode;
+import flash.display.DisplayObject;
+import flash.display.GradientType;
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.display.Sprite;
+import flash.geom.Matrix;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 
 /**
  * ...
@@ -24,7 +24,7 @@ class CheckBoxSkin implements ISkin{
 		
 	}
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client:CheckBox = cast(client);
 		var c_rounded:Bool;
 		var c_lineSize:Int = 2;
@@ -54,7 +54,7 @@ class CheckBoxSkin implements ISkin{
 		drawHitBackground(c_client);
 	}
 	
-	private function getState(name:String, states: Hash<DisplayObject>, ?blendMode:BlendMode):Shape {
+	private function getState(name:String, states: Map<String,DisplayObject>, ?blendMode:BlendMode):Shape {
 		var c_shape:Shape;
 		
 		if (states.exists(name)) return cast(states.get(name));

@@ -1,12 +1,12 @@
 package rs.zajac.ui;
 import rs.zajac.core.ZajacCore;
 import rs.zajac.skins.TextInputSkin;
-import nme.events.Event;
-import nme.events.FocusEvent;
-import nme.events.TouchEvent;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFieldType;
+import flash.events.Event;
+import flash.events.FocusEvent;
+import flash.events.TouchEvent;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFieldType;
 
 /**
  * Text input.

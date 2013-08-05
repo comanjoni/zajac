@@ -1,15 +1,15 @@
 package rs.zajac.skins;
 import rs.zajac.ui.BaseComponent;
 import rs.zajac.ui.TextInput;
-import nme.Assets;
-import nme.display.DisplayObject;
-import nme.display.Graphics;
-import nme.display.Shape;
-import nme.text.Font;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFormat;
-import nme.text.TextFormatAlign;
+import openfl.Assets;
+import flash.display.DisplayObject;
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.text.Font;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 
 /**
  * @author Aleksandar Bogdanovic
@@ -151,7 +151,7 @@ class TextInputSkin implements ISkin {
 		return c_shape;
 	}
 	
-	public function draw(client: BaseComponent, states: Hash<DisplayObject>):Void {
+	public function draw(client: BaseComponent, states: Map<String,DisplayObject>):Void {
 		var c_client: TextInput = cast(client);
 		drawTextField(c_client);
 		drawBackground(c_client);

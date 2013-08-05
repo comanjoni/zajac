@@ -4,13 +4,13 @@ import rs.zajac.managers.RadioGroup;
 import rs.zajac.skins.RadioButtonSkin;
 import rs.zajac.util.TextFieldUtil;
 #if mobile
-import nme.events.TouchEvent;
+import flash.events.TouchEvent;
 #end
-import nme.events.Event;
-import nme.events.MouseEvent;
-import nme.text.TextField;
-import nme.text.TextFieldAutoSize;
-import nme.text.TextFormatAlign;
+import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormatAlign;
 
 /**
  * ...

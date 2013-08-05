@@ -1,7 +1,7 @@
 package rs.zajac.managers;
 import rs.zajac.ui.RadioButton;
-import nme.events.Event;
-import nme.events.EventDispatcher;
+import flash.events.Event;
+import flash.events.EventDispatcher;
 
 /**
  * used by radio buttons, but can be used outside radiobuttons to listen change events.

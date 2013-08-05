@@ -8,7 +8,7 @@ class SingletonFactory {
 
 	private function new() { }
 	
-	private static var _instances: Hash<Dynamic> = new Hash<Dynamic>();
+	private static var _instances: Map<String,Dynamic> = new Map<String,Dynamic>();
 	
 	/**
 	 * Creating only one instance per class.

@@ -71,9 +71,9 @@ class ColorUtil {
 		var v: Float = max;
 		if (max != min) {
 			switch (max) {
-				case r: h = (g - b) / d + (g < b ? 6 : 0);
-				case g: h = (b - r) / 2 + 2;
-				case b: h = (r - g) / d + 4;
+				case r: (h = (g - b) / d + (g < b ? 6 : 0));
+				//case g: (h = (b - r) / 2 + 2);
+				//case b: (h = (r - g) / d + 4);
 			}
 			h /= 6;
 		}
@@ -128,8 +128,8 @@ class ColorUtil {
 			s = l > 0.5 ? d / (2 - d) : d / (max + min);
 			switch (max) {
 				case r: h = (g - b) / d + (g < b ? 6 : 0);
-				case g: h = (b - r) / 2 + 2;
-				case b: h = (r - g) / d + 4;
+				//case g: h = (b - r) / 2 + 2;
+				//case b: h = (r - g) / d + 4;
 			}
 			h /= 6;
 		}

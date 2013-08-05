@@ -6,9 +6,9 @@ import haxe.macro.Expr;
  * Macro for modifying components that are extending StyledComponent.
  * It is adding getters and setters on style properties that are not defined by developer.
  * If getter or setter is defined by developer it must respect following rule:
-	 * getter must get value from _stlye hash and the best way for that is using
+	 * getter must get value from _stlye Map and the best way for that is using
 	 * _getStyleProperty private method.
-	 * setter must set value in _style hash and the best way for that is using
+	 * setter must set value in _style Map and the best way for that is using
 	 * _setStyleProperty private method.
  * @author Aleksandar Bogdanovic
  */
@@ -159,12 +159,12 @@ class StyleMacro {
 		return fields;
 	}
 	
-	@:macro public static function build(): Array<Field> {
+	macro public static function build(): Array<Field> {
 		var fields: Array<Field> = new Array<Field>();
 		
-		var variables: Hash<Field> = new Hash<Field>();
-		var properties: Hash<Field> = new Hash<Field>();
-		var fieldsMap: Hash<Field> = new Hash<Field>();
+		var variables: Map<String,Field> = new Map<String,Field>();
+		var properties: Map<String,Field> = new Map<String,Field>();
+		var fieldsMap: Map<String,Field> = new Map<String,Field>();
 		
 		var isStyle: Bool;
 		var getterName: String;

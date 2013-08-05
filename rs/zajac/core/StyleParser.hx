@@ -76,8 +76,8 @@ class StyleParser {
 		return null;
 	}
 	
-	static private function _parseDeclarationBlock(input: String): Hash<StyleProperty> {
-		var c_decBlock: Hash<StyleProperty> =  new Hash <StyleProperty>();
+	static private function _parseDeclarationBlock(input: String): Map<String,StyleProperty> {
+		var c_decBlock: Map<String,StyleProperty> =  new Map <String,StyleProperty>();
 		var c_dec: String;
 		var c_scIndex: Int;
 		var c_property: String;
@@ -95,7 +95,7 @@ class StyleParser {
 			
 			c_scIndex = c_dec.indexOf(':');
 			c_property = StringTools.trim(c_dec.substr(0, c_scIndex));
-			c_property = DASH_REPLACE.customReplace(c_property, _replaceDash);
+			c_property = DASH_REPLACE.map(c_property, _replaceDash);
 			if (PROPERTY.match(c_property)) {
 				c_valueStr = StringTools.trim(c_dec.substr(c_scIndex + 1));
 				c_value = _parseValue(c_valueStr);
@@ -108,12 +108,12 @@ class StyleParser {
 		return c_decBlock;
 	}
 	
-	static private function _parseRuleSet(input: String): Hash<Hash<StyleProperty>> {
+	static private function _parseRuleSet(input: String): Map<String,Map<String,StyleProperty>> {
 		if (!DECLARATION_BLOCK.match(input)) return null;
 		
-		var c_ruleSets: Hash<Hash<StyleProperty>>  = new Hash<Hash<StyleProperty>>();
-		var c_decBlock: Hash<StyleProperty> = _parseDeclarationBlock(DECLARATION_BLOCK.matched(0));
-		var c_decBlockCopy: Hash<StyleProperty>;
+		var c_ruleSets: Map<String,Map<String,StyleProperty>>  = new Map<String,Map<String,StyleProperty>>();
+		var c_decBlock: Map<String,StyleProperty> = _parseDeclarationBlock(DECLARATION_BLOCK.matched(0));
+		var c_decBlockCopy: Map<String,StyleProperty>;
 		
 		var c_selectors: String = DECLARATION_BLOCK.matchedLeft();
 		var c_selector: String;
@@ -161,13 +161,13 @@ class StyleParser {
 	/**
 	 * Parsing css content into styles. Each style entry consist of several StyleProperty.
 	 * @param	input	String, css content.
-	 * @return	Hash map of styles defined in content.
+	 * @return	Map map of styles defined in content.
 	 */
-	static public function parse(input: String): Hash<Hash<StyleProperty>> {
+	static public function parse(input: String): Map<String,Map<String,StyleProperty>> {
 		input = _removeCommented(input);
 		
-		var c_style: Hash<Hash<StyleProperty>> = new Hash<Hash<StyleProperty>>();
-		var c_ruleSets: Hash<Hash<StyleProperty>>;
+		var c_style: Map<String,Map<String,StyleProperty>> = new Map<String,Map<String,StyleProperty>>();
+		var c_ruleSets: Map<String,Map<String,StyleProperty>>;
 		
 		while (RULE_SET.match(input)) {
 			input = RULE_SET.matchedRight();

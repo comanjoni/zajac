@@ -4,7 +4,7 @@ package rs.zajac.skins;
  * Interface that should be used for ColorPicker skin.
  * @author Aleksandar Bogdanovic
  */
-interface IColorPickerSkin implements ISkin {
+interface IColorPickerSkin extends ISkin {
 
 	/**
 	 * Skin class for Palette in color picker.
